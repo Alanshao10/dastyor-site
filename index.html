@@ -130,6 +130,22 @@ h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacin
 .chat{display:flex;flex-direction:column;gap:14px}
 .chat-log{display:flex;flex-direction:column;gap:10px;min-height:260px;max-height:440px;overflow-y:auto;padding-right:4px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips .track{display:contents}.chips .dup,.chip .cq,.chips-h{display:none}
+/* телефон: помощник = один экран телефона; шаблоны — бегущая строка вопросов над полем ввода */
+@media (max-width:700px){
+ #helper .chat{height:min(680px,calc(100svh - 40px));gap:10px;padding:16px}
+ #helper .chat-log{flex:1;min-height:0;max-height:none;order:1}
+ #helper .chips-h{display:block;order:2;font-size:15px;color:var(--muted);margin-bottom:-4px}
+ #helper .chips{order:3;flex-wrap:nowrap;overflow:hidden;gap:0;margin-inline:-16px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+ #helper .chips .track{display:flex;width:max-content;animation:marq 38s linear infinite}
+ #helper .chips:hover .track,#helper .chips:active .track{animation-play-state:paused}
+ #helper .chips .dup{display:inline-block}
+ #helper .chip{margin-right:8px;white-space:nowrap;font-size:16px;padding:9px 14px}
+ #helper .chip .cl{display:none}#helper .chip .cq{display:inline}
+ #helper .ask{order:4;gap:8px}#helper .ask .btn{font-size:0;padding:0;width:52px;justify-content:center;flex:none}#helper .ask .btn::after{content:"➤";font-size:22px}#helper .ask input{font-size:17px;padding:13px 12px}#helper .note{order:5;font-size:13px;margin:0}
+}
+@keyframes marq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){#helper .chips{overflow-x:auto}#helper .chips .track{animation:none}}
 .chip{border:1px solid var(--line);background:var(--ghost);color:var(--ink);border-radius:999px;padding:8px 14px;font:500 16px var(--fb),sans-serif;cursor:pointer}
 .chip:hover{border-color:rgba(var(--net),.7)}
 .ask{display:flex;gap:10px}
@@ -505,6 +521,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
       </div>
       <div class="card glowcard chat">
         <div class="card-h"><b>ИИ-помощник Дастёр</b><span class="onl">на связи</span></div>
+        <div class="chips-h nx" data-t="h_ex">👇 Нажмите пример — или напишите свой вопрос</div>
         <div class="chips" id="chips"></div>
         <div class="chat-log" id="clog"><div class="msg in">Здравствуйте! Расскажите, чем занимается ваш бизнес?</div></div>
         <form class="ask" id="askf"><input id="askq" placeholder="Например: у меня автосервис" aria-label="Ваш вопрос"><button class="mic" id="micb" type="button" aria-label="Сказать голосом">🎤</button><button class="btn main small" type="submit">Спросить</button></form>
@@ -725,8 +742,11 @@ let asking=0;
 function ask(q,key){q=q.trim();if(!q)return;const my=++asking;addMsg(q,'out');const m=addMsg(L==='tj'?'менависад…':'печатает…','in');
   const b=(key&&BIZ.find(x=>x.k===key))||BIZ.find(x=>x.re.test(q)),a=L==='tj'?b.at:b.ar;let i=0;
   setTimeout(function tp(){if(my!==asking){m.textContent=a;return}m.textContent=a.slice(0,i+=3);clog.scrollTop=clog.scrollHeight;if(i<a.length)setTimeout(tp,RM?0:18)},RM?0:700)}
-function buildChips(){chipsEl.innerHTML='';BIZ.filter(b=>b.ic).forEach(b=>{const c=document.createElement('button');c.type='button';c.className='chip';c.textContent=b.ic+' '+(L==='tj'?b.tj:b.ru);
-  c.onclick=()=>{chipsEl.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c));ask(L==='tj'?b.qt:b.qr,b.k)};chipsEl.appendChild(c)})}
+// шаблоны: на компьютере — кнопки; на телефоне — бегущая строка с вопросами (вторая копия .dup для бесшовной прокрутки)
+function buildChips(){chipsEl.innerHTML='';const tj=L==='tj',tr=document.createElement('div');tr.className='track';chipsEl.appendChild(tr);
+  [0,1].forEach(dup=>BIZ.filter(b=>b.ic).forEach(b=>{const c=document.createElement('button');c.type='button';c.className='chip'+(dup?' dup':'');if(dup){c.setAttribute('aria-hidden','true');c.tabIndex=-1}
+  c.innerHTML=`${b.ic} <span class="cl">${tj?b.tj:b.ru}</span><span class="cq">${tj?b.qt:b.qr}</span>`;
+  c.onclick=()=>{chipsEl.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c));ask(tj?b.qt:b.qr,b.k)};tr.appendChild(c)}))}
 buildChips();
 document.getElementById('askf').addEventListener('submit',e=>{e.preventDefault();const inp=document.getElementById('askq');ask(inp.value);inp.value=''});
 
@@ -967,6 +987,7 @@ const NX_TJ={s_th:'Чӣ гуна сайтҳо месозем',s_mh:'Аз одд�
  s_t:'<span>🎯 Лендинг барои реклама</span><span>📇 Сайти муаррифӣ</span><span>🏢 Сайти ширкат</span><span>🛒 Мағозаи интернетӣ</span><span>📅 Сайт бо сабти онлайн</span><span>🌐 Сайти бисёрзабона</span>',
  s_m:'<li>Графикаи 3D ва аниматсия, мисли глобус дар ҳамин сайт</li><li>Пардохти онлайн, сабад ва кабинети шахсӣ</li><li>Ёрдамчии ЗС бевосита дар сайт</li><li>Пайваст бо Telegram, 1С, ҷадвалҳо ва CRM</li><li>SEO ва таҳлил: то сайтро дар Google ва Яндекс ёбанд</li><li>Домен, хостинг ва оғозро ба ӯҳда мегирем</li><li>Дастгирӣ пас аз оғоз: ислоҳот, навсозӣ, нусхаҳои эҳтиётӣ</li>',b_try:'👉 Худатон ҳамин ҷо санҷед: тугмаҳои ботро пахш кунед, мисли Telegram-и ҳақиқӣ. «✍️ Вазифаи худ»-ро пахш кунед ва вазифаи дилхоҳро нависед.',
  b_name:'Дастёр · ёрдамчии ЗС',b_onl:'бот · онлайн',b_soon:'Боти ҳақиқиро дар Telegram кушоед →',
+ h_ex:'👇 Мисолро пахш кунед — ё саволи худро нависед',
  t_bot:'Ботҳо дар Telegram',t_site:'Сайтҳо',t_ai:'Ёрдамчиёни ЗС',t_auto:'Автоматикунонӣ',t_audit:'Аудит'};
 const NX_RU={};document.querySelectorAll('[data-t]').forEach(e=>NX_RU[e.dataset.t]=e.innerHTML);
 
@@ -1000,7 +1021,7 @@ const MAP={
    `<b>Мисол:</b> «50 халта семент бо расонидан ба Ваҳдат чанд пул аст?» Ёрдамчӣ дар чанд сония нарх ва мӯҳлати расониданро мегӯяд ва рақами телефони мизоҷро сабт мекунад.`,
    `<b>Мисол:</b> ҳар саҳар бот худаш харидҳои нав аз рӯи мавзӯи шуморо меёбад ва рӯйхати кӯтоҳро ба Telegram мефиристад.`,
    `<b>Мисол:</b> «Шабона ва рӯзҳои истироҳат дархостҳо беҷавоб мемонанд» — пас корро аз боти дархостҳо сар мекунем.`],
- '#askf button':[`Пурсидан`],
+ '#askf button[type=submit]':[`Пурсидан`],
  '.steps b':[`Таҳлили тиҷорат`,`Нақша`,`Оғоз`,`Дастгирӣ`],
  '.steps span':[`Тақрибан 30 дақиқа сӯҳбат: дархостҳо, вақт ва пул дар куҷо гум мешаванд. Ройгон.`,`Аввал чӣ мекунем, чанд пул меистад ва чанд вақт мегирад.`,`Ёрдамчиро бо нархҳои шумо танзим мекунем ва бо саволҳои шумо месанҷем.`,`Назорат мекунем, ки ҳама чиз дуруст кор кунад, ва ҷавобҳоро беҳтар месозем.`],
  '.work .tag':[`Автоматикунонӣ`,`Бот + сайт`,`Сайтҳо`],
