@@ -492,7 +492,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
         <summary><span class="ic">🤖</span><div><h3>Боты в Telegram</h3><p>Принимают заявки и отвечают клиентам днём и ночью</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
           <div><h4>Что вы получаете</h4><ul><li>Ответы на частые вопросы: цены, адрес, время работы</li><li>Запись клиента на свободное время</li><li>Готовая заявка вам в Telegram</li><li>Под любую вашу задачу: бот — шаблон, настраиваем его под вас</li></ul>
-            <div class="xprice nx" data-t="p_bot" style="margin-top:18px"><b>от 100 сомони</b>Простой бот для заявок. Сложнее — дороже.</div>
+            <div class="xprice nx" data-t="p_bot" style="margin-top:18px"><b>Цена — после бесплатного разбора</b>Сначала бесплатно разберём вашу задачу, потом назовём точную цену.</div>
             <p class="trynote nx" data-t="b_try">👉 Попробуйте прямо здесь: понажимайте кнопки бота, как в настоящем Telegram. Нажмите «✍️ Своя задача» и напишите любую.</p>
             <a class="btn main nx" href="https://t.me/dastyor_ai_bot" target="_blank" rel="noopener" data-t="b_soon">Открыть настоящего бота в Telegram →</a></div>
           <div class="tgtop nx"><a class="btn main" href="https://t.me/dastyor_ai_bot" target="_blank" rel="noopener" data-t="b_soon">Открыть настоящего бота в Telegram →</a><p data-t="b_here">👇 Или попробуйте прямо здесь</p></div>
@@ -507,14 +507,14 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
       <details class="dir">
         <summary><span class="ic">🧠</span><div><h3>ИИ-помощники</h3><p>Понимают вопрос своими словами, знают ваши цены и правила</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
-          <div><h4>Что вы получаете</h4><ul><li>Помощник на сайте, в Telegram или для ваших сотрудников</li><li>Считает цену, пишет письма и предложения</li><li>Готовит договоры по вашему шаблону</li><li>Сложные вопросы передаёт человеку</li></ul><div class="xprice nx" data-t="p_ai" style="margin-top:18px"><b>от 100 сомони</b>Простой помощник на ваших ценах. Сложнее — дороже.</div></div>
+          <div><h4>Что вы получаете</h4><ul><li>Помощник на сайте, в Telegram или для ваших сотрудников</li><li>Считает цену, пишет письма и предложения</li><li>Готовит договоры по вашему шаблону</li><li>Сложные вопросы передаёт человеку</li></ul><div class="xprice nx" data-t="p_ai" style="margin-top:18px"><b>Цена — после бесплатного разбора</b>Сначала бесплатно разберём вашу задачу, потом назовём точную цену.</div></div>
           <div class="demo nx" id="d_price"></div>
         </div>
       </details>
       <details class="dir">
         <summary><span class="ic">⚙️</span><div><h3>Автоматизация</h3><p>Рутина делается сама: отчёты, деньги, тендеры, склад</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
-          <div><h4>Что вы получаете</h4><ul class="nx" data-t="a_m"><li>Поиск тендеров по вашей теме каждое утро и черновик заявки (уже работает для закупок в России; для Таджикистана проверим на разборе)</li><li>Склад: предупредит, что товар кончается, и закажет у поставщика</li><li>Утренний отчёт владельцу в 8:00: заявки, деньги, долги</li><li>Контроль оплат и вежливые напоминания должникам</li><li>Счета, акты и договоры заполняются сами по шаблону</li><li>Заявки с сайта, Telegram и звонков — в одной таблице</li></ul><div class="xprice nx" data-t="p_auto" style="margin-top:18px"><b>от 100 сомони</b>Одна автоматизация, например утренний отчёт. Сложнее — дороже.</div></div>
+          <div><h4>Что вы получаете</h4><ul class="nx" data-t="a_m"><li>Поиск тендеров по вашей теме каждое утро и черновик заявки (уже работает для закупок в России; для Таджикистана проверим на разборе)</li><li>Склад: предупредит, что товар кончается, и закажет у поставщика</li><li>Утренний отчёт владельцу в 8:00: заявки, деньги, долги</li><li>Контроль оплат и вежливые напоминания должникам</li><li>Счета, акты и договоры заполняются сами по шаблону</li><li>Заявки с сайта, Telegram и звонков — в одной таблице</li></ul><div class="xprice nx" data-t="p_auto" style="margin-top:18px"><b>Цена — после бесплатного разбора</b>Сначала бесплатно разберём вашу задачу, потом назовём точную цену.</div></div>
           <div class="demo nx" id="d_morning"></div>
         </div>
       </details>
@@ -777,7 +777,7 @@ const micb=document.getElementById('micb');let recOn=false;
 if(!(window.SpeechRecognition||window.webkitSpeechRecognition))micb.hidden=true;
 micb.onclick=()=>{if(recOn)return;recOn=true;micb.classList.add('rec');const inp=document.getElementById('askq'),ph=inp.placeholder;inp.placeholder=L==='tj'?'Гӯш мекунам…':'Слушаю…';
   const done=t=>{recOn=false;micb.classList.remove('rec');inp.placeholder=ph;if(t)ask(t)};
-  const demo=()=>{done();inp.placeholder=L==='tj'?'Нашунидам. Лутфан, бо матн нависед':'Не расслышал. Напишите, пожалуйста, текстом';setTimeout(()=>{if(!recOn)inp.placeholder=L==='tj'?'Масалан: ман автосервис дорам':PH_RU},4000)};
+  const demo=()=>{done();inp.placeholder=L==='tj'?'Шунида нашуд. Лутфан, бо матн нависед':'Не расслышал. Напишите, пожалуйста, текстом';setTimeout(()=>{if(!recOn)inp.placeholder=L==='tj'?'Масалан: ман автосервис дорам':PH_RU},4000)};
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){demo();return}
   try{const r=new SR();r.lang=L==='tj'?'tg-TJ':'ru-RU';let got=false;
     r.onresult=e=>{if(got)return;got=true;done('🎤 '+e.results[0][0].transcript)};
@@ -853,7 +853,7 @@ async function drawSite(anim){const my=++sRun,tj=L==='tj',s=SITES[sI],[c,c2,dk]=
  if(lay==='shop')hero=`repeating-linear-gradient(135deg,transparent 0 18px,${c}14 18px 36px),linear-gradient(135deg,#111827,#000)`;
  if(lay==='salon'&&!dk)hero=`radial-gradient(circle at 80% 20%,#ffffffaa,transparent 40%),linear-gradient(135deg,${c}55,${c}bb)`;
  m.innerHTML=`<div class="ms-nav"><b class="ms-logo" style="color:${c}">${s.ic} ${s.lg}</b><span class="ms-menu">${(tj?s.mt:s.mr).map(x=>`<span>${x}</span>`).join('')}</span><span class="ms-btn" style="background:${c};color:${dk?'#111':'#fff'}">${btn}</span></div>
- <div class="ms-hero" style="background:${hero}"><div><span class="ms-badge">⭐ 4.9 · ${tj?'намунаи баҳо':'пример рейтинга'}</span><h4>${tj?s.ht:s.hr}</h4><p>${tj?s.stj:s.sr}</p><span class="ms-cta" style="${dk?`background:${c};color:#111`:`color:${c2}`}">${btn} →</span></div><div class="ms-art"><span>${s.ic}</span></div></div>
+ <div class="ms-hero" style="background:${hero}"><div><span class="ms-badge">⭐ 4.9 · ${tj?'намунаи рейтинг':'пример рейтинга'}</span><h4>${tj?s.ht:s.hr}</h4><p>${tj?s.stj:s.sr}</p><span class="ms-cta" style="${dk?`background:${c};color:#111`:`color:${c2}`}">${btn} →</span></div><div class="ms-art"><span>${s.ic}</span></div></div>
  <div class="ms-trust">${LL(STRUST).map(x=>`<span>${x}</span>`).join('')}</div>
  <div class="ms-sec"><div class="ms-st">${tj?s.ct:s.cr}</div><div class="ms-cards">${s.it.map((x,i)=>`<div class="ms-card">${i?'':`<em style="background:${c};color:${dk||lay==='shop'?'#111':'#fff'}">${tj?'Хит':'Хит'}</em>`}<i>${x[0]}</i><span>${tj?x[2]:x[1]}</span><b style="color:${c}">${x[3]}</b>${lay==='shop'?`<u>${tj?'Ба сабад':'В корзину'}</u>`:''}</div>`).join('')}</div></div>
  <div class="ms-foot">${s.f.map(x=>`<span>${x}</span>`).join('')}<span>📞 +992 00 000 00 00</span></div>`;
@@ -913,7 +913,7 @@ function buildPrice(){const d=LL(PR),e=LL(PR2),my=++pRun;pBusy=false;
    pBusy=false};
  dPrice.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const [q,a]=T.qa[+b.dataset.q];ask(q,a,1)});
  document.getElementById('p_in').onsubmit=ev=>{ev.preventDefault();const inp=ev.target.querySelector('input'),q=inp.value.trim();if(!q)return;inp.value='';
-   const i=T.kw.findIndex(r=>r.test(q));ask(q.replace(/</g,'&lt;'),i<0?e.unk:(L==='tj'?'Дар мисол нишон медиҳам':'Покажу на примере')+`: «${T.qa[i][0]}»<br>`+T.qa[i][1],i>=0)}}
+   const i=T.kw.findIndex(r=>r.test(q));ask(q.replace(/</g,'&lt;'),i<0?e.unk:(L==='tj'?'Бо мисол нишон медиҳам':'Покажу на примере')+`: «${T.qa[i][0]}»<br>`+T.qa[i][1],i>=0)}}
 // --- Автоматизация: наступило утро ---
 const MO={ru:{h:'Попробуйте: наступило утро',t:'Так владелец бизнеса начинает день. Нажмите кнопку — и время пойдёт.',go:'⏰ Перемотать на 8:00',sub:'вторник · телефон владельца',
   n1:'📊 <b>Утренний отчёт за вчера</b><br>Заявок: <b>14</b> (на 3 больше, чем позавчера)<br>Выручка: <b>18 400 смн</b><br>Оплачено счетов: <b>9 из 12</b><br>Должники: <b>3 клиента · 4 200 смн</b>',
@@ -1004,9 +1004,9 @@ DIRS.forEach(d=>{const txt=d.querySelector('.dir-body>div:first-child'),b=docume
 
 // переводы для новых блоков (класс nx, атрибут data-t)
 const NX_TJ={s_th:'Чӣ гуна сайтҳо месозем',s_mh:'Аз оддӣ то мураккаб',s_ph:'Нархҳо',
- p_bot:'<b>аз 100 сомонӣ</b>Боти оддии дархостҳо. Мураккабтар — гаронтар.',
- p_ai:'<b>аз 100 сомонӣ</b>Ёрдамчии оддӣ бо нархҳои шумо. Мураккабтар — гаронтар.',
- p_auto:'<b>аз 100 сомонӣ</b>Як автоматикунонӣ, масалан ҳисоботи саҳарӣ. Мураккабтар — гаронтар.',
+ p_bot:'<b>Нарх — пас аз таҳлили ройгон</b>Аввал вазифаи шуморо ройгон таҳлил мекунем, баъд нархи дақиқро мегӯем.',
+ p_ai:'<b>Нарх — пас аз таҳлили ройгон</b>Аввал вазифаи шуморо ройгон таҳлил мекунем, баъд нархи дақиқро мегӯем.',
+ p_auto:'<b>Нарх — пас аз таҳлили ройгон</b>Аввал вазифаи шуморо ройгон таҳлил мекунем, баъд нархи дақиқро мегӯем.',
  a_m:'<li>Ҳар саҳар ҷустуҷӯи тендерҳо аз рӯи мавзӯи шумо ва лоиҳаи дархост (барои харидҳои Русия аллакай кор мекунад; барои Тоҷикистон ҳангоми таҳлил месанҷем)</li><li>Анбор: пеш аз тамом шудани мол огоҳ мекунад ва аз таъминкунанда фармоиш медиҳад</li><li>Ҳисоботи саҳарӣ ба соҳибкор соати 8:00: дархостҳо, пул, қарзҳо</li><li>Назорати пардохтҳо ва хотиррасонии боадабона ба қарздорон</li><li>Ҳисобнома, санад ва шартномаҳо худ ба худ аз рӯи қолиб пур мешаванд</li><li>Дархостҳо аз сайт, Telegram ва зангҳо — дар як ҷадвал</li>',
  a_l:'<h4>Чиро месанҷем</h4><ul><li>🌐 Сайт: дар телефон қулай аст, зуд кушода мешавад</li><li>🔎 Шуморо дар Google, Яндекс ва харитаҳо меёбанд</li><li>💬 Ба дархостҳо чӣ қадар зуд ҷавоб медиҳед ва оё онҳо гум намешаванд</li><li>⭐ Шарҳҳо, Instagram ва Telegram</li><li>💰 Пул ва ҳуҷҷатҳо: ҳисобномаҳо, қарзҳо, ҳисоботҳо</li><li>🔁 Корҳои якранг: кормандон ҳар рӯз чиро дастӣ мекунанд</li></ul><h4 style="margin-top:16px">Шумо чӣ мегиред</h4><ul><li>Ҳисоботи кӯтоҳ бо забони оддӣ: мизоҷон ва вақт дар куҷо гум мешаванд</li><li>Чиро ба зеҳни сунъӣ супоридан мумкин — ва нархаш чанд мешавад</li><li>Нақша: аз чӣ сар кунем, то зудтар фоида орад</li></ul>',
  p_audit:'<b>Ройгон</b>Таҳлили аввали тиҷорати шумо.',
@@ -1058,8 +1058,8 @@ const MAP={
  '.faq p':[`Ёрдамчӣ аз рӯи нархҳо ва қоидаҳои шумо ҷавоб медиҳад. Агар ҷавоб дар маълумоти ӯ набошад, саволро ба шумо месупорад. Пеш аз оғоз онро бо саволҳои воқеии шумо месанҷем ва дар ҳафтаҳои аввал ҷавобҳоро якҷо бо шумо назорат мекунем.`,`Не. Ёрдамчӣ дар Telegram ё дар сайт кор мекунад. Ба шумо танҳо телефон лозим аст.`,`Бо забонҳои тоҷикӣ ва русӣ — бо ҳамон забоне, ки мизоҷ навиштааст.`,`Аз вазифа вобаста аст. Нархи дақиқро пас аз таҳлили ройгон мегӯем.`],
  '#contact .card > div > p:not(.eyebrow)':[`Бигӯед, ки бо чӣ машғулед. Нишон медиҳем, ки чиро ба зеҳни сунъӣ супоридан мумкин.`],
  '.ctg':[`Ба Telegram нависед →`],
- '.cnote':[`Дар давоми як рӯзи корӣ ҷавоб медиҳем.`],
- '.csteps b':[`Чӣ тавр кор мекунад`],
+ '.cnote':[`Дар давоми рӯзи корӣ ҷавоб медиҳем.`],
+ '.csteps b':[`Чӣ гуна ин кор мекунад`],
  '.csteps li':[`«Ба Telegram нависед»-ро пахш кунед — боти мо кушода мешавад`,`«✍️ Вазифаи худ»-ро пахш кунед ва нависед, ки тиҷорати шумо бо чӣ машғул аст`,`Дар давоми як рӯз ҷавоб медиҳем ва ройгон нишон медиҳем, ки чиро ба зеҳни сунъӣ супоридан мумкин`],
  'footer span':[`© 2026 Дастгир · студияи зеҳни сунъӣ, Душанбе`,`Сайтҳо, ботҳои Telegram ва ёрдамчиёни зеҳни сунъӣ барои тиҷорат`]
 };
