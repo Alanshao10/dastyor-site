@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Дастёр — сайт студии</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Тёмный «звёздный» мир студии: звёзды за мышкой на весь сайт, глобус ИИ-сотрудников, два цвета на выбор */
+:root{
+  color-scheme:dark;
+  --bg:#020a24;--ink:#f0f6ff;--muted:#93a7cf;--lead:#c6d5f3;--line:rgba(120,170,255,.18);--ghost:rgba(120,170,255,.06);
+  --live:#4ade80;--acc:#60a5fa;
+  --grad:linear-gradient(90deg,#60a5fa,#3b82f6 50%,#93c5fd);--btn:linear-gradient(90deg,#2563eb,#3b82f6);--btnglow:rgba(59,130,246,.8);
+  --halo:radial-gradient(circle at 78% 20%,rgba(37,99,235,.22),transparent 45%),radial-gradient(circle at 10% 95%,rgba(56,189,248,.10),transparent 45%);
+  --cardbg:rgba(4,16,48,.62);--pill:rgba(4,16,48,.9);--coreg:rgba(37,99,235,.55);
+  --net:96,165,250;--dot:190,220,255;--mouse:147,197,253;
+}
+body[data-p="teal"]{--bg:#03141f;--muted:#8fb3c4;--lead:#c4dfe9;--line:rgba(94,234,212,.18);--ghost:rgba(94,234,212,.06);--acc:#5eead4;
+  --grad:linear-gradient(90deg,#5eead4,#38bdf8 55%,#a5f3fc);--btn:linear-gradient(90deg,#0891b2,#14b8a6);--btnglow:rgba(20,184,166,.7);
+  --halo:radial-gradient(circle at 78% 20%,rgba(20,184,166,.2),transparent 45%),radial-gradient(circle at 10% 95%,rgba(56,189,248,.12),transparent 45%);
+  --cardbg:rgba(3,30,40,.62);--pill:rgba(3,25,35,.92);--coreg:rgba(20,184,166,.5);--net:45,212,191;--dot:200,250,245;--mouse:165,243,252}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,sans-serif;font-size:20px;line-height:1.55;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,.logo{font-family:Unbounded,sans-serif}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.glow-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--halo)}
+main,footer{position:relative;z-index:2}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+
+/* шапка */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px}
+.logo{font-weight:800;font-size:24px;display:flex;align-items:center;gap:10px}
+.logo i{width:30px;height:30px;border-radius:9px;display:inline-block;background:conic-gradient(var(--acc),#1d4ed8,#93c5fd,var(--acc));animation:spin 7s linear infinite;box-shadow:0 0 22px var(--btnglow)}
+.menu{display:flex;gap:26px;font-size:17px;color:var(--muted)}
+.menu a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:14px;padding:16px 26px;font:700 18px Manrope,sans-serif;cursor:pointer;transition:.25s;border:1px solid transparent;color:var(--ink)}
+.btn.main{background:var(--btn);color:#fff;box-shadow:0 12px 40px -10px var(--btnglow)}
+.btn.main:hover{transform:translateY(-2px)}
+.btn.ghost{background:var(--ghost);border-color:var(--line)}
+.btn.small{padding:11px 18px;font-size:16px}
+.btn:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{opacity:.3}}
+
+/* первый экран */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding-block:30px 70px;min-height:min(820px,calc(100vh - 90px))}
+.badge{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--ghost);border-radius:999px;padding:8px 16px;font-size:16px;color:var(--muted);margin-bottom:26px}
+.badge b{width:9px;height:9px;border-radius:50%;background:var(--live);box-shadow:0 0 12px var(--live);animation:pulse 1.6s infinite}
+h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacing:-.01em;margin-bottom:24px;text-wrap:balance}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(20px,1.7vw,23px);color:var(--lead);max-width:620px;margin-bottom:34px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.globe{position:relative;width:min(470px,88vw);aspect-ratio:1;margin:0 auto;max-width:100%}
+.globe canvas{position:absolute;inset:0;width:100%;height:100%}
+.core{position:absolute;left:50%;top:50%;width:26%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;display:grid;place-items:center;text-align:center;font:700 clamp(12px,1.3vw,15px)/1.2 Unbounded,sans-serif;background:radial-gradient(circle,var(--coreg),transparent 70%);box-shadow:0 0 60px var(--coreg);animation:breathe 3s ease-in-out infinite;z-index:2}
+@keyframes breathe{50%{box-shadow:0 0 100px var(--btnglow)}}
+.gpop{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);width:min(360px,94%);background:var(--pill);border:1px solid rgba(var(--net),.7);border-radius:16px;padding:14px 16px;z-index:6;font-size:16px;line-height:1.45;box-shadow:0 20px 50px -10px rgba(0,0,0,.8);animation:dpop .35s}
+.gpop h5{font:700 17px Unbounded,sans-serif;margin-bottom:6px;padding-right:24px}.gpop ol{padding-left:20px;color:var(--lead);margin-bottom:10px}.gpop li{animation:dpop .35s both}
+.gpop .x{position:absolute;right:8px;top:6px;background:none;border:0;color:var(--muted);font-size:22px;cursor:pointer}
+.ghint{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);font-size:15px;color:var(--muted);white-space:nowrap;animation:pulse 2.4s infinite}
+.agent{cursor:pointer;}.agent:hover{border-color:var(--acc)}
+.agent{position:absolute;left:0;top:0;white-space:nowrap;background:var(--pill);border:1px solid rgba(var(--net),.45);border-radius:999px;padding:7px 13px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 6px 22px rgba(0,0,0,.5);will-change:transform}
+.agent b{width:8px;height:8px;border-radius:50%}
+
+/* общие секции */
+.sec{padding-block:70px}
+.sec-h{max-width:780px;margin-bottom:36px}
+.eyebrow{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);font-weight:700;margin-bottom:12px}
+.sec h2{font-size:clamp(28px,3.2vw,44px);line-height:1.15;margin-bottom:16px;text-wrap:balance}
+.sec-h p{color:var(--lead);font-size:21px}
+.card{border:1px solid rgba(var(--net),.3);background:var(--cardbg);backdrop-filter:blur(10px);border-radius:24px;padding:24px}
+.glowcard{box-shadow:0 0 90px -20px var(--btnglow)}
+.two{display:grid;grid-template-columns:.9fr 1.1fr;gap:50px;align-items:center}
+.two > *{min-width:0}
+
+/* лента ИИ-ядра */
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;font-size:17px}
+.card-h b{font-family:Unbounded;font-size:17px}
+.onl{color:var(--live);font-size:15px;display:flex;align-items:center;gap:8px}
+.onl::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--live);box-shadow:0 0 10px var(--live);animation:pulse 1.4s infinite}
+.feed{list-style:none;display:flex;flex-direction:column;gap:10px;min-height:330px}
+.feed li{display:flex;gap:12px;align-items:flex-start;background:var(--ghost);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:17px;line-height:1.35;animation:fin .6s ease both}
+.feed li em{font-style:normal;font-size:22px}
+.feed li small{display:block;color:var(--muted);font-size:14px;margin-top:2px}
+@keyframes fin{from{opacity:0;transform:translateY(-12px)}}
+
+/* 5 направлений — раскрываются */
+.dirs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
+.dir{border:1px solid rgba(var(--net),.28);background:var(--cardbg);backdrop-filter:blur(10px);border-radius:22px;transition:border-color .25s,box-shadow .25s}
+.dir[open]{grid-column:1/-1;border-color:rgba(var(--net),.6);box-shadow:0 0 80px -24px var(--btnglow)}
+.dir summary{list-style:none;cursor:pointer;padding:24px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
+.dir summary::-webkit-details-marker{display:none}
+.dir .ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:var(--ghost);border:1px solid var(--line)}
+.dir h3{font-size:21px;line-height:1.25;margin-bottom:4px}
+.dir summary p{color:var(--muted);font-size:17px;line-height:1.4}
+.dir .plus{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:24px;color:var(--acc);transition:transform .25s}
+.dir[open] .plus{transform:rotate(45deg)}
+.dir-body{padding:0 24px 26px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.dir-body > *{min-width:0}
+.dir-body h4{font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-bottom:10px}
+.dir-body ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.dir-body li{padding-left:28px;position:relative;color:var(--lead);font-size:19px}
+.dir-body li::before{content:"✓";position:absolute;left:0;color:var(--live);font-weight:700}
+.example{background:var(--ghost);border:1px solid var(--line);border-radius:16px;padding:18px;font-size:18px;color:var(--lead)}
+.example b{color:var(--ink)}
+.chatline{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.msg{max-width:88%;padding:10px 14px;border-radius:14px;font-size:17px;line-height:1.4}
+.msg.in{background:rgba(255,255,255,.08);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.out{background:var(--btn);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg small{display:block;opacity:.7;font-size:13px;margin-top:2px}
+
+/* ИИ-сотрудники */
+.roles{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.role{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--ghost);color:var(--ink);border-radius:999px;padding:10px 16px;font:700 17px Manrope,sans-serif;cursor:pointer}
+.role b{width:10px;height:10px;border-radius:50%}
+.role[aria-pressed="true"]{background:var(--pill);border-color:rgba(var(--net),.7);box-shadow:0 0 24px -6px var(--btnglow)}
+.term{font-family:ui-monospace,Consolas,monospace;font-size:18px;line-height:1.6;min-height:250px;color:var(--lead)}
+.term .who{font-family:Unbounded,sans-serif;font-size:18px;color:var(--ink);margin-bottom:10px}
+.term .ln{display:block}
+.term .ln::before{content:"→ ";color:var(--acc)}
+.caret{display:inline-block;width:10px;height:1.1em;background:var(--acc);vertical-align:-3px;animation:pulse 1s infinite}
+
+/* ИИ-помощник (демо) */
+.chat{display:flex;flex-direction:column;gap:14px}
+.chat-log{display:flex;flex-direction:column;gap:10px;min-height:260px;max-height:440px;overflow-y:auto;padding-right:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--ghost);color:var(--ink);border-radius:999px;padding:8px 14px;font:500 16px Manrope,sans-serif;cursor:pointer}
+.chip:hover{border-color:rgba(var(--net),.7)}
+.ask{display:flex;gap:10px}
+.ask input{flex:1;min-width:0;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:14px;color:var(--ink);font:500 18px Manrope,sans-serif;padding:14px 16px}
+.ask input::placeholder{color:var(--muted)}
+.ask button{border:0}
+.note{font-size:15px;color:var(--muted)}
+
+.chip.on{background:var(--pill);border-color:rgba(var(--net),.8);box-shadow:0 0 18px -6px var(--btnglow)}
+.mic{flex:none;width:54px;height:54px;border-radius:50%;border:1px solid var(--line);background:var(--ghost);font-size:22px;cursor:pointer;position:relative}
+.mic.rec{background:var(--btn)}
+.mic.rec::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid rgba(var(--net),.9);animation:ring 1.2s infinite}
+@keyframes ring{from{transform:scale(.9);opacity:1}to{transform:scale(1.3);opacity:0}}
+
+/* бот «Попробуйте сами» */
+.tgw{display:grid;grid-template-columns:minmax(0,390px) 1fr;gap:36px;align-items:center}
+.phone{background:#0e1621;border:2px solid #2b3a52;border-radius:34px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.tgh{display:flex;align-items:center;gap:12px;padding:8px 8px 12px;border-bottom:1px solid #1f2b3c}
+.tgh .ava{width:44px;height:44px;flex:none;border-radius:50%;background:var(--btn);display:grid;place-items:center;font:800 18px Unbounded,sans-serif;color:#fff}
+.tgh b{font-size:18px;display:block}.tgh small{color:#6ab3f3;font-size:15px}
+.tgchat{height:330px;overflow-y:auto;padding:12px 4px;display:flex;flex-direction:column;gap:8px}
+.tm{max-width:86%;padding:10px 14px;border-radius:16px;font-size:17px;line-height:1.45}
+.tm.bot{background:#182533;align-self:flex-start;border-bottom-left-radius:4px}
+.tm.me{background:#2b5278;align-self:flex-end;border-bottom-right-radius:4px}
+.kb{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding-top:8px}
+.kb button{font:600 16px Manrope,sans-serif;color:#fff;background:#24364a;border:0;border-radius:10px;padding:11px 6px;cursor:pointer}
+.kb button:hover{background:#2f4a66}
+.kb button.wide{grid-column:1/-1;background:#1f4e5c}
+.tgin{display:flex;gap:6px;padding-top:8px}
+.tgin[hidden]{display:none}
+.tgin input{flex:1;min-width:0;background:#17212b;border:1px solid #2b3a52;border-radius:10px;color:#fff;font:500 16px Manrope,sans-serif;padding:11px 12px}
+.tgin button{flex:none;border:0;border-radius:10px;background:#2b5278;color:#fff;font-size:18px;padding:0 14px;cursor:pointer}
+.tgl{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:22px}
+.tgl li{padding-left:34px;position:relative;font-size:20px;color:var(--lead)}
+.tgl li::before{content:"✓";position:absolute;left:4px;color:var(--live);font-weight:700}
+/* порядок блоков на экране (порядок в коде не трогаем — от него зависят переводы):
+   шапка → первый экран → 5 направлений (Telegram первым) → ИИ-сотрудники → ИИ-ядро → остальное */
+main{display:flex;flex-direction:column}
+main>*{width:100%;order:5}
+main>.nav{order:0}main>.hero{order:1}main>#dirs{order:2}main>#team{order:3}main>.core-sec{order:4}
+.dirs>.dir:nth-child(2){order:-1}
+/* вкладки направлений: ряд кнопок + одно окно (summary спрятан, открыт один details) */
+.dtabs{display:flex;gap:12px;margin-bottom:18px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding:4px 2px 10px;scrollbar-width:thin}
+.dtab{flex:1 0 auto;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 22px;border-radius:18px;border:1px solid var(--line);background:var(--cardbg);backdrop-filter:blur(10px);color:var(--lead);font-family:inherit;font-weight:700;font-size:19px;line-height:1.2;cursor:pointer;white-space:nowrap;transition:border-color .2s,box-shadow .2s,background .2s,color .2s}
+.dtab span{font-size:26px}
+.dtab:hover{border-color:rgba(var(--net),.55);color:var(--ink)}
+.dtab.on{background:var(--pill);color:var(--ink);border-color:rgba(var(--net),.85);box-shadow:0 0 30px -6px var(--btnglow)}
+.dtab:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.dirs{display:block}.dir summary{display:none}.dir:not([open]){display:none}.dir-body{padding-top:26px}
+
+.xh{font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);font-weight:700;margin:22px 0 10px}
+.xchips{display:flex;flex-wrap:wrap;gap:8px}
+.xprice{font-size:19px;color:var(--lead);background:var(--ghost);border:1px solid rgba(var(--net),.45);border-radius:14px;padding:14px 16px;line-height:1.5}
+.xprice b{display:block;color:var(--ink);font:800 26px Unbounded,sans-serif;margin-bottom:4px}
+.xchips span{border:1px solid var(--line);background:var(--ghost);border-radius:99px;padding:8px 13px;font-size:17px}
+
+/* живые демо в карточках направлений */
+.demo{background:var(--ghost);border:1px solid rgba(var(--net),.4);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.demo .dh{font:700 15px Unbounded,sans-serif;color:var(--acc);letter-spacing:.04em}
+.demo .dt{font-size:18px;color:var(--lead)}
+.demo .chips{gap:8px}
+.demo .chip.on{background:var(--btn);color:#fff;border-color:transparent}
+.dots{display:flex;gap:10px;align-items:center;font-size:15px;color:var(--muted)}
+.dots button{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer}
+.dots button.on{border-color:#fff}
+.browser{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#fff;color:#111}
+.browser .bar{background:#e5e7eb;padding:7px 10px;font-size:13px;color:#555;display:flex;gap:6px;align-items:center}
+.browser .bar i{width:9px;height:9px;border-radius:50%;background:#f87171}.browser .bar i:nth-child(2){background:#fbbf24}.browser .bar i:nth-child(3){background:#34d399}
+.browser .bar span{margin-left:8px;background:#fff;border-radius:6px;padding:2px 10px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini{min-height:420px;background:#f8fafc;font-family:Manrope,sans-serif}
+.mini>*{opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s}
+.mini>.in{opacity:1;transform:none}
+.ms-nav{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border-bottom:1px solid #e5e7eb}
+.ms-logo{font:800 15px Unbounded,sans-serif;white-space:nowrap}
+.ms-menu{flex:1;display:flex;gap:12px;justify-content:center;font-size:13px;color:#6b7280;white-space:nowrap;overflow:hidden}
+.ms-btn{font-size:13px;font-weight:700;color:#fff;border-radius:8px;padding:6px 12px;white-space:nowrap}
+.ms-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:1.4fr 1fr;align-items:center;gap:8px;padding:22px 18px;color:#fff}
+.ms-hero::before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.12);right:-60px;top:-80px}
+.ms-hero::after{content:"";position:absolute;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.08);left:-40px;bottom:-70px}
+.ms-hero>*{position:relative;z-index:1}
+.ms-badge{display:inline-block;font-size:12px;font-weight:700;background:rgba(255,255,255,.2);border-radius:99px;padding:4px 10px;margin-bottom:8px}
+.ms-hero h4{font:800 20px/1.2 Unbounded,sans-serif;margin-bottom:8px;color:inherit;text-transform:none;letter-spacing:0}
+.ms-hero p{font-size:14px;opacity:.92;line-height:1.4;margin-bottom:12px}
+.ms-cta{display:inline-block;background:#fff;font-weight:800;font-size:14px;border-radius:10px;padding:9px 16px;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.ms-art{text-align:center}
+.ms-art span{display:inline-grid;place-items:center;width:130px;height:130px;border-radius:50%;font-size:76px;background:radial-gradient(circle,rgba(255,255,255,.35),rgba(255,255,255,.05) 70%);box-shadow:0 0 0 10px rgba(255,255,255,.08);filter:drop-shadow(0 10px 18px rgba(0,0,0,.3));animation:msfl 3s ease-in-out infinite}
+.ms-trust{display:flex;flex-wrap:wrap;gap:6px;padding:12px 14px 0}
+.ms-trust span{font-size:12px;font-weight:700;background:#fff;border:1px solid #e5e7eb;border-radius:99px;padding:4px 10px;color:#374151}
+.ms-card{position:relative;border-top:4px solid var(--ma,#0ea5e9)!important;transition:transform .2s}
+.ms-card:hover{transform:translateY(-3px)}
+.ms-card em{position:absolute;top:-10px;right:8px;font-style:normal;font-size:11px;font-weight:800;border-radius:99px;padding:2px 8px}
+/* свой стиль у каждого бизнеса */
+/* кафе: тёплое, по центру, меню строчками */
+.lay-cafe{background:#fff8f1}
+.lay-cafe .ms-logo,.lay-cafe .ms-hero h4,.lay-cafe .ms-st{font-family:Georgia,'Times New Roman',serif;font-style:italic;letter-spacing:0}
+.lay-cafe .ms-hero{grid-template-columns:1fr;text-align:center;border-radius:0 0 46px 46px}
+.lay-cafe .ms-art{order:-1}.lay-cafe .ms-art span{width:96px;height:96px;font-size:56px}
+.lay-cafe .ms-hero h4{font-size:24px}
+.lay-cafe .ms-trust{justify-content:center}
+.lay-cafe .ms-st{text-align:center;font-size:18px}
+.lay-cafe .ms-cards{grid-template-columns:1fr;gap:6px}
+.lay-cafe .ms-card{display:flex;align-items:center;gap:10px;text-align:left;border-top:0!important;border-left:4px solid var(--ma)!important;padding:8px 12px}
+.lay-cafe .ms-card i{font-size:26px;margin:0}.lay-cafe .ms-card span{flex:1;min-height:0;border-bottom:2px dotted #d6c7b8;padding-bottom:2px}.lay-cafe .ms-card b{margin:0}
+/* клиника: светлая, чистая, строгая */
+.lay-clinic{background:#fff}
+.lay-clinic .ms-hero{color:#0f172a}
+.lay-clinic .ms-hero::before,.lay-clinic .ms-hero::after{display:none}
+.lay-clinic .ms-badge{background:var(--ma);color:#fff}
+.lay-clinic .ms-cta{background:var(--ma)!important;color:#fff!important}
+.lay-clinic .ms-art span{background:#fff;box-shadow:0 10px 30px rgba(15,23,42,.12),0 0 0 8px rgba(255,255,255,.7)}
+.lay-clinic .ms-card{border-top:0!important;border-radius:16px}
+.lay-clinic .ms-card i{width:48px;height:48px;margin:0 auto 6px;border-radius:50%;display:grid!important;place-items:center;font-size:24px;background:color-mix(in srgb,var(--ma) 15%,#fff)}
+.lay-clinic.dk .ms-hero{color:#fff}
+/* магазин: тёмный, жирный, кнопки «в корзину» */
+.lay-shop{background:#f3f4f6}
+.lay-shop .ms-nav{background:#111827;border-color:#000}.lay-shop .ms-menu{color:#9ca3af}
+.lay-shop .ms-hero h4{text-transform:uppercase;font-size:22px;letter-spacing:.02em}
+.lay-shop .ms-hero h4::after{content:"";display:block;width:60px;height:5px;background:var(--ma);margin-top:8px}
+.lay-shop .ms-cta{background:var(--ma)!important;color:#111!important;border-radius:4px}
+.lay-shop .ms-art span{border-radius:12px;background:var(--ma);box-shadow:none;transform:rotate(-6deg)}
+.lay-shop .ms-card{border-radius:4px;border-top:0!important}
+.lay-shop .ms-card u{display:block;margin-top:8px;text-decoration:none;font-size:12px;font-weight:800;color:#fff;background:#111827;border-radius:4px;padding:5px 0}
+.lay-shop .ms-st{text-transform:uppercase}
+/* салон: нежный, элегантный, круглые иконки */
+.lay-salon{background:color-mix(in srgb,var(--ma) 8%,#fff)}
+.lay-salon .ms-logo,.lay-salon .ms-hero h4{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;letter-spacing:.01em}
+.lay-salon .ms-hero{margin:12px 12px 0;border-radius:24px;color:#3b0a2a}
+.lay-salon .ms-hero h4{font-size:24px}
+.lay-salon .ms-badge{background:#fff;color:var(--mb)}
+.lay-salon .ms-cta{background:var(--mb)!important;color:#fff!important;border-radius:99px}
+.lay-salon .ms-card{background:transparent;border:0!important;box-shadow:none}
+.lay-salon .ms-card i{width:62px;height:62px;margin:0 auto 6px;border-radius:50%;display:grid!important;place-items:center;background:#fff;border:2px solid var(--ma);font-size:28px}
+.lay-salon .ms-btn{border-radius:99px}
+.lay-salon.dk .ms-hero{color:#fff}
+.mini.dk{background:#0b1120}
+.mini.dk .ms-nav{background:#111827;border-color:#1f2937}.mini.dk .ms-menu{color:#9ca3af}
+.mini.dk .ms-st{color:#f9fafb}.mini.dk .ms-card{background:#111827;border-color:#1f2937}.mini.dk .ms-card span{color:#d1d5db}
+.mini.dk .ms-trust span{background:#111827;border-color:#1f2937;color:#d1d5db}.mini.dk .ms-foot{background:#000}
+@keyframes msfl{50%{transform:translateY(-6px)}}
+.ms-sec{padding:14px 14px 6px}
+.ms-st{font:700 14px Unbounded,sans-serif;color:#111;margin-bottom:10px}
+.ms-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ms-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.ms-card i{display:block;font-style:normal;font-size:30px;margin-bottom:4px}
+.ms-card span{display:block;font-size:13px;color:#374151;line-height:1.25;min-height:2.5em}
+.ms-card b{display:block;font-size:14px;margin-top:4px}
+.ms-foot{margin-top:10px;padding:10px 14px;background:#111827;color:#d1d5db;font-size:12px;display:flex;flex-wrap:wrap;gap:6px 14px}
+@media (max-width:560px){.ms-menu{display:none}.ms-hero{grid-template-columns:1fr 84px}.ms-art span{width:80px;height:80px;font-size:44px}}
+.dots{flex-wrap:wrap}
+.pchat{display:flex;flex-direction:column;gap:8px;min-height:150px;max-height:300px;overflow-y:auto}
+.plist{font-size:15px;color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;line-height:1.6}
+.plist b{color:var(--ink)}
+.pin{display:flex;gap:8px}.pin input{flex:1;min-width:0;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--ink);font:500 17px Manrope,sans-serif}
+.pin button{border:0;border-radius:12px;padding:0 16px;background:var(--btn);color:#fff;font-size:18px;cursor:pointer}
+.sheet{position:relative;background:#fbfaf6;color:#1b2333;border-radius:10px;padding:16px 18px;font-size:15px;line-height:1.5;box-shadow:0 18px 40px -12px rgba(0,0,0,.7);animation:sheetin .6s cubic-bezier(.2,.9,.3,1.2)}
+.sheet h5{font:800 16px Unbounded,sans-serif;margin-bottom:2px}.sheet .sm{color:#667;font-size:13px;margin-bottom:8px}
+.sheet .row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed #ccd;padding:3px 0}
+.sheet .tot{font-weight:800;font-size:17px;border:0;padding-top:6px}
+.sheet .stamp{position:absolute;right:14px;bottom:12px;width:76px;height:76px;border:3px solid #2554c7;border-radius:50%;display:grid;place-items:center;text-align:center;color:#2554c7;font:800 10px/1.15 Manrope,sans-serif;transform:rotate(-14deg);opacity:.8;animation:stampin .5s .45s both}
+.sheet .dl{margin-top:10px;display:inline-block;background:#1b2333;color:#fff;border-radius:8px;padding:6px 12px;font-size:14px;cursor:pointer;border:0}
+@keyframes sheetin{from{opacity:0;transform:translateY(30px) rotate(-3deg) scale(.9)}}
+@keyframes stampin{from{opacity:0;transform:rotate(-14deg) scale(2.2)}}
+.mphone{background:#0e1621;border:2px solid #2b3a52;border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:300px}
+.mphone .clock{font:800 44px Unbounded,sans-serif;text-align:center;color:#fff;letter-spacing:.04em}
+.mphone .clock small{display:block;font:500 14px Manrope,sans-serif;color:#8aa0b8;letter-spacing:0}
+.notif{background:#182533;border-radius:14px;padding:12px 14px;font-size:16px;line-height:1.5;color:#e8f0ff;animation:dpop .35s}
+.notif b{color:#fff}
+@keyframes dpop{from{opacity:0;transform:translateY(-8px) scale(.97)}}
+.abar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}.abar i{display:block;height:100%;background:var(--btn);transition:width .4s}
+.aq{font-size:20px;font-weight:700;line-height:1.35}
+.ares li{list-style:none;padding:8px 0 8px 30px;position:relative;font-size:17px;color:var(--lead);border-top:1px solid var(--line)}
+.ares li::before{content:"⚠️";position:absolute;left:0}
+.ares .big{font:800 30px Unbounded,sans-serif}
+.trynote{margin:18px 0 14px;font-size:19px;color:var(--ink);background:var(--ghost);border:1px solid rgba(var(--net),.4);border-radius:14px;padding:14px 16px}
+.dir-body .phone{max-width:420px;width:100%;justify-self:center}
+.tgsoon{display:inline-block;border:1px dashed var(--line);border-radius:14px;padding:12px 18px;color:var(--muted);font-size:17px}
+
+/* как работаем */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;counter-reset:s;list-style:none}
+.steps li{counter-increment:s;padding:24px;border:1px solid var(--line);background:var(--cardbg);border-radius:20px;backdrop-filter:blur(10px)}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--btn);color:#fff;font:800 20px Unbounded,sans-serif;margin-bottom:14px;box-shadow:0 0 24px -4px var(--btnglow)}
+.steps b{display:block;font-size:20px;margin-bottom:6px}
+.steps span{color:var(--lead);font-size:18px}
+
+/* работы */
+.works{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.work{padding:24px;border:1px solid var(--line);background:var(--cardbg);border-radius:20px;backdrop-filter:blur(10px);display:flex;flex-direction:column;gap:10px}
+.work .tag{align-self:flex-start;font-size:14px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--ghost);border:1px solid var(--line);color:var(--acc)}
+.work h3{font-size:20px;line-height:1.3}
+.work p{color:var(--lead);font-size:18px}
+.work.soon{border-style:dashed;justify-content:center;align-items:center;text-align:center;color:var(--muted)}
+.work.soon b{font-family:Unbounded;font-size:40px;color:var(--acc)}
+
+/* вопросы */
+.faq{display:flex;flex-direction:column;gap:12px;max-width:900px}
+.faq details{border:1px solid var(--line);background:var(--cardbg);border-radius:18px;backdrop-filter:blur(10px)}
+.faq summary{cursor:pointer;padding:20px 24px;font-weight:700;font-size:20px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--acc);font-size:26px;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq p{padding:0 24px 22px;color:var(--lead);font-size:19px}
+
+/* контакты */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+.contact > *{min-width:0}
+.form{display:flex;flex-direction:column;gap:12px}
+.form label{font-size:16px;color:var(--muted)}
+.form input,.form textarea{width:100%;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:14px;color:var(--ink);font:500 18px Manrope,sans-serif;padding:14px 16px}
+.form textarea{min-height:110px;resize:vertical}
+.ok{color:var(--live);font-size:17px}
+.soonbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.soonbtns span{border:1px dashed var(--line);border-radius:14px;padding:12px 18px;color:var(--muted);font-size:17px}
+
+footer{border-top:1px solid var(--line);padding-block:30px 110px;color:var(--muted);font-size:16px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+
+/* язык */
+.navr{display:flex;gap:12px;align-items:center}
+.lang{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--ghost)}
+.lang button{background:transparent;border:0;color:var(--muted);font:700 16px Manrope,sans-serif;padding:10px 14px;cursor:pointer}
+.lang button.on{background:var(--btn);color:#fff}
+
+/* выбор цвета */
+.pal{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;display:flex;gap:8px;align-items:center;background:rgba(10,14,30,.9);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:8px 10px;max-width:calc(100% - 24px)}
+.pal span{color:#c6d5f3;font-size:15px;padding:0 6px;white-space:nowrap}
+.pal button{flex:none;display:flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff;border-radius:999px;padding:8px 14px;font:700 15px Manrope,sans-serif;cursor:pointer;white-space:nowrap}
+.pal button i{width:13px;height:13px;border-radius:50%}
+.pal button.on{background:#fff;color:#0a0e1e}
+
+@media (max-width:900px){.hero,.two,.contact,.dir-body,.tgw{grid-template-columns:1fr}.phone{max-width:390px;width:100%;margin:0 auto}.menu{display:none}.hero{min-height:0}}
+@media (max-width:560px){.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.nav .btn{display:none}.agent{font-size:12px;padding:5px 9px}.dir summary{grid-template-columns:auto 1fr;padding:18px}.dir .plus{display:none}.dir-body{padding:0 18px 20px}.sec{padding-block:50px}.pal span{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body data-p="teal">
+<div class="glow-bg"></div>
+<canvas id="stars"></canvas>
+
+<main>
+  <nav class="nav wrap">
+    <a class="logo" href="#top"><i></i>Дастёр</a>
+    <div class="menu"><a href="#dirs">Направления</a><a href="#team" style="display:none">ИИ-сотрудники</a><a href="#helper">Помощник</a><a href="#how">Как работаем</a><a href="#works">Работы</a><a href="#contact">Контакты</a></div>
+    <div class="navr"><div class="lang" id="lang"><button type="button" data-l="ru" class="on">RU</button><button type="button" data-l="tj">TJ</button></div><a class="btn main small" href="#contact">Бесплатный разбор</a></div>
+  </nav>
+
+  <!-- 1. первый экран -->
+  <section class="hero wrap" id="top">
+    <div>
+      <div class="badge"><b></b>ИИ-студия · автоматизация бизнеса</div>
+      <h1>Искусственный интеллект <span class="grad">работает на ваш бизнес</span></h1>
+      <p class="lead">Мы внедряем ИИ-помощников, которые сами принимают заявки, готовят документы, следят за деньгами и каждое утро присылают владельцу отчёт в Telegram.</p>
+      <div class="cta"><a class="btn main" href="#helper">Спросить ИИ про мой бизнес →</a><a class="btn ghost" href="#dirs">5 направлений</a></div>
+    </div>
+    <div class="globe" id="globe">
+      <canvas id="gcv"></canvas>
+      <div class="core">ИИ-ядро</div>
+    </div>
+  </section>
+
+  <!-- 2. ИИ-ядро работает (на экране показывается ниже направлений — см. порядок в CSS) -->
+  <!-- блоки «ИИ-ядро» и «ИИ-сотрудники» скрыты по решению БОССА 08.11 (не удалены: от порядка элементов зависят переводы MAP) -->
+  <section class="sec wrap core-sec" style="display:none">
+    <div class="two">
+      <div>
+        <p class="eyebrow">Вживую</p>
+        <h2>ИИ-ядро вашего бизнеса <span class="grad">работает прямо сейчас</span></h2>
+        <p style="color:var(--lead);font-size:21px">Пока вы спите или заняты, ИИ-сотрудники принимают заявки, выставляют счета и напоминают о долгах. Вы видите каждое их действие.</p>
+      </div>
+      <div class="card glowcard">
+        <div class="card-h"><b>Что ИИ сделал сегодня</b><span class="onl">работает</span></div>
+        <ul class="feed" id="feed"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. пять направлений -->
+  <section class="sec wrap" id="dirs">
+    <div class="sec-h">
+      <p class="eyebrow">Что мы делаем</p>
+      <h2>Пять направлений</h2>
+      <p>Выберите направление — всё можно попробовать вживую. Можно начать с одного, остальное подключить потом.</p>
+    </div>
+    <div class="dtabs nx" id="dtabs" role="tablist">
+      <button type="button" class="dtab" data-i="1" role="tab"><span>🤖</span><b data-t="t_bot">Боты в Telegram</b></button>
+      <button type="button" class="dtab" data-i="0" role="tab"><span>🌐</span><b data-t="t_site">Сайты</b></button>
+      <button type="button" class="dtab" data-i="2" role="tab"><span>🧠</span><b data-t="t_ai">ИИ-помощники</b></button>
+      <button type="button" class="dtab" data-i="3" role="tab"><span>⚙️</span><b data-t="t_auto">Автоматизация</b></button>
+      <button type="button" class="dtab" data-i="4" role="tab"><span>🔍</span><b data-t="t_audit">Аудит</b></button>
+    </div>
+    <div class="dirs">
+      <details class="dir">
+        <summary><span class="ic">🌐</span><div><h3>Сайты</h3><p>Красивые сайты с живыми фишками, которые приводят клиентов</p></div><span class="plus">+</span></summary>
+        <div class="dir-body">
+          <div><h4>Что вы получаете</h4><ul><li>Сайт удобный с телефона</li><li>Цены, адрес и кнопка записи на первом экране</li><li>Живые эффекты, как на этом сайте</li><li>Заявки с сайта сразу приходят вам в Telegram</li></ul>
+            <div class="nx">
+              <div class="xh" data-t="s_th">Какие сайты делаем</div>
+              <div class="xchips" data-t="s_t"><span>🎯 Лендинг под рекламу</span><span>📇 Сайт-визитка</span><span>🏢 Корпоративный сайт</span><span>🛒 Интернет-магазин</span><span>📅 Сайт с онлайн-записью</span><span>🌐 На нескольких языках</span></div>
+              <div class="xh" data-t="s_mh">Любой сложности</div>
+              <ul class="xl" data-t="s_m"><li>3D-графика и анимация, как глобус на этом сайте</li><li>Онлайн-оплата, корзина и личный кабинет</li><li>ИИ-помощник прямо на сайте</li><li>Связь с Telegram, 1С, таблицами и CRM</li><li>SEO и аналитика: чтобы сайт находили в Google и Яндексе</li><li>Домен, хостинг и запуск берём на себя</li><li>Поддержка после запуска: правки, обновления, резервные копии</li></ul>
+              <div class="xprice" data-t="s_p" style="margin-top:18px"><b>от 100 сомони</b>Простой одностраничный сайт. Сложнее — дороже.</div>
+            </div></div>
+          <div class="demo nx" id="d_site"></div>
+        </div>
+      </details>
+      <details class="dir" open>
+        <summary><span class="ic">🤖</span><div><h3>Боты в Telegram</h3><p>Принимают заявки и отвечают клиентам днём и ночью</p></div><span class="plus">+</span></summary>
+        <div class="dir-body">
+          <div><h4>Что вы получаете</h4><ul><li>Ответы на частые вопросы: цены, адрес, время работы</li><li>Запись клиента на свободное время</li><li>Готовая заявка вам в Telegram</li><li>Под любую вашу задачу: бот — шаблон, настраиваем его под вас</li></ul>
+            <div class="xprice nx" data-t="p_bot" style="margin-top:18px"><b>от 100 сомони</b>Простой бот для заявок. Сложнее — дороже.</div>
+            <p class="trynote nx" data-t="b_try">👉 Попробуйте прямо здесь: понажимайте кнопки бота, как в настоящем Telegram. Нажмите «✍️ Своя задача» и напишите любую.</p>
+            <a class="btn main nx" href="https://t.me/dastyor_ai_bot" target="_blank" rel="noopener" data-t="b_soon">Открыть настоящего бота в Telegram →</a></div>
+          <div class="phone nx">
+            <div class="tgh"><div class="ava">Д</div><div><b data-t="b_name">Дастёр · ИИ-помощник</b><small data-t="b_onl">бот · онлайн</small></div></div>
+            <div class="tgchat" id="tgchat" aria-live="polite"></div>
+            <div class="kb" id="kb"></div>
+            <form class="tgin" id="tgin" hidden><input id="tgq" autocomplete="off"><button type="submit" aria-label="Отправить">➤</button></form>
+          </div>
+        </div>
+      </details>
+      <details class="dir">
+        <summary><span class="ic">🧠</span><div><h3>ИИ-помощники</h3><p>Понимают вопрос своими словами, знают ваши цены и правила</p></div><span class="plus">+</span></summary>
+        <div class="dir-body">
+          <div><h4>Что вы получаете</h4><ul><li>Помощник на сайте, в Telegram или для ваших сотрудников</li><li>Считает цену, пишет письма и предложения</li><li>Готовит договоры по вашему шаблону</li><li>Сложные вопросы передаёт человеку</li></ul><div class="xprice nx" data-t="p_ai" style="margin-top:18px"><b>от 100 сомони</b>Простой помощник на ваших ценах. Сложнее — дороже.</div></div>
+          <div class="demo nx" id="d_price"></div>
+        </div>
+      </details>
+      <details class="dir">
+        <summary><span class="ic">⚙️</span><div><h3>Автоматизация</h3><p>Рутина делается сама: отчёты, деньги, тендеры, склад</p></div><span class="plus">+</span></summary>
+        <div class="dir-body">
+          <div><h4>Что вы получаете</h4><ul class="nx" data-t="a_m"><li>Поиск тендеров по вашей теме каждое утро и черновик заявки</li><li>Склад: предупредит, что товар кончается, и закажет у поставщика</li><li>Утренний отчёт владельцу в 8:00: заявки, деньги, долги</li><li>Контроль оплат и вежливые напоминания должникам</li><li>Счета, акты и договоры заполняются сами по шаблону</li><li>Заявки с сайта, Telegram и звонков — в одной таблице</li></ul><div class="xprice nx" data-t="p_auto" style="margin-top:18px"><b>от 100 сомони</b>Одна автоматизация, например утренний отчёт. Сложнее — дороже.</div></div>
+          <div class="demo nx" id="d_morning"></div>
+        </div>
+      </details>
+      <details class="dir">
+        <summary><span class="ic">🔍</span><div><h3>Аудит бизнеса</h3><p>Находим, где теряются время, заявки и деньги</p></div><span class="plus">+</span></summary>
+        <div class="dir-body">
+          <div><div class="nx" data-t="a_l"><h4>Что проверяем</h4><ul><li>🌐 Сайт: удобен ли с телефона, быстро ли открывается</li><li>🔎 Находят ли вас в Google, Яндексе и на картах</li><li>💬 Как быстро отвечаете на заявки, не теряются ли они</li><li>⭐ Отзывы, Instagram и Telegram</li><li>💰 Деньги и документы: счета, долги, отчёты</li><li>🔁 Рутина: что сотрудники делают руками каждый день</li></ul><h4 style="margin-top:16px">Что вы получаете</h4><ul><li>Короткий отчёт простыми словами: где теряете клиентов и время</li><li>Что можно поручить ИИ — и сколько это стоит</li><li>План: с чего начать, чтобы окупилось быстрее</li></ul></div><div class="xprice nx" data-t="p_audit" style="margin-top:18px"><b>Бесплатно</b>Первый разбор вашего бизнеса.</div></div>
+          <div class="demo nx" id="d_audit"></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 4. ИИ-сотрудники -->
+  <section class="sec wrap" id="team" style="display:none">
+    <div class="sec-h">
+      <p class="eyebrow">Команда</p>
+      <h2>Наймите <span class="grad">ИИ-сотрудников</span> в свой бизнес</h2>
+      <p>Нажмите на сотрудника и посмотрите, что он делает за день.</p>
+    </div>
+    <div class="card glowcard">
+      <div class="roles" id="roles"></div>
+      <div class="term" id="term" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- 5. ИИ-помощник -->
+  <section class="sec wrap" id="helper">
+    <div class="two">
+      <div>
+        <p class="eyebrow">Попробуйте</p>
+        <h2>Спросите ИИ, <span class="grad">что он сделает для вас</span></h2>
+        <p style="color:var(--lead);font-size:21px">Нажмите свой вид бизнеса или напишите, чем вы занимаетесь. Можно и голосом: нажмите 🎤. Помощник сразу разберёт, что можно поручить ИИ.</p>
+      </div>
+      <div class="card glowcard chat">
+        <div class="card-h"><b>ИИ-помощник Дастёр</b><span class="onl">на связи</span></div>
+        <div class="chips" id="chips"></div>
+        <div class="chat-log" id="clog"><div class="msg in">Здравствуйте! Расскажите, чем занимается ваш бизнес?</div></div>
+        <form class="ask" id="askf"><input id="askq" placeholder="Например: у меня автосервис" aria-label="Ваш вопрос"><button class="mic" id="micb" type="button" aria-label="Сказать голосом">🎤</button><button class="btn main small" type="submit">Спросить</button></form>
+        <p class="note">Это демо: пока помощник отвечает заготовленными ответами. Настоящий ИИ подключим позже.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. как работаем -->
+  <section class="sec wrap" id="how">
+    <div class="sec-h">
+      <p class="eyebrow">Как работаем</p>
+      <h2>Четыре шага</h2>
+      <p>Начинаем с одной задачи и показываем результат на ваших цифрах.</p>
+    </div>
+    <ol class="steps">
+      <li><b>Разбор бизнеса</b><span>Около 30 минут разговора: где теряются заявки, время и деньги. Бесплатно.</span></li>
+      <li><b>План</b><span>Что делаем первым, сколько стоит и сколько займёт.</span></li>
+      <li><b>Запуск</b><span>Настраиваем помощника на ваших ценах и проверяем на ваших вопросах.</span></li>
+      <li><b>Поддержка</b><span>Следим, чтобы всё работало, и улучшаем ответы.</span></li>
+    </ol>
+  </section>
+
+  <!-- 7. работы -->
+  <section class="sec wrap" id="works">
+    <div class="sec-h">
+      <p class="eyebrow">Наши работы</p>
+      <h2>Что уже сделано</h2>
+      <p>Показываем честно, без придуманных цифр.</p>
+    </div>
+    <div class="works">
+      <div class="work"><span class="tag">Автоматизация</span><h3>Тендерный бот</h3><p>Каждое утро сам находит новые государственные закупки по теме компании и присылает их в Telegram.</p></div>
+      <div class="work"><span class="tag">Бот + сайт</span><h3>Сайт и бот спортивной секции</h3><p>Сайт с расписанием и ценами и бот, который записывает на пробное занятие.</p></div>
+      <div class="work"><span class="tag">Сайты</span><h3>Учебные сайты по языкам</h3><p>Два сайта для изучения немецкого и турецкого языков.</p></div>
+      <div class="work soon"><b>+3</b><p>Новые работы скоро появятся здесь</p></div>
+    </div>
+  </section>
+
+  <!-- 8. вопросы -->
+  <section class="sec wrap" id="faq">
+    <div class="sec-h"><p class="eyebrow">Вопросы</p><h2>Частые вопросы</h2></div>
+    <div class="faq">
+      <details><summary>ИИ не будет отвечать глупости?</summary><p>Помощник отвечает только по вашим ценам и правилам. Если ответа нет, он не выдумывает, а передаёт вопрос вам. Перед запуском проверяем его на ваших настоящих вопросах.</p></details>
+      <details><summary>Нужно что-то устанавливать?</summary><p>Нет. Помощник работает в Telegram или на сайте. Вам нужен только телефон.</p></details>
+      <details><summary>На каком языке он отвечает?</summary><p>На русском и таджикском, на том языке, на котором написал клиент.</p></details>
+      <details><summary>Сколько это стоит?</summary><p>Зависит от задачи. Точную цену называем после бесплатного разбора.</p></details>
+    </div>
+  </section>
+
+  <!-- 9. контакты -->
+  <section class="sec wrap" id="contact">
+    <div class="card glowcard contact">
+      <div>
+        <p class="eyebrow">Контакты</p>
+        <h2 style="font-size:clamp(26px,3vw,40px);line-height:1.15;margin-bottom:14px">Бесплатный разбор вашего бизнеса</h2>
+        <p style="color:var(--lead)">Расскажите, чем вы занимаетесь. Покажем, что можно поручить ИИ.</p>
+        <div class="soonbtns"><span>Telegram — скоро</span><span>WhatsApp — скоро</span></div>
+      </div>
+      <form class="form" id="cform">
+        <label for="cn">Ваше имя</label><input id="cn" autocomplete="off">
+        <label for="cb">Чем занимается ваш бизнес</label><textarea id="cb"></textarea>
+        <button class="btn main" type="submit">Отправить</button>
+        <p class="ok" id="cok" hidden>Черновик: форма пока не подключена, заявка никуда не ушла.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>Дастёр · ИИ-студия</span><span>Черновик сайта, рабочий вариант</span></div></footer>
+
+<div class="pal" id="pal">
+  <span>Цвет:</span>
+  <button data-p="blue"><i style="background:#3b82f6"></i>Синий</button>
+  <button data-p="teal" class="on"><i style="background:#14b8a6"></i>Синий + бирюза</button>
+</div>
+
+<script>
+const D=devicePixelRatio||1;
+const TOUCH=matchMedia('(pointer:coarse)').matches;
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let C={};var L='ru';
+function readC(){const s=getComputedStyle(document.body);C={net:s.getPropertyValue('--net').trim(),dot:s.getPropertyValue('--dot').trim(),mouse:s.getPropertyValue('--mouse').trim(),k:.36*(TOUCH?.55:1)}}
+readC();
+document.querySelectorAll('#pal button').forEach(b=>b.onclick=()=>{document.body.dataset.p=b.dataset.p;document.querySelectorAll('#pal button').forEach(x=>x.classList.toggle('on',x===b));readC()});
+
+// ===== звёздочки за мышкой =====
+const sc=document.getElementById('stars'),sx=sc.getContext('2d');let SW,SH,pts=[],mouse={x:-1e4,y:-1e4},lastH=0;
+function sresize(){if(TOUCH&&pts.length&&Math.abs(innerHeight-lastH)<160&&innerWidth*D===SW)return;
+  lastH=innerHeight;SW=sc.width=innerWidth*D;SH=sc.height=innerHeight*D;const n=Math.min(130,Math.floor(innerWidth*innerHeight/(TOUCH?16000:10000)));
+  pts=Array.from({length:n},()=>({x:Math.random()*SW,y:Math.random()*SH,vx:(Math.random()-.5)*.5*D,vy:(Math.random()-.5)*.5*D}))}
+addEventListener('resize',sresize);sresize();
+addEventListener('mousemove',e=>{mouse={x:e.clientX*D,y:e.clientY*D}});
+addEventListener('mouseout',()=>{mouse={x:-1e4,y:-1e4}});
+addEventListener('touchstart',e=>{const t=e.touches[0];if(t)mouse={x:t.clientX*D,y:t.clientY*D}},{passive:true});
+addEventListener('touchmove',()=>{mouse={x:-1e4,y:-1e4}},{passive:true});
+addEventListener('touchend',()=>{setTimeout(()=>{mouse={x:-1e4,y:-1e4}},600)},{passive:true});
+function stars(){
+  sx.clearRect(0,0,SW,SH);const R=150*D,M=190*D;
+  for(const p of pts){const dx=mouse.x-p.x,dy=mouse.y-p.y,dm=Math.hypot(dx,dy);
+    if(dm<M&&dm>1){p.x+=dx/dm*.6*D;p.y+=dy/dm*.6*D}
+    p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>SW)p.vx*=-1;if(p.y<0||p.y>SH)p.vy*=-1}
+  for(let i=0;i<pts.length;i++){const a=pts[i];
+    for(let j=i+1;j<pts.length;j++){const b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<R){sx.strokeStyle=`rgba(${C.net},${(1-d/R)*C.k})`;sx.lineWidth=D;sx.beginPath();sx.moveTo(a.x,a.y);sx.lineTo(b.x,b.y);sx.stroke()}}
+    const dm=Math.hypot(a.x-mouse.x,a.y-mouse.y);if(dm<M){sx.strokeStyle=`rgba(${C.mouse},${(1-dm/M)*.8})`;sx.beginPath();sx.moveTo(a.x,a.y);sx.lineTo(mouse.x,mouse.y);sx.stroke()}
+    sx.fillStyle=`rgba(${C.dot},${.9*(TOUCH?.7:1)})`;sx.beginPath();sx.arc(a.x,a.y,1.8*D,0,7);sx.fill()}
+}
+
+// ===== глобус с ИИ-сотрудниками =====
+const AG=[["Диспетчер","#22d3ee",[.9,.25,.35]],["Бухгалтер","#4ade80",[-.75,.45,.5]],["Аналитик","#a78bfa",[.2,-.7,.68]],["Секретарь","#f472b6",[-.4,-.55,-.73]],["Продажник","#fbbf24",[.55,.6,-.58]],["Юрист","#93c5fd",[-.85,-.1,-.5]]];
+const gw=document.getElementById('globe'),gc=document.getElementById('gcv'),gx=gc.getContext('2d');let GW,GH;
+function gresize(){const r=gc.getBoundingClientRect();GW=gc.width=r.width*D;GH=gc.height=r.height*D}
+addEventListener('resize',gresize);gresize();
+const N=360,G=[];for(let i=0;i<N;i++){const y=1-2*(i+.5)/N,r=Math.sqrt(1-y*y),t=i*2.39996;G.push([Math.cos(t)*r,y,Math.sin(t)*r])}
+AG.forEach(a=>{const v=a[2],l=Math.hypot(...v);a[2]=v.map(c=>c/l);const el=document.createElement('div');el.className='agent';el.innerHTML=`<b style="background:${a[1]};box-shadow:0 0 10px ${a[1]}"></b>${a[0]}`;gw.appendChild(el);a.el=el;el.onclick=()=>gShow(a[0])});
+// клик по сотруднику на глобусе: что он делает за день + кнопка в нужную карточку направлений
+const gpop=document.createElement('div');gpop.className='gpop';gpop.hidden=true;gw.appendChild(gpop);
+const ghint=document.createElement('div');ghint.className='ghint';gw.appendChild(ghint);
+const G_DIR={"Диспетчер":[1],"Бухгалтер":[3,0],"Аналитик":[3,2],"Секретарь":[1],"Продажник":[2,0],"Юрист":[2,2]};
+function gHint(){ghint.textContent=L==='tj'?'👆 Ба корманд пахш кунед':'👆 Нажмите на сотрудника';ghint.hidden=false;gpop.hidden=true}
+function gShow(n){const tj=L==='tj',k=AG.findIndex(a=>a[0]===n),t=tj?TASKS_TJ[k]:TASKS[n];ghint.hidden=true;gpop.hidden=false;
+ gpop.innerHTML=`<button type="button" class="x" aria-label="close">×</button><h5 style="color:${AG[k][1]}">${NM(n)}</h5><div class="note">${tj?'Дар як рӯз чӣ мекунад:':'Что делает за день:'}</div><ol>${t.map((x,i)=>`<li style="animation-delay:${i*.25}s">${x}</li>`).join('')}</ol><button type="button" class="btn main small">${tj?'Зинда санҷидан →':'Попробовать вживую →'}</button>`;
+ gpop.querySelector('.x').onclick=gHint;
+ gpop.querySelector('.btn').onclick=()=>{const [c,tab]=G_DIR[n],det=document.querySelectorAll('details.dir')[c];
+   if(tab!=null){if(c===3){mTab=tab;buildMorning()}if(c===2){pTab=tab;buildPrice()}}
+   dirTab(c);document.getElementById('dtabs').scrollIntoView({behavior:'smooth',block:'start'})}}
+let rot=0,tilt=.3,tx=0,ty=0,extra=0,extraT=0;
+gw.addEventListener('mousemove',e=>{const r=gw.getBoundingClientRect();tx=((e.clientX-r.left)/r.width-.5)*1.2;ty=((e.clientY-r.top)/r.height-.5)*.8});
+gw.addEventListener('mouseleave',()=>{tx=0;ty=0});
+function proj([x,y,z],R,cx,cy,ca,sa,ct,st){let X=x*ca+z*sa,Z=-x*sa+z*ca;let Y=y*ct-Z*st;Z=y*st+Z*ct;return[cx+X*R,cy+Y*R,Z]}
+function globe(){
+  gx.clearRect(0,0,GW,GH);
+  extra+=(tx-extra)*.05;extraT+=(ty-extraT)*.05;rot+=.003;
+  const R=GW*.4,cx=GW/2,cy=GH/2,a=rot+extra,ca=Math.cos(a),sa=Math.sin(a),t=tilt+extraT,ct=Math.cos(t),st=Math.sin(t);
+  const P=G.map(p=>proj(p,R,cx,cy,ca,sa,ct,st));
+  for(let i=0;i<P.length;i++)for(let j=i+1;j<Math.min(P.length,i+28);j++){const p=P[i],q=P[j],d=Math.hypot(p[0]-q[0],p[1]-q[1]);if(d<R*.19){gx.strokeStyle=`rgba(${C.net},${((p[2]+q[2])/2+1)/2*.38})`;gx.lineWidth=D;gx.beginPath();gx.moveTo(p[0],p[1]);gx.lineTo(q[0],q[1]);gx.stroke()}}
+  for(const p of P){const al=(p[2]+1)/2;gx.fillStyle=`rgba(${C.dot},${.2+al*.8})`;gx.beginPath();gx.arc(p[0],p[1],(1+al*1.5)*D,0,7);gx.fill()}
+  AG.forEach(ag=>{const p=proj(ag[2],R,cx,cy,ca,sa,ct,st),front=p[2]>-.15;
+    gx.strokeStyle=`rgba(${C.mouse},${front?.5:.12})`;gx.setLineDash([4*D,5*D]);gx.beginPath();gx.moveTo(cx,cy);gx.lineTo(p[0],p[1]);gx.stroke();gx.setLineDash([]);
+    gx.fillStyle=ag[1];gx.beginPath();gx.arc(p[0],p[1],4*D,0,7);gx.fill();
+    // подпись отодвигаем от центра наружу, чтобы не наезжала на «ИИ-ядро»
+    let ux=p[0]-cx,uy=p[1]-cy;const ul=Math.hypot(ux,uy)||1;ux/=ul;uy/=ul;
+    const lx=p[0]/D+ux*30,ly=p[1]/D+uy*24;
+    ag.el.style.transform=`translate(${lx}px,${ly}px) translate(-50%,-50%) scale(${.8+(p[2]+1)*.12})`;
+    ag.el.style.opacity=front?1:.25;ag.el.style.zIndex=front?3:1});
+}
+function loop(){stars();globe();if(!RM)requestAnimationFrame(loop)}loop();
+
+// ===== лента дел ИИ-ядра =====
+const EV=[["📥","Заявка с сайта: «нужна доставка цемента»","Диспетчер · передана менеджеру за 40 сек"],["🧾","Счёт № 214 выставлен клиенту","Бухгалтер · отправлен в Telegram"],["⚠️","Клиент не оплатил счёт 3 дня","Бухгалтер · напоминание готово"],["📊","Утренний отчёт владельцу готов","Аналитик · заявки, деньги, долги"],["💬","Ответил клиенту ночью, в 02:14","Секретарь · записал на консультацию"],["📄","Договор собран по шаблону","Юрист · ждёт проверки"],["📈","3 клиента вернулись после напоминания","Продажник · новые заказы"]];
+const feed=document.getElementById('feed');let ei=0;
+function push(){const e=EV[ei++%EV.length];const li=document.createElement('li');li.innerHTML=`<em>${e[0]}</em><div>${e[1]}<small>${e[2]} · ${L==='tj'?'ҳозир':'только что'}</small></div>`;feed.prepend(li);while(feed.children.length>5)feed.lastChild.remove()}
+for(let i=0;i<4;i++)push();setInterval(push,2600);
+
+// ===== ИИ-сотрудники: что делают =====
+const TASKS={
+ "Диспетчер":["23:40 — принял заявку на доставку","уточнил адрес и удобное время","передал заявку менеджеру","клиенту ответил: «Завтра в 10:00 привезём»"],
+ "Бухгалтер":["06:00 — сверил оплаты по выписке банка","3 счёта оплачены, 2 нет","подготовил напоминания должникам","ждёт, когда вы нажмёте «Отправить»"],
+ "Аналитик":["собрал заявки и выручку за неделю","сравнил с прошлой неделей: заявок больше на 12%","нашёл, какой товар спрашивают чаще всего","08:00 — прислал отчёт владельцу"],
+ "Секретарь":["записал клиента на завтра, 15:30","добавил запись в таблицу","за час до приёма напомнит клиенту","перенос записи — сам предложит другое время"],
+ "Продажник":["клиент спросил цену — посчитал по прайсу","подготовил коммерческое предложение","через 3 дня напомнит, если клиент молчит","горячих клиентов передаёт вам"],
+ "Юрист":["заполнил договор по вашему шаблону","отметил пункты, которые стоит проверить","сравнил с прошлой версией","последнее слово — за человеком"]
+};
+const rolesEl=document.getElementById('roles'),term=document.getElementById('term');let typing=0;
+AG.forEach(([name,col],i)=>{const b=document.createElement('button');b.type='button';b.className='role';b.setAttribute('aria-pressed',i===0);b.innerHTML=`<b style="background:${col}"></b>${name}`;b.onclick=()=>{rolesEl.querySelectorAll('.role').forEach(x=>x.setAttribute('aria-pressed',x===b));show(name)};rolesEl.appendChild(b)});
+function show(name){const my=++typing;term.innerHTML=`<div class="who">${NM(name)}</div>`;const lines=TASKS[name];let li=0,ci=0,span=null;const car=document.createElement('span');car.className='caret';
+  (function step(){if(my!==typing)return;if(li>=lines.length){term.appendChild(car);return}
+    if(!span){span=document.createElement('span');span.className='ln';term.appendChild(span)}
+    span.textContent=lines[li].slice(0,++ci);span.appendChild(car);
+    if(ci>=lines[li].length){li++;ci=0;span=null;setTimeout(step,RM?0:450)}else setTimeout(step,RM?0:22)})()}
+show("Диспетчер");
+
+// ===== ИИ-помощник (демо, заготовки) =====
+// 12 видов бизнеса: ключ, значок, имя RU/TJ, фраза RU/TJ, поиск по словам, ответ RU/TJ (таджикский — черновой, проверит переводчик)
+const BIZ=[
+ {k:'shop',ic:'🧱',ru:'Магазин',tj:'Мағоза',qr:'У меня магазин',qt:'Ман мағоза дорам',re:/строй|цемент|магазин|товар|склад|семент|мағоза|масолеҳ|анбор/i,
+  ar:"Для магазина ИИ может: 1) отвечать на вопросы о ценах и наличии днём и ночью; 2) считать стоимость с доставкой; 3) каждое утро присылать вам отчёт: заявки, продажи, долги; 4) следить за остатками на складе. Начать лучше с бота для заявок.",
+  at:"Барои мағоза зеҳни сунъӣ метавонад: 1) шабу рӯз ба саволҳо дар бораи нарх ва мавҷудияти мол ҷавоб диҳад; 2) нархро бо расонидан ҳисоб кунад; 3) ҳар саҳар ба шумо ҳисобот фиристад: дархостҳо, фурӯш, қарзҳо; 4) бақияи анборро назорат кунад. Беҳтар аст аз боти дархостҳо сар кунем."},
+ {k:'food',ic:'🍲',ru:'Кафе',tj:'Қаҳвахона',qr:'У меня кафе',qt:'Ман қаҳвахона дорам',re:/кафе|ресторан|еда|блюд|пицц|қаҳвахона|ошхона|хӯрок|чойхона/i,
+  ar:"Для кафе ИИ может: 1) принимать заказы и бронь столиков в Telegram; 2) отвечать про меню и время работы на русском и таджикском; 3) отвечать на отзывы гостей; 4) присылать вам отчёт о заказах за день. Начать лучше с брони и заказов.",
+  at:"Барои қаҳвахона зеҳни сунъӣ метавонад: 1) дар Telegram фармоиш ва банди мизро қабул кунад; 2) бо забонҳои тоҷикӣ ва русӣ дар бораи меню ва вақти корӣ ҷавоб диҳад; 3) ба фикри меҳмонон ҷавоб диҳад; 4) ҳисоботи фармоишҳои рӯзро ба шумо фиристад. Беҳтар аст аз банди миз ва фармоишҳо сар кунем."},
+ {k:'pharm',ic:'💊',ru:'Аптека',tj:'Дорухона',qr:'У меня аптека',qt:'Ман дорухона дорам',re:/аптек|лекарств|дорухона|доруҳо/i,
+  ar:"Для аптеки ИИ может: 1) отвечать, есть ли нужное лекарство и в какой аптеке; 2) принимать бронь с самовывозом; 3) напоминать, у каких товаров скоро кончается срок; 4) подсказывать, что пора заказать. Начать лучше с бота наличия лекарств.",
+  at:"Барои дорухона зеҳни сунъӣ метавонад: 1) ҷавоб диҳад, ки доруи лозимӣ ҳаст ва дар кадом дорухона; 2) фармоишро барои гирифтани худ қабул кунад; 3) хотиррасон кунад, ки мӯҳлати кадом мол ба зудӣ мегузарад; 4) гӯяд, ки чиро фармоиш додан вақташ расидааст. Беҳтар аст аз боти мавҷудияти доруҳо сар кунем."},
+ {k:'med',ic:'🦷',ru:'Клиника',tj:'Клиника',qr:'У меня клиника',qt:'Ман клиника дорам',re:/клиник|стомат|врач|медиц|духтур|табиб|беморхона/i,
+  ar:"Для клиники ИИ может: 1) записывать пациентов на свободное время, даже ночью; 2) напоминать о приёме за день; 3) отвечать на вопросы о ценах; 4) медицинские вопросы передавать врачу. Начать лучше с записи на приём.",
+  at:"Барои клиника зеҳни сунъӣ метавонад: 1) беморонро ба вақти холӣ, ҳатто шабона, сабт кунад; 2) як рӯз пеш дар бораи қабул хотиррасон кунад; 3) ба саволҳо дар бораи нарх ҷавоб диҳад; 4) саволҳои тиббиро ба духтур супорад. Беҳтар аст аз сабт ба қабул сар кунем."},
+ {k:'beauty',ic:'💇',ru:'Салон красоты',tj:'Салони ҳусн',qr:'У меня салон красоты',qt:'Ман салони ҳусн дорам',re:/салон|красот|барбер|парикмах|маникюр|ҳусн|сартарош/i,
+  ar:"Для салона красоты ИИ может: 1) записывать клиентов к мастерам днём и ночью; 2) напоминать о записи и звать на следующий визит; 3) отвечать про цены и свободное время; 4) писать подписи к фото работ для Instagram. Начать лучше с записи через бота.",
+  at:"Барои салони ҳусн зеҳни сунъӣ метавонад: 1) шабу рӯз мизоҷонро ба назди устоҳо сабт кунад; 2) дар бораи сабт хотиррасон кунад ва ба ташрифи навбатӣ даъват намояд; 3) дар бораи нарх ва вақти холӣ ҷавоб диҳад; 4) барои аксҳои корҳо дар Instagram матн нависад. Беҳтар аст аз сабт тавассути бот сар кунем."},
+ {k:'auto',ic:'🚗',ru:'Автосервис',tj:'Автосервис',qr:'У меня автосервис',qt:'Ман автосервис дорам',re:/авто|шиномонт|машин|мошин/i,
+  ar:"Для автосервиса ИИ может: 1) записывать машины на ремонт; 2) называть примерную цену по вашему прайсу; 3) отвечать клиенту, готова ли машина; 4) напоминать о следующем ТО. Начать лучше с записи и статуса ремонта.",
+  at:"Барои автосервис зеҳни сунъӣ метавонад: 1) мошинҳоро ба таъмир сабт кунад; 2) аз рӯи нархномаи шумо нархи тахминиро гӯяд; 3) ба мизоҷ ҷавоб диҳад, ки мошин тайёр аст ё не; 4) дар бораи хизматрасонии навбатии техникӣ хотиррасон кунад. Беҳтар аст аз сабт ва ҳолати таъмир сар кунем."},
+ {k:'build',ic:'🏗',ru:'Стройка',tj:'Сохтмон',qr:'У меня строительная компания',qt:'Ман ширкати сохтмонӣ дорам',re:/строит|ремонт|подряд|тендер|сохтмон|таъмир/i,
+  ar:"Для строительной компании ИИ может: 1) каждое утро находить новые тендеры по вашим работам; 2) собирать черновик сметы по описанию объекта; 3) собирать фото и отчёты с объектов в одно место; 4) напоминать о сроках. Начать лучше с бота поиска тендеров.",
+  at:"Барои ширкати сохтмонӣ зеҳни сунъӣ метавонад: 1) ҳар саҳар тендерҳои навро аз рӯи корҳои шумо ёбад; 2) аз рӯи тавсифи объект лоиҳаи сметаро тартиб диҳад; 3) акс ва ҳисоботҳоро аз объектҳо дар як ҷо ҷамъ кунад; 4) дар бораи мӯҳлатҳо хотиррасон кунад. Беҳтар аст аз боти ҷустуҷӯи тендерҳо сар кунем."},
+ {k:'hotel',ic:'🏨',ru:'Гостиница',tj:'Меҳмонхона',qr:'У меня гостиница',qt:'Ман меҳмонхона дорам',re:/гостин|отел|хостел|туриз|меҳмонхона/i,
+  ar:"Для гостиницы ИИ может: 1) принимать бронь номеров днём и ночью; 2) заранее собирать данные гостя, чтобы заселение шло быстрее; 3) отвечать на вопросы гостей; 4) отвечать на отзывы на сайтах бронирования. Начать лучше с бота бронирования.",
+  at:"Барои меҳмонхона зеҳни сунъӣ метавонад: 1) шабу рӯз фармоиши ҳуҷраҳоро қабул кунад; 2) маълумоти меҳмонро пешакӣ ҷамъ кунад, то ҷойгиршавӣ зудтар гузарад; 3) ба саволҳои меҳмонон ҷавоб диҳад; 4) ба фикрҳо дар сайтҳои фармоиш ҷавоб диҳад. Беҳтар аст аз боти фармоиши ҳуҷра сар кунем."},
+ {k:'realty',ic:'🏠',ru:'Недвижимость',tj:'Амволи ғайриманқул',qr:'У меня агентство недвижимости',qt:'Ман агентии амволи ғайриманқул дорам',re:/недвиж|риелт|риэлт|квартир|аренд|амвол|манзил/i,
+  ar:"Для агентства недвижимости ИИ может: 1) задавать клиенту вопросы и присылать подходящие квартиры; 2) записывать на показ; 3) писать тексты объявлений по фото и данным; 4) напоминать клиенту о новых вариантах. Начать лучше с бота подбора квартир.",
+  at:"Барои агентии амволи ғайриманқул зеҳни сунъӣ метавонад: 1) ба мизоҷ савол диҳад ва хонаҳои мувофиқро фиристад; 2) ба тамошои хона сабт кунад; 3) аз рӯи акс ва маълумот матни эълон нависад; 4) ба мизоҷ дар бораи вариантҳои нав хотиррасон кунад. Беҳтар аст аз боти интихоби хона сар кунем."},
+ {k:'edu',ic:'🎓',ru:'Учебный центр',tj:'Маркази таълимӣ',qr:'У меня учебный центр',qt:'Ман маркази таълимӣ дорам',re:/школ|курс|учеб|центр|секци|репетит|таълим|марказ|мактаб|омӯз/i,
+  ar:"Для учебного центра ИИ может: 1) записывать на пробное занятие; 2) напоминать об оплате; 3) отвечать про расписание и цены; 4) присылать вам список новых учеников за неделю. Начать лучше с записи на пробное.",
+  at:"Барои маркази таълимӣ зеҳни сунъӣ метавонад: 1) ба дарси озмоишӣ сабт кунад; 2) дар бораи пардохт хотиррасон кунад; 3) дар бораи ҷадвал ва нархҳо ҷавоб диҳад; 4) рӯйхати шогирдони нави ҳафтаро ба шумо фиристад. Беҳтар аст аз сабт ба дарси озмоишӣ сар кунем."},
+ {k:'logi',ic:'🚚',ru:'Грузоперевозки',tj:'Боркашонӣ',qr:'У меня грузоперевозки',qt:'Ман хизмати боркашонӣ дорам',re:/груз|перевоз|логист|курьер|боркаш|интиқол/i,
+  ar:"Для грузоперевозок ИИ может: 1) принимать заявки и сразу считать цену по прайсу; 2) отвечать клиенту, где его груз; 3) заполнять накладные и акты по образцу; 4) присылать вам отчёт по рейсам за день. Начать лучше с бота заявок с расчётом цены.",
+  at:"Барои боркашонӣ зеҳни сунъӣ метавонад: 1) дархостҳоро қабул кунад ва фавран аз рӯи нархнома нарх ҳисоб кунад; 2) ба мизоҷ ҷавоб диҳад, ки бори ӯ дар куҷост; 3) борхат ва санадҳоро аз рӯи намуна пур кунад; 4) ҳисоботи рейсҳои рӯзро ба шумо фиристад. Беҳтар аст аз боти дархостҳо бо ҳисоби нарх сар кунем."},
+ {k:'factory',ic:'🏭',ru:'Производство',tj:'Истеҳсолот',qr:'У меня производство',qt:'Ман корхонаи истеҳсолӣ дорам',re:/производ|завод|цех|фабрик|швей|истеҳсол|корхона/i,
+  ar:"Для производства ИИ может: 1) принимать заказы от оптовиков и передавать в цех; 2) напоминать, когда пора закупать сырьё; 3) присылать отчёт за день: что сделано и отгружено; 4) готовить счета и накладные. Начать лучше с бота приёма оптовых заказов.",
+  at:"Барои истеҳсолот зеҳни сунъӣ метавонад: 1) аз яклухтфурӯшон фармоиш қабул кунад ва ба сех супорад; 2) хотиррасон кунад, ки кай ашёи хом харидан лозим; 3) ҳисоботи рӯзро фиристад: чӣ сохта ва чӣ фиристода шуд; 4) ҳисобнома ва борхат омода кунад. Беҳтар аст аз боти қабули фармоишҳои яклухт сар кунем."},
+ {k:'any',re:/./,
+  ar:"Почти в любом бизнесе ИИ может: 1) отвечать клиентам днём и ночью; 2) собирать заявки в одну таблицу; 3) готовить счета и договоры по шаблону; 4) каждое утро присылать вам короткий отчёт. На бесплатном разборе подскажем, с чего начать именно вам.",
+  at:"Қариб дар ҳар тиҷорат зеҳни сунъӣ метавонад: 1) шабу рӯз ба мизоҷон ҷавоб диҳад; 2) дархостҳоро дар як ҷадвал ҷамъ кунад; 3) ҳисобнома ва шартномаҳоро аз рӯи қолиб омода кунад; 4) ҳар саҳар ба шумо ҳисоботи кӯтоҳ фиристад. Дар таҳлили ройгон мегӯем, ки маҳз шумо аз чӣ сар кунед."}
+];
+const clog=document.getElementById('clog'),chipsEl=document.getElementById('chips');
+function addMsg(t,cls){const m=document.createElement('div');m.className='msg '+cls;m.textContent=t;clog.appendChild(m);clog.scrollTop=clog.scrollHeight;return m}
+let asking=0;
+function ask(q,key){q=q.trim();if(!q)return;const my=++asking;addMsg(q,'out');const m=addMsg(L==='tj'?'менависад…':'печатает…','in');
+  const b=(key&&BIZ.find(x=>x.k===key))||BIZ.find(x=>x.re.test(q)),a=L==='tj'?b.at:b.ar;let i=0;
+  setTimeout(function tp(){if(my!==asking){m.textContent=a;return}m.textContent=a.slice(0,i+=3);clog.scrollTop=clog.scrollHeight;if(i<a.length)setTimeout(tp,RM?0:18)},RM?0:700)}
+function buildChips(){chipsEl.innerHTML='';BIZ.filter(b=>b.ic).forEach(b=>{const c=document.createElement('button');c.type='button';c.className='chip';c.textContent=b.ic+' '+(L==='tj'?b.tj:b.ru);
+  c.onclick=()=>{chipsEl.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c));ask(L==='tj'?b.qt:b.qr,b.k)};chipsEl.appendChild(c)})}
+buildChips();
+document.getElementById('askf').addEventListener('submit',e=>{e.preventDefault();const inp=document.getElementById('askq');ask(inp.value);inp.value=''});
+
+// ===== голос в помощнике =====
+const micb=document.getElementById('micb');let recOn=false;
+micb.onclick=()=>{if(recOn)return;recOn=true;micb.classList.add('rec');const inp=document.getElementById('askq'),ph=inp.placeholder;inp.placeholder=L==='tj'?'Гӯш мекунам…':'Слушаю…';
+  const done=t=>{recOn=false;micb.classList.remove('rec');inp.placeholder=ph;if(t)ask(t)};
+  const demo=()=>setTimeout(()=>done(L==='tj'?'🎤 Ман мағоза дорам. Зеҳни сунъӣ чӣ кор карда метавонад?':'🎤 У меня магазин. Что может сделать ИИ?'),RM?0:2200);
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){demo();return}
+  try{const r=new SR();r.lang=L==='tj'?'tg-TJ':'ru-RU';let got=false;
+    r.onresult=e=>{if(got)return;got=true;done('🎤 '+e.results[0][0].transcript)};
+    r.onerror=()=>{if(!got){got=true;demo()}};r.onend=()=>{if(!got){got=true;demo()}};r.start()}catch(e){demo()}};
+
+// ===== бот «Попробуйте сами» =====
+const BOT={
+ ru:{hi:'Здравствуйте! 👋 Я ИИ-помощник студии «Дастёр». Нажмите кнопку ниже, и я отвечу.',typing:'печатает…',ph:'Например: принимать заказы на торты',
+  own:'✍️ Своя задача',ownAsk:'Напишите любую задачу, которую вы делаете руками каждый день. Например: «отвечать на вопросы о доставке» или «напоминать должникам».',
+  ownAns:t=>`Принято: «${t}». ✅ Такую задачу можно поручить ИИ. Мы берём готовый бот-шаблон и настраиваем его под вас: ваши цены, ваши правила, ваш язык. Хотите увидеть, как это будет работать у вас? Нажмите «📅 Записаться».`,
+  k:[['💰 Сколько стоит?','Цена зависит от задачи. Простой бот для заявок дешевле, ИИ-помощник со знаниями о вашей компании дороже. Опишите задачу, и мы пришлём точную цену в течение дня.'],
+     ['🤖 Что умеет ИИ?','Отвечать клиентам днём и ночью, собирать заявки, готовить счета и договоры, искать тендеры, делать отчёты. Всё, что вы каждый день делаете руками.'],
+     ['📅 Записаться','Отлично! Напишите ваше имя и удобное время для звонка. Специалист свяжется с вами. ✅'],
+     ['📂 Ваши работы','Например: бот, который каждое утро присылает новые тендеры, и бот спортивного клуба для записи на пробное занятие.']]},
+ tj:{hi:'Салом! 👋 Ман ёрдамчии зеҳни сунъии студияи «Дастёр». Тугмаро дар поён пахш кунед, ман ҷавоб медиҳам.',typing:'менависад…',ph:'Масалан: фармоиши торт қабул кардан',
+  own:'✍️ Вазифаи худ',ownAsk:'Ҳар вазифаеро нависед, ки ҳар рӯз дастӣ мекунед. Масалан: «ба саволҳо дар бораи расонидан ҷавоб додан» ё «ба қарздорон хотиррасон кардан».',
+  ownAns:t=>`Қабул шуд: «${t}». ✅ Ин вазифаро ба зеҳни сунъӣ супоридан мумкин. Мо боти тайёрро мегирем ва барои шумо танзим мекунем: нархҳо, қоидаҳо ва забони шумо. Мехоҳед бинед, ки ин дар кори шумо чӣ тавр мешавад? «📅 Сабт шудан»-ро пахш кунед.`,
+  k:[['💰 Чанд пул меистад?','Нарх аз вазифа вобаста аст. Боти оддии дархостҳо арзонтар, ёрдамчии зеҳни сунъӣ бо донишҳо дар бораи ширкати шумо гаронтар. Вазифаро нависед, дар давоми як рӯз нархи дақиқро мефиристем.'],
+     ['🤖 Зеҳни сунъӣ чӣ метавонад?','Шабу рӯз ба мизоҷон ҷавоб додан, дархост ҷамъ кардан, ҳисобнома ва шартнома омода кардан, тендер ҷустан, ҳисобот тартиб додан. Ҳар коре, ки шумо ҳар рӯз дастӣ мекунед.'],
+     ['📅 Сабт шудан','Олӣ! Ном ва вақти қулайро барои занг нависед. Мутахассис бо шумо тамос мегирад. ✅'],
+     ['📂 Корҳои шумо','Масалан: бот, ки ҳар саҳар тендерҳои навро мефиристад, ва боти клуби варзишӣ барои сабт ба дарси озмоишӣ.']]}
+};
+const tgchat=document.getElementById('tgchat'),kb=document.getElementById('kb'),tgin=document.getElementById('tgin'),tgq=document.getElementById('tgq');let tgBusy=false;
+function tgMsg(t,c){const m=document.createElement('div');m.className='tm '+c;m.textContent=t;tgchat.appendChild(m);tgchat.scrollTop=tgchat.scrollHeight;return m}
+async function tgReply(a){const d=BOT[L],t=tgMsg(d.typing,'bot');await new Promise(r=>setTimeout(r,RM?0:900));t.textContent=a;tgchat.scrollTop=tgchat.scrollHeight}
+function buildBot(){const d=BOT[L];tgchat.innerHTML='';tgMsg(d.hi,'bot');kb.innerHTML='';tgin.hidden=true;tgq.placeholder=d.ph;tgBusy=false;
+  d.k.forEach(([q,a])=>{const b=document.createElement('button');b.type='button';b.textContent=q;b.onclick=async()=>{if(tgBusy)return;tgBusy=true;tgin.hidden=true;tgMsg(q,'me');await tgReply(a);tgBusy=false};kb.appendChild(b)});
+  const w=document.createElement('button');w.type='button';w.className='wide';w.textContent=d.own;
+  w.onclick=async()=>{if(tgBusy)return;tgBusy=true;tgMsg(d.own,'me');await tgReply(d.ownAsk);tgin.hidden=false;tgq.focus({preventScroll:true});tgBusy=false};kb.appendChild(w)}
+tgin.addEventListener('submit',async e=>{e.preventDefault();const t=tgq.value.trim();if(!t||tgBusy)return;tgBusy=true;tgq.value='';tgin.hidden=true;tgMsg(t,'me');await tgReply(BOT[L].ownAns(t));tgBusy=false});
+buildBot();
+
+// ===== живые демо в карточках направлений (RU/TJ; таджикский — черновой) =====
+const W8=ms=>new Promise(r=>setTimeout(r,RM?0:ms));
+const LL=(o)=>o[L]||o.ru;
+// --- Сайты: сайт за 10 секунд ---
+// it: [значок, название RU, название TJ, цена]; m: меню RU/TJ; f: подвал (адрес и часы вымышленные, для показа)
+const SITES=[
+ {ic:'🍲',ru:'Кафе',tj:'Қаҳвахона',url:'navruz-cafe.tj',lg:'Навруз',hr:'Вкусный плов с доставкой за 40 минут',ht:'Оши болаззат бо расонидан дар 40 дақиқа',
+  sr:'Готовим на казане каждый день с 10:00. Заказ в один клик.',stj:'Ҳар рӯз аз соати 10:00 дар дег мепазем. Фармоиш бо як клик.',
+  mr:['Меню','О нас','Доставка'],mt:['Меню','Дар бораи мо','Расонидан'],cr:'Хиты кухни',ct:'Хӯрокҳои машҳур',
+  it:[['🍛','Плов','Палов','35 смн'],['🍢','Шашлык','Кабоб','20 смн'],['🥟','Самбуса','Самбӯса','6 смн']],br:'Заказать',bt:'Фармоиш',f:['📍 Душанбе, пр. Рудаки','🕘 10:00–23:00']},
+ {ic:'🦷',ru:'Клиника',tj:'Клиника',url:'dandon-clinic.tj',lg:'Дандон',hr:'Стоматология без боли и очередей',ht:'Дандонпизишкӣ бе дард ва навбат',
+  sr:'Современное оборудование и опытные врачи. Запись онлайн за минуту.',stj:'Таҷҳизоти муосир ва духтурони ботаҷриба. Сабти онлайн дар як дақиқа.',
+  mr:['Услуги','Врачи','Цены'],mt:['Хизматҳо','Духтурон','Нархҳо'],cr:'Услуги и цены',ct:'Хизматҳо ва нархҳо',
+  it:[['🔍','Осмотр','Муоина','50 смн'],['🪥','Чистка зубов','Тозакунии дандон','150 смн'],['🦷','Пломба','Пломба','200 смн']],br:'Записаться',bt:'Сабт шудан',f:['📍 Душанбе, ул. Айни','🕘 8:00–20:00']},
+ {ic:'🧱',ru:'Магазин',tj:'Мағоза',url:'sohtmon-market.tj',lg:'Сохтмон',hr:'Стройматериалы с доставкой по городу',ht:'Масолеҳи сохтмонӣ бо расонидан дар шаҳр',
+  sr:'Цемент, профнастил, арматура. Закажите сегодня — привезём завтра.',stj:'Семент, профнастил, арматура. Имрӯз фармоиш диҳед — фардо меорем.',
+  mr:['Каталог','Доставка','Контакты'],mt:['Каталог','Расонидан','Тамос'],cr:'Популярные товары',ct:'Молҳои маъмул',
+  it:[['🧱','Цемент М400','Семент М400','75 смн'],['🏠','Профнастил','Профнастил','95 смн'],['🔩','Арматура 12 мм','Арматураи 12 мм','7 800 смн/т']],br:'Заказать',bt:'Фармоиш',f:['📍 Душанбе, ул. Сино','🕘 8:00–19:00']},
+ {ic:'💇',ru:'Салон',tj:'Салон',url:'zebo-salon.tj',lg:'Зебо',hr:'Красота рядом с домом',ht:'Зебоӣ дар наздикии хонаи шумо',
+  sr:'Мастера с опытом от 5 лет. Запись за одну минуту.',stj:'Устоҳо бо таҷрибаи аз 5 сол. Сабт дар як дақиқа.',
+  mr:['Услуги','Мастера','Работы'],mt:['Хизматҳо','Устоҳо','Корҳо'],cr:'Услуги',ct:'Хизматҳо',
+  it:[['✂️','Стрижка','Мӯйгирӣ','40 смн'],['💅','Маникюр','Маникюр','60 смн'],['💇','Укладка','Ороиши мӯй','50 смн']],br:'Записаться',bt:'Сабт шудан',f:['📍 Душанбе, ул. Бохтар','🕘 9:00–21:00']}];
+// цвета мини-сайта: светлые, тёплые и тёмные (dk — тёмный сайт)
+const SCOL=[['#0ea5e9','#0369a1'],['#16a34a','#14532d'],['#e11d48','#881337'],['#f97316','#9a3412'],['#f59e0b','#92400e'],['#7c3aed','#4c1d95'],['#ec4899','#831843'],['#d4a017','#030712',1],['#22d3ee','#020617',1]];
+const SLAY=['cafe','clinic','shop','salon'],SDEF=[3,0,7,6]; // свой стиль и свой цвет по умолчанию у каждого бизнеса
+const STRUST={ru:['🚀 Быстро','✅ Гарантия качества','💳 Оплата картой'],tj:['🚀 Зуд','✅ Кафолати сифат','💳 Пардохт бо корт']};let sI=0,sC=3,sRun=0;
+const dSite=document.getElementById('d_site');
+function buildSite(){const tj=L==='tj';
+ dSite.innerHTML=`<div class="dh">${tj?'Санҷед: сайт дар 10 сония':'Попробуйте: сайт за 10 секунд'}</div><div class="dt">${tj?'Тиҷорат ва рангро интихоб кунед — сайт пеши чашми шумо сохта мешавад.':'Выберите бизнес и цвет — сайт соберётся у вас на глазах.'}</div>
+ <div class="chips">${SITES.map((s,i)=>`<button type="button" class="chip${i===sI?' on':''}" data-i="${i}">${s.ic} ${tj?s.tj:s.ru}</button>`).join('')}</div>
+ <div class="dots">${tj?'Ранг:':'Цвет:'} ${SCOL.map((c,i)=>`<button type="button" aria-label="${c[0]}" data-c="${i}" class="${i===sC?'on':''}" style="background:${c[2]?`linear-gradient(135deg,#111827 50%,${c[0]} 50%)`:`linear-gradient(135deg,${c[0]},${c[1]})`}"></button>`).join('')}</div>
+ <div class="browser"><div class="bar"><i></i><i></i><i></i><span id="s_url"></span></div><div class="mini" id="s_mini"></div></div>`;
+ dSite.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{sI=+b.dataset.i;sC=SDEF[sI];dSite.querySelectorAll('[data-i]').forEach(x=>x.classList.toggle('on',x===b));dSite.querySelectorAll('[data-c]').forEach(x=>x.classList.toggle('on',+x.dataset.c===sC));drawSite(true)});
+ dSite.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{sC=+b.dataset.c;dSite.querySelectorAll('[data-c]').forEach(x=>x.classList.toggle('on',x===b));drawSite(false)});
+ drawSite(true)}
+async function drawSite(anim){const my=++sRun,tj=L==='tj',s=SITES[sI],[c,c2,dk]=SCOL[sC];document.getElementById('s_url').textContent=s.url;
+ const m=document.getElementById('s_mini'),btn=tj?s.bt:s.br,lay=SLAY[sI];m.className='mini lay-'+lay+(dk?' dk':'');m.style.setProperty('--ma',c);m.style.setProperty('--mb',c2);
+ let hero=dk?`radial-gradient(circle at 82% 28%,${c}66,transparent 45%),radial-gradient(circle at 10% 110%,${c}33,transparent 50%),linear-gradient(135deg,#1f2937,${c2})`
+   :`radial-gradient(circle at 82% 25%,rgba(255,255,255,.32),transparent 42%),radial-gradient(circle at 0% 100%,rgba(0,0,0,.18),transparent 55%),linear-gradient(135deg,${c},${c2})`;
+ if(lay==='clinic'&&!dk)hero=`radial-gradient(circle at 85% 40%,${c}33,transparent 45%),linear-gradient(100deg,#ffffff 50%,${c}1f)`;
+ if(lay==='shop')hero=`repeating-linear-gradient(135deg,transparent 0 18px,${c}14 18px 36px),linear-gradient(135deg,#111827,#000)`;
+ if(lay==='salon'&&!dk)hero=`radial-gradient(circle at 80% 20%,#ffffffaa,transparent 40%),linear-gradient(135deg,${c}55,${c}bb)`;
+ m.innerHTML=`<div class="ms-nav"><b class="ms-logo" style="color:${c}">${s.ic} ${s.lg}</b><span class="ms-menu">${(tj?s.mt:s.mr).map(x=>`<span>${x}</span>`).join('')}</span><span class="ms-btn" style="background:${c};color:${dk?'#111':'#fff'}">${btn}</span></div>
+ <div class="ms-hero" style="background:${hero}"><div><span class="ms-badge">⭐ 4.9 · ${tj?'фикри мизоҷон':'отзывы клиентов'}</span><h4>${tj?s.ht:s.hr}</h4><p>${tj?s.stj:s.sr}</p><span class="ms-cta" style="${dk?`background:${c};color:#111`:`color:${c2}`}">${btn} →</span></div><div class="ms-art"><span>${s.ic}</span></div></div>
+ <div class="ms-trust">${LL(STRUST).map(x=>`<span>${x}</span>`).join('')}</div>
+ <div class="ms-sec"><div class="ms-st">${tj?s.ct:s.cr}</div><div class="ms-cards">${s.it.map((x,i)=>`<div class="ms-card">${i?'':`<em style="background:${c};color:${dk||lay==='shop'?'#111':'#fff'}">${tj?'Хит':'Хит'}</em>`}<i>${x[0]}</i><span>${tj?x[2]:x[1]}</span><b style="color:${c}">${x[3]}</b>${lay==='shop'?`<u>${tj?'Ба сабад':'В корзину'}</u>`:''}</div>`).join('')}</div></div>
+ <div class="ms-foot">${s.f.map(x=>`<span>${x}</span>`).join('')}<span>📞 +992 00 000 00 00</span></div>`;
+ for(const el of m.children){if(!anim){el.classList.add('in');continue}await W8(320);if(my!==sRun)return;el.classList.add('in')}}
+// --- ИИ-помощники: знает ваш прайс ---
+const PR={ru:{h:'Попробуйте: помощник знает ваш прайс',t:'Это помощник магазина стройматериалов. Нажмите вопрос — он посчитает по прайсу.',
+  list:'Прайс: <b>Цемент М400</b> — 75 смн/мешок · <b>Профнастил</b> — 95 смн/лист · <b>Арматура 12 мм</b> — 7 800 смн/т · Доставка: по городу бесплатно от 1 500 смн, в Вахдат — 250 смн',
+  qa:[['50 мешков цемента с доставкой в Вахдат — сколько?','50 мешков × 75 смн = 3 750 смн. Доставка в Вахдат — 250 смн. Итого: <b>4 000 смн</b>. Привезём завтра до 14:00. Оставите номер телефона?'],
+      ['20 листов профнастила, доставка по Душанбе','20 листов × 95 смн = 1 900 смн. Заказ больше 1 500 смн — доставка по городу бесплатно. Итого: <b>1 900 смн</b>. Оформить заказ?'],
+      ['Есть арматура 12 мм?','Да, на складе есть. Цена — 7 800 смн за тонну. Сколько вам нужно? Посчитаю с доставкой.']],
+  ph:'📞 Оставить телефон',done:'✅ Записал. Менеджер перезвонит в течение 15 минут. Заявка уже в Telegram у владельца.',typ:'печатает…'},
+ tj:{h:'Санҷед: ёрдамчӣ нархномаи шуморо медонад',t:'Ин ёрдамчии мағозаи масолеҳи сохтмонӣ аст. Саволро пахш кунед — аз рӯи нархнома ҳисоб мекунад.',
+  list:'Нархнома: <b>Семент М400</b> — 75 смн/халта · <b>Профнастил</b> — 95 смн/варақ · <b>Арматураи 12 мм</b> — 7 800 смн/т · Расонидан: дар шаҳр аз 1 500 смн ройгон, ба Ваҳдат — 250 смн',
+  qa:[['50 халта семент бо расонидан ба Ваҳдат — чанд пул?','50 халта × 75 смн = 3 750 смн. Расонидан ба Ваҳдат — 250 смн. Ҳамагӣ: <b>4 000 смн</b>. Фардо то соати 14:00 меорем. Рақами телефонро мегузоред?'],
+      ['20 варақ профнастил, расонидан дар Душанбе','20 варақ × 95 смн = 1 900 смн. Фармоиш аз 1 500 смн зиёд — расонидан дар шаҳр ройгон. Ҳамагӣ: <b>1 900 смн</b>. Фармоиш медиҳед?'],
+      ['Арматураи 12 мм ҳаст?','Ҳа, дар анбор ҳаст. Нарх — 7 800 смн барои як тонна. Чанд лозим аст? Бо расонидан ҳисоб мекунам.']],
+  ph:'📞 Рақами телефонро гузоштан',done:'✅ Сабт шуд. Менеҷер дар давоми 15 дақиқа занг мезанад. Дархост аллакай дар Telegram-и соҳибкор аст.',typ:'менависад…'}};
+// ещё 2 примера помощника: клиника и документы для сотрудников; у каждой вкладки свой вопрос можно написать, в конце — готовый лист
+const PR2={ru:{h:'Попробуйте: ИИ-помощник понимает своими словами',t:'Выберите пример. Нажмите вопрос или напишите свой — даже с ошибками.',tabs:['🏗 Стройматериалы','🚗 Автозапчасти','📄 Документы'],inPh:'Напишите свой вопрос…',
+  unk:'Понял вопрос. Точного ответа в моих данных нет — выдумывать не буду, передаю менеджеру, он ответит за 15 минут.',dl:'⬇ Скачать PDF',dlN:'В демо файл не скачивается — у вас будет настоящий.',
+  shop:{kw:[/цем|сем/i,/проф|лист|крыш/i,/арм/i],btn:'📄 Получить коммерческое предложение',sh:'<h5>Коммерческое предложение № 27</h5><div class="sm">СтройМаркет · для клиента · сегодня</div><div class="row"><span>Цемент М400 × 50 мешков</span><b>3 750 смн</b></div><div class="row"><span>Доставка в Вахдат</span><b>250 смн</b></div><div class="row tot"><span>Итого</span><span>4 000 смн</span></div><div class="sm">Срок доставки: завтра до 14:00</div>',st:'СТРОЙ<br>МАРКЕТ<br>✓'},
+  med:{list:'Магазин автозапчастей: знает <b>каталог на 5 000 деталей</b>, какая подходит к какой машине, цены и остатки.',
+   qa:[['Есть передние колодки на Камри 2015?','Да, есть 2 варианта для Toyota Camry 2015: оригинал — <b>480 смн</b>, аналог Brembo — <b>290 смн</b>. Оба в наличии. Какой отложить?'],
+       ['Масло 5W-30, 4 литра — сколько?','Shell Helix 5W-30, 4 л — <b>320 смн</b>, Mobil 5W-30, 4 л — <b>350 смн</b>. Заменим бесплатно при покупке. Отложить?'],
+       ['Отправите в Худжанд?','Да, отправляем в Худжанд за 1–2 дня, доставка — 40 смн. Что отправить?']],
+   kw:[/колод|тормоз|камр|camry|toyota/i,/масл|равған/i,/худж|дост|отправ|фирист/i],btn:'🛒 Оформить заказ',sh:'<h5>Заказ № 112</h5><div class="sm">АвтоДеталь · сегодня</div><div class="row"><span>Колодки Brembo, Camry 2015</span><b>290 смн</b></div><div class="row"><span>Масло Shell 5W-30, 4 л</span><b>320 смн</b></div><div class="row tot"><span>Итого</span><span>610 смн</span></div><div class="sm">Отложено до 19:00 · заказ уже в Telegram у продавца</div>',st:'ЗАКАЗ<br>ПРИНЯТ<br>✓'},
+  doc:{list:'Помощник для ваших сотрудников. Знает <b>шаблоны договоров и счетов</b>, клиентов и оплаты.',
+   qa:[['Сделай договор поставки для «Памир Строй» на 4 000 смн','Готово ✅ Взял ваш шаблон договора поставки, вписал клиента, сумму, сроки и реквизиты. Проверьте и отправляйте.'],
+       ['Выстави счёт «Памир Строй» на 4 000 смн','Счёт № 215 на 4 000 смн готов, реквизиты из прошлого договора. Отправить клиенту в Telegram?'],
+       ['Кто из клиентов не оплатил?','3 клиента не оплатили: «Памир Строй» — 2 000, «Варзоб» — 1 200, «Нур» — 1 000. Итого <b>4 200 смн</b>. Отправить им напоминания?']],
+   kw:[/дог|шарт/i,/сч[её]т|ҳисобном/i,/опла|долж|қарз|пардох/i],btn:'📄 Показать договор',sh:'<h5>Договор поставки № 48</h5><div class="sm">г. Душанбе · по вашему шаблону</div><div class="row"><span>Покупатель</span><b>ООО «Памир Строй»</b></div><div class="row"><span>Товар</span><b>Цемент М400, 50 мешков</b></div><div class="row"><span>Срок поставки</span><b>3 дня</b></div><div class="row tot"><span>Сумма</span><span>4 000 смн</span></div>',st:'ГОТОВ<br>К ПОДПИСИ<br>✓'}},
+ tj:{h:'Санҷед: ёрдамчии ЗС бо забони оддӣ мефаҳмад',t:'Мисолро интихоб кунед. Саволро пахш кунед ё худатон нависед — ҳатто бо хато.',tabs:['🏗 Масолеҳи сохтмонӣ','🚗 Эҳтиёти мошин','📄 Ҳуҷҷатҳо'],inPh:'Саволи худро нависед…',
+  unk:'Саволро фаҳмидам. Ҷавоби дақиқ дар маълумоти ман нест — аз худ намесозам, ба менеҷер месупорам, ӯ дар 15 дақиқа ҷавоб медиҳад.',dl:'⬇ PDF зеркашӣ',dlN:'Дар демо файл зеркашӣ намешавад — дар шумо файли ҳақиқӣ мешавад.',
+  shop:{kw:[/цем|сем/i,/проф|лист|бом/i,/арм/i],btn:'📄 Пешниҳоди тиҷоратӣ гирифтан',sh:'<h5>Пешниҳоди тиҷоратӣ № 27</h5><div class="sm">СтройМаркет · барои мизоҷ · имрӯз</div><div class="row"><span>Семент М400 × 50 халта</span><b>3 750 смн</b></div><div class="row"><span>Расонидан ба Ваҳдат</span><b>250 смн</b></div><div class="row tot"><span>Ҳамагӣ</span><span>4 000 смн</span></div><div class="sm">Мӯҳлати расонидан: фардо то соати 14:00</div>',st:'СТРОЙ<br>МАРКЕТ<br>✓'},
+  med:{list:'Мағозаи эҳтиёти мошин: <b>каталоги 5 000 қисм</b>-ро медонад — кадомаш ба кадом мошин мувофиқ аст, нарх ва бақия.',
+   qa:[['Колодкаи пеш барои Камри 2015 ҳаст?','Ҳа, барои Toyota Camry 2015 ду вариант ҳаст: аслӣ — <b>480 смн</b>, аналоги Brembo — <b>290 смн</b>. Ҳарду мавҷуданд. Кадомашро нигоҳ дорам?'],
+       ['Равғани 5W-30, 4 литр — чанд пул?','Shell Helix 5W-30, 4 л — <b>320 смн</b>, Mobil 5W-30, 4 л — <b>350 смн</b>. Ҳангоми харид ройгон иваз мекунем. Нигоҳ дорам?'],
+       ['Ба Хуҷанд мефиристед?','Ҳа, ба Хуҷанд дар 1–2 рӯз мефиристем, расонидан — 40 смн. Чиро фиристем?']],
+   kw:[/колод|тормоз|камр|camry|toyota/i,/масл|равған/i,/худж|хуҷ|дост|отправ|фирист/i],btn:'🛒 Фармоиш додан',sh:'<h5>Фармоиши № 112</h5><div class="sm">АвтоДеталь · имрӯз</div><div class="row"><span>Колодкаи Brembo, Camry 2015</span><b>290 смн</b></div><div class="row"><span>Равғани Shell 5W-30, 4 л</span><b>320 смн</b></div><div class="row tot"><span>Ҳамагӣ</span><span>610 смн</span></div><div class="sm">То соати 19:00 нигоҳ дошта шуд · фармоиш аллакай дар Telegram-и фурӯшанда</div>',st:'ФАРМОИШ<br>ҚАБУЛ ШУД<br>✓'},
+  doc:{list:'Ёрдамчӣ барои кормандони шумо. <b>Қолибҳои шартнома ва ҳисобномаҳо</b>, мизоҷон ва пардохтҳоро медонад.',
+   qa:[['Барои «Помир Строй» ба 4 000 смн шартномаи таъминот тартиб деҳ','Тайёр ✅ Қолиби шартномаи таъминоти шуморо гирифтам, мизоҷ, маблағ, мӯҳлат ва реквизитҳоро навиштам. Санҷед ва фиристед.'],
+       ['Ба «Помир Строй» ба 4 000 смн ҳисобнома навис','Ҳисобномаи № 215 ба 4 000 смн тайёр, реквизитҳо аз шартномаи пешина. Ба мизоҷ дар Telegram фиристам?'],
+       ['Кадом мизоҷон пардохт накардаанд?','3 мизоҷ пардохт накардаанд: «Помир Строй» — 2 000, «Варзоб» — 1 200, «Нур» — 1 000. Ҳамагӣ <b>4 200 смн</b>. Ба онҳо хотиррасонӣ фиристам?']],
+   kw:[/дог|шарт/i,/сч[её]т|ҳисобном/i,/опла|долж|қарз|пардох/i],btn:'📄 Шартномаро нишон додан',sh:'<h5>Шартномаи таъминот № 48</h5><div class="sm">ш. Душанбе · аз рӯи қолиби шумо</div><div class="row"><span>Харидор</span><b>ҶДММ «Помир Строй»</b></div><div class="row"><span>Мол</span><b>Семент М400, 50 халта</b></div><div class="row"><span>Мӯҳлати таъминот</span><b>3 рӯз</b></div><div class="row tot"><span>Маблағ</span><span>4 000 смн</span></div>',st:'ТАЙЁР<br>БАРОИ ИМЗО<br>✓'}}};
+const dPrice=document.getElementById('d_price');let pBusy=false,pTab=0,pRun=0;
+function buildPrice(){const d=LL(PR),e=LL(PR2),my=++pRun;pBusy=false;
+ const T=[{list:d.list,qa:d.qa,...e.shop},e.med,e.doc][pTab];
+ dPrice.innerHTML=`<div class="dh">${e.h}</div><div class="dt">${e.t}</div><div class="chips">${e.tabs.map((x,i)=>`<button type="button" class="chip${i===pTab?' on':''}" data-pt="${i}">${x}</button>`).join('')}</div><div class="plist">${T.list}</div><div class="pchat" id="p_chat"></div><div class="chips" id="p_q">${T.qa.map((x,i)=>`<button type="button" class="chip" data-q="${i}">${x[0]}</button>`).join('')}</div><form class="pin" id="p_in"><input placeholder="${e.inPh}" aria-label="${e.inPh}"><button type="submit" aria-label="send">➤</button></form><div id="p_sheet"></div>`;
+ dPrice.querySelectorAll('[data-pt]').forEach(b=>b.onclick=()=>{pTab=+b.dataset.pt;buildPrice()});
+ const pc=document.getElementById('p_chat'),add=(h,c)=>{const m=document.createElement('div');m.className='msg '+c;m.innerHTML=h;pc.appendChild(m);pc.scrollTop=pc.scrollHeight;return m};
+ const reply=async h=>{const t=add(d.typ,'in');await W8(900);if(my!==pRun)return;t.innerHTML=h;pc.scrollTop=pc.scrollHeight};
+ const ask=async(q,a,ok)=>{if(pBusy)return;pBusy=true;add(q,'out');await reply(a);if(my!==pRun)return;
+   if(ok&&!dPrice.querySelector('[data-ph]')){const p=document.createElement('button');p.type='button';p.className='btn main small';p.dataset.ph=1;p.textContent=T.btn;
+     p.onclick=()=>{p.remove();const s=document.getElementById('p_sheet');s.innerHTML=`<div class="sheet">${T.sh}<div class="stamp">${T.st}</div><button type="button" class="dl">${e.dl}</button></div>`;
+       s.querySelector('.dl').onclick=function(){this.textContent=e.dlN};s.scrollIntoView({block:'nearest',behavior:'smooth'})};
+     document.getElementById('p_q').appendChild(p)}
+   pBusy=false};
+ dPrice.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const [q,a]=T.qa[+b.dataset.q];ask(q,a,1)});
+ document.getElementById('p_in').onsubmit=ev=>{ev.preventDefault();const inp=ev.target.querySelector('input'),q=inp.value.trim();if(!q)return;inp.value='';
+   const i=T.kw.findIndex(r=>r.test(q));ask(q.replace(/</g,'&lt;'),i<0?e.unk:T.qa[i][1],i>=0)}}
+// --- Автоматизация: наступило утро ---
+const MO={ru:{h:'Попробуйте: наступило утро',t:'Так владелец бизнеса начинает день. Нажмите кнопку — и время пойдёт.',go:'⏰ Перемотать на 8:00',sub:'вторник · телефон владельца',
+  n1:'📊 <b>Утренний отчёт за вчера</b><br>Заявок: <b>14</b> (на 3 больше, чем позавчера)<br>Выручка: <b>18 400 смн</b><br>Оплачено счетов: <b>9 из 12</b><br>Должники: <b>3 клиента · 4 200 смн</b>',
+  rem:'📨 Напомнить должникам',n2:'✅ Напоминания отправлены 3 клиентам — вежливо, по вашему шаблону.',n3:'💰 <b>Клиент оплатил 1 200 смн</b> через 10 минут после напоминания.',again:'↺ Ещё раз',note:'Цифры для примера. У вас будут ваши.'},
+ tj:{h:'Санҷед: саҳар шуд',t:'Соҳибкор рӯзашро ҳамин тавр оғоз мекунад. Тугмаро пахш кунед — вақт меравад.',go:'⏰ То соати 8:00 гузарондан',sub:'сешанбе · телефони соҳибкор',
+  n1:'📊 <b>Ҳисоботи саҳарӣ барои дирӯз</b><br>Дархостҳо: <b>14</b> (3 то зиёдтар аз парерӯз)<br>Даромад: <b>18 400 смн</b><br>Ҳисобномаҳои пардохтшуда: <b>9 аз 12</b><br>Қарздорон: <b>3 мизоҷ · 4 200 смн</b>',
+  rem:'📨 Ба қарздорон хотиррасон кардан',n2:'✅ Хотиррасонӣ ба 3 мизоҷ фиристода шуд — боадабона, аз рӯи қолиби шумо.',n3:'💰 <b>Мизоҷ 1 200 смн пардохт кард</b> — 10 дақиқа пас аз хотиррасонӣ.',again:'↺ Боз як бор',note:'Рақамҳо барои намуна. Дар шумо рақамҳои худатон мешаванд.'}};
+const dMorning=document.getElementById('d_morning');let mRun=0;
+// три примера автоматизации: отчёт и должники / тендеры / склад
+const MO2={ru:{h:'Попробуйте: работа делается сама',t:'Выберите пример. Это уже случилось само — без сотрудников, каждый день. Вам остаётся одна кнопка.',tabs:['☀️ Отчёт и должники','🔎 Тендеры','📦 Склад'],
+  tGo:'⏰ Перемотать на 7:00',tSub:'среда · телефон владельца',
+  tN:'🔎 <b>Новые тендеры по вашей теме: 3</b><br>• Поставка цемента М400 — 120 000 смн · до 15.11<br>• Ремонт кровли школы — 340 000 смн · до 18.11<br>• Поставка арматуры — 85 000 смн · до 20.11',
+  tB:'📄 Подготовить заявку на первый',tD:'✅ Документы тендера скачаны, черновик заявки готов. Вам осталось проверить и подать.',
+  sGo:'🛒 Продать 30 мешков цемента',sSold:'🛒 Продано 30 мешков цемента М400 — склад обновился сам.',sSub:'склад · сейчас',sN:'⚠️ <b>Цемент М400: осталось 12 мешков.</b><br>Обычно продаётся 20 в день — завтра закончится.',
+  sB:'📦 Заказать у поставщика',sD:'✅ Заявка поставщику отправлена: 200 мешков. Ответ придёт вам в Telegram.'},
+ tj:{h:'Санҷед: кор худ ба худ иҷро мешавад',t:'Мисолро интихоб кунед. Ин аллакай худ ба худ шуд — бе кормандон, ҳар рӯз. Ба шумо як тугма мемонад.',tabs:['☀️ Ҳисобот ва қарздорон','🔎 Тендерҳо','📦 Анбор'],
+  tGo:'⏰ То соати 7:00 гузарондан',tSub:'чоршанбе · телефони соҳибкор',
+  tN:'🔎 <b>Тендерҳои нав аз рӯи мавзӯи шумо: 3</b><br>• Таъмини семент М400 — 120 000 смн · то 15.11<br>• Таъмири боми мактаб — 340 000 смн · то 18.11<br>• Таъмини арматура — 85 000 смн · то 20.11',
+  tB:'📄 Барои аввалӣ дархост омода кардан',tD:'✅ Ҳуҷҷатҳои тендер зеркашӣ шуданд, лоиҳаи дархост омода аст. Ба шумо танҳо санҷидан ва супоридан мондааст.',
+  sGo:'🛒 30 халта семент фурӯхтан',sSold:'🛒 30 халта семент М400 фурӯхта шуд — анбор худаш нав шуд.',sSub:'анбор · ҳозир',sN:'⚠️ <b>Семент М400: 12 халта монд.</b><br>Одатан рӯзе 20 халта фурӯхта мешавад — фардо тамом мешавад.',
+  sB:'📦 Аз таъминкунанда фармоиш додан',sD:'✅ Дархост ба таъминкунанда фиристода шуд: 200 халта. Ҷавоб ба Telegram-и шумо меояд.'}};
+let mTab=1; // вкладки на экране: тендеры, склад, отчёт (внутри: 1, 2, 0)
+const M_ORD=[1,2,0];
+function buildMorning(){const d=LL(MO),e=LL(MO2),my=++mRun;
+ const start=['08:00','07:00','14:21'][mTab],sub=[d.sub,e.tSub,e.sSub][mTab];
+ dMorning.innerHTML=`<div class="dh">${e.h}</div><div class="dt">${e.t}</div><div class="chips" id="m_tabs">${M_ORD.map(i=>`<button type="button" class="chip${i===mTab?' on':''}" data-m="${i}">${e.tabs[i]}</button>`).join('')}</div>
+ <div class="mphone"><div class="clock"><span id="m_clk">${start}</span><small>${sub}</small></div><div id="m_feed" style="display:flex;flex-direction:column;gap:10px"></div></div><div class="chips" id="m_btn"></div><div class="note">${d.note}</div>`;
+ dMorning.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{mTab=+b.dataset.m;buildMorning()});
+ const btns=document.getElementById('m_btn'),feed=document.getElementById('m_feed'),clk=document.getElementById('m_clk');
+ const btn=(t,f)=>{btns.innerHTML='';const b=document.createElement('button');b.type='button';b.className='btn main small';b.textContent=t;b.onclick=f;btns.appendChild(b)};
+ const note=h=>{const n=document.createElement('div');n.className='notif';n.innerHTML=h;feed.appendChild(n)};
+ // сразу показываем результат, без «перемотки»: уведомление уже пришло, остаётся одна кнопка действия
+ if(mTab===0){note(d.n1);
+   btn(d.rem,async()=>{btns.innerHTML='';note(d.n2);await W8(1600);if(my!==mRun)return;note(d.n3);btn(d.again,buildMorning)})}
+ if(mTab===1){note(e.tN);
+   btn(e.tB,async()=>{btns.innerHTML='';await W8(900);if(my!==mRun)return;note(e.tD);btn(d.again,buildMorning)})}
+ if(mTab===2){note(e.sSold);note(e.sN);
+   btn(e.sB,async()=>{btns.innerHTML='';await W8(900);if(my!==mRun)return;note(e.sD);btn(d.again,buildMorning)})}}
+// --- Аудит: мини-разбор из 5 вопросов ---
+// вопрос, «плохой» ответ, область, что не так, чем поможем
+const AU={ru:{h:'Попробуйте: мини-аудит за 1 минуту',t:'6 вопросов — по одному на каждую область. В конце — оценка вашего бизнеса и с чего начать.',y:'Да',n:'Нет',pr:'Вопрос {i} из 6',scan:'🔍 Проверяем ответы…',
+  q:[['У вас есть сайт, удобный с телефона?','n','🌐 Сайт','Нет удобного сайта — клиент уходит к тем, у кого он есть.','сайт с кнопкой заявки'],
+     ['Вас находят в Google, Яндексе и на картах по запросу «ваша услуга + город»?','n','🔎 Поиск и карты','Вас не видно в поиске и на картах — клиенты находят конкурентов.','карточки на картах и настройка поиска'],
+     ['Клиенты, которые пишут ночью и в выходные, сразу получают ответ?','n','💬 Заявки','Ночью и в выходные заявки ждут — часть клиентов уходит.','бот, который отвечает днём и ночью'],
+     ['Все заявки собраны в одном месте?','n','📋 Учёт заявок','Заявки разбросаны по телефонам — что-то теряется.','все заявки в одну таблицу'],
+     ['Вы каждое утро знаете, сколько заработали и кто вам должен?','n','💰 Деньги','Нет ежедневной картины по деньгам и долгам.','утренний отчёт владельцу'],
+     ['Счета и договоры вы готовите вручную?','y','📄 Документы','Счета и договоры отнимают часы ручной работы.','счета и договоры по шаблону']],
+  rh:'Ваша оценка: {s} из 100',ok:'в порядке',st:'Начать лучше с: ',none:'У вас всё хорошо устроено! На расширенном аудите найдём, что ещё улучшить.',
+  ex:'<b>В расширенном аудите (бесплатно):</b> проверим ваш настоящий сайт, карты и отзывы, посчитаем, сколько клиентов теряется, и дадим план с ценами. 30 минут разговора.',bk:'🔍 Заказать расширенный аудит',ag:'↺ Пройти заново'},
+ tj:{h:'Санҷед: мини-аудит дар 1 дақиқа',t:'6 савол — барои ҳар соҳа як савол. Дар охир — баҳои тиҷорати шумо ва аз чӣ сар кардан лозим.',y:'Ҳа',n:'Не',pr:'Саволи {i} аз 6',scan:'🔍 Ҷавобҳоро месанҷем…',
+  q:[['Шумо сайте доред, ки аз телефон қулай аст?','n','🌐 Сайт','Сайти қулай нест — мизоҷ ба назди онҳое меравад, ки сайт доранд.','сайт бо тугмаи дархост'],
+     ['Шуморо дар Google, Яндекс ва харитаҳо бо дархости «хизмати шумо + шаҳр» меёбанд?','n','🔎 Ҷустуҷӯ ва харитаҳо','Шумо дар ҷустуҷӯ ва харитаҳо намоён нестед — мизоҷон рақибонро меёбанд.','саҳифаҳо дар харитаҳо ва танзими ҷустуҷӯ'],
+     ['Мизоҷоне, ки шабона ва рӯзҳои истироҳат менависанд, фавран ҷавоб мегиранд?','n','💬 Дархостҳо','Шабона ва рӯзҳои истироҳат дархостҳо интизор мемонанд — қисми мизоҷон мераванд.','боте, ки шабу рӯз ҷавоб медиҳад'],
+     ['Ҳамаи дархостҳо дар як ҷо ҷамъ мешаванд?','n','📋 Ҳисоби дархостҳо','Дархостҳо дар телефонҳо пароканда — чизе гум мешавад.','ҳамаи дархостҳо дар як ҷадвал'],
+     ['Шумо ҳар саҳар медонед, ки чанд даромад кардед ва кӣ қарздор аст?','n','💰 Пул','Тасвири ҳаррӯзаи пул ва қарзҳо нест.','ҳисоботи саҳарӣ барои соҳибкор'],
+     ['Ҳисобнома ва шартномаҳоро дастӣ омода мекунед?','y','📄 Ҳуҷҷатҳо','Ҳисобнома ва шартномаҳо соатҳо кори дастиро мегиранд.','ҳисобнома ва шартнома аз рӯи қолиб']],
+  rh:'Баҳои шумо: {s} аз 100',ok:'дар тартиб',st:'Беҳтар аст сар кунем аз: ',none:'Дар шумо ҳама чиз хуб ташкил шудааст! Дар аудити васеъ меёбем, ки боз чиро беҳтар кардан мумкин.',
+  ex:'<b>Дар аудити васеъ (ройгон):</b> сайти ҳақиқӣ, харитаҳо ва шарҳҳои шуморо месанҷем, ҳисоб мекунем, ки чанд мизоҷ гум мешавад, ва нақша бо нархҳо медиҳем. 30 дақиқа сӯҳбат.',bk:'🔍 Аудити васеъ фармоиш додан',ag:'↺ Аз нав'}};
+const dAudit=document.getElementById('d_audit');let aRun=0;
+function buildAudit(){const d=LL(AU),N=d.q.length,my=++aRun;let i=0;const bad=new Set();
+ dAudit.innerHTML=`<div class="dh">${d.h}</div><div class="dt">${d.t}</div><div class="abar"><i id="a_bar" style="width:0"></i></div><div id="a_body"></div>`;
+ const body=document.getElementById('a_body'),bar=document.getElementById('a_bar');
+ const result=async()=>{body.innerHTML=`<div class="note">${d.scan}</div>`;await W8(1100);if(my!==aRun)return;
+   const s=Math.round((N-bad.size)/N*100),first=d.q.find((q,k)=>bad.has(k));
+   body.innerHTML=`<div class="ares"><div class="big grad">${d.rh.replace('{s}',s)}</div><div id="a_rows" style="display:flex;flex-direction:column;gap:6px;margin-top:8px"></div>${first?`<p class="dt" style="margin-top:10px">${d.st}<b>${first[4]}</b></p>`:`<p class="dt">${d.none}</p>`}
+    <div class="plist" style="margin-top:12px">${d.ex}</div><div class="chips" style="margin-top:14px"><a class="btn main small" href="#contact">${d.bk}</a><button type="button" class="chip" id="a_ag">${d.ag}</button></div></div>`;
+   document.getElementById('a_ag').onclick=buildAudit;const rows=document.getElementById('a_rows');
+   for(let k=0;k<N;k++){const q=d.q[k],b=bad.has(k),r=document.createElement('div');r.className='notif';r.style.fontSize='15px';
+     r.innerHTML=`${b?'❌':'✅'} <b>${q[2]}</b> — ${b?q[3]:d.ok}`;rows.appendChild(r);await W8(260);if(my!==aRun)return}};
+ const step=()=>{bar.style.width=(i/N*100)+'%';if(i>=N)return result();
+  const q=d.q[i];body.innerHTML=`<div class="note">${d.pr.replace('{i}',i+1)}</div><div class="aq">${q[0]}</div><div class="chips" style="margin-top:12px"><button type="button" class="btn main small" data-a="y">${d.y}</button><button type="button" class="btn ghost small" data-a="n">${d.n}</button></div>`;
+  body.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{if(b.dataset.a===q[1])bad.add(i);i++;step()})};
+ step()}
+function buildDemos(){buildSite();buildPrice();buildMorning();buildAudit();gHint()}
+buildDemos();
+
+// ===== вкладки направлений: открыт один details, кнопка подсвечена =====
+const DIRS=[...document.querySelectorAll('details.dir')],DTABS=[...document.querySelectorAll('#dtabs .dtab')];
+function dirTab(i){DIRS.forEach((d,j)=>{if(d.open!==(j===i))d.open=j===i});
+ DTABS.forEach(b=>{const on=+b.dataset.i===i;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)})}
+DTABS.forEach(b=>b.onclick=()=>{dirTab(+b.dataset.i);b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'})});
+DIRS.forEach((d,j)=>d.addEventListener('toggle',()=>{if(d.open)dirTab(j)}));
+dirTab(Math.max(0,DIRS.findIndex(d=>d.open)));
+
+// переводы для новых блоков (класс nx, атрибут data-t)
+const NX_TJ={s_th:'Чӣ гуна сайтҳо месозем',s_mh:'Бо ҳар гуна мураккабӣ',s_ph:'Нархҳо',
+ p_bot:'<b>аз 100 сомонӣ</b>Боти оддии дархостҳо. Мураккабтар — гаронтар.',
+ p_ai:'<b>аз 100 сомонӣ</b>Ёрдамчии оддӣ бо нархҳои шумо. Мураккабтар — гаронтар.',
+ p_auto:'<b>аз 100 сомонӣ</b>Як автоматикунонӣ, масалан ҳисоботи саҳарӣ. Мураккабтар — гаронтар.',
+ a_m:'<li>Ҳар саҳар ҷустуҷӯи тендерҳо аз рӯи мавзӯи шумо ва лоиҳаи дархост</li><li>Анбор: огоҳ мекунад, ки мол тамом мешавад, ва аз таъминкунанда фармоиш медиҳад</li><li>Ҳисоботи саҳарӣ ба соҳибкор соати 8:00: дархостҳо, пул, қарзҳо</li><li>Назорати пардохтҳо ва хотиррасонии боадабона ба қарздорон</li><li>Ҳисобнома, санад ва шартномаҳо худ ба худ аз рӯи қолиб пур мешаванд</li><li>Дархостҳо аз сайт, Telegram ва зангҳо — дар як ҷадвал</li>',
+ a_l:'<h4>Чиро месанҷем</h4><ul><li>🌐 Сайт: аз телефон қулай аст, зуд мекушояд</li><li>🔎 Шуморо дар Google, Яндекс ва харитаҳо меёбанд</li><li>💬 Ба дархостҳо чӣ қадар зуд ҷавоб медиҳед, гум намешаванд</li><li>⭐ Шарҳҳо, Instagram ва Telegram</li><li>💰 Пул ва ҳуҷҷатҳо: ҳисобномаҳо, қарзҳо, ҳисоботҳо</li><li>🔁 Кори якхела: кормандон ҳар рӯз чиро дастӣ мекунанд</li></ul><h4 style="margin-top:16px">Шумо чӣ мегиред</h4><ul><li>Ҳисоботи кӯтоҳ бо забони оддӣ: мизоҷон ва вақт дар куҷо гум мешаванд</li><li>Чиро ба зеҳни сунъӣ супоридан мумкин — ва чанд пул меистад</li><li>Нақша: аз чӣ сар кунем, то зудтар худро пӯшонад</li></ul>',
+ p_audit:'<b>Ройгон</b>Таҳлили аввали тиҷорати шумо.',
+ s_p:'<b>аз 100 сомонӣ</b>Сайти оддии яксаҳифагӣ. Мураккабтар — гаронтар.',
+ s_t:'<span>🎯 Лендинг барои реклама</span><span>📇 Сайти шиносномавӣ</span><span>🏢 Сайти ширкат</span><span>🛒 Мағозаи интернетӣ</span><span>📅 Сайт бо сабти онлайн</span><span>🌐 Бо якчанд забон</span>',
+ s_m:'<li>Графикаи 3D ва аниматсия, мисли глобус дар ҳамин сайт</li><li>Пардохти онлайн, сабад ва кабинети шахсӣ</li><li>Ёрдамчии ЗС бевосита дар сайт</li><li>Пайваст бо Telegram, 1С, ҷадвалҳо ва CRM</li><li>SEO ва таҳлил: то сайтро дар Google ва Яндекс ёбанд</li><li>Домен, хостинг ва оғозро ба ӯҳда мегирем</li><li>Дастгирӣ пас аз оғоз: ислоҳот, навсозӣ, нусхаҳои эҳтиётӣ</li>',b_try:'👉 Худатон ҳамин ҷо санҷед: тугмаҳои ботро пахш кунед, мисли Telegram-и ҳақиқӣ. «✍️ Вазифаи худ»-ро пахш кунед ва ҳар вазифаро нависед.',
+ b_name:'Дастёр · ёрдамчии ЗС',b_onl:'бот · онлайн',b_soon:'Боти ҳақиқиро дар Telegram кушоед →',
+ t_bot:'Ботҳо дар Telegram',t_site:'Сайтҳо',t_ai:'Ёрдамчиёни ЗС',t_auto:'Автоматикунонӣ',t_audit:'Аудит'};
+const NX_RU={};document.querySelectorAll('[data-t]').forEach(e=>NX_RU[e.dataset.t]=e.innerHTML);
+
+// ===== форма (черновик) =====
+document.getElementById('cform').addEventListener('submit',e=>{e.preventDefault();document.getElementById('cok').hidden=false});
+
+// ===== языки: русский / таджикский ===== (L объявлен в начале скрипта)
+var AGT_TJ=["Диспетчер","Муҳосиб","Таҳлилгар","Котиба","Фурӯшанда","Ҳуқуқшинос"];
+function NM(n){return L==='tj'?AGT_TJ[AG.findIndex(a=>a[0]===n)]:n}
+const MAP={
+ '.menu a':[`Самтҳо`,`Кормандони ЗС`,`Ёрдамчӣ`,`Чӣ тавр кор мекунем`,`Корҳо`,`Тамос`],
+ '.nav .btn':[`Таҳлили ройгон`],
+ '.badge':[`<b></b>Студияи зеҳни сунъӣ · автоматикунонии тиҷорат`],
+ 'h1':[`Зеҳни сунъӣ <span class="grad">барои тиҷорати шумо кор мекунад</span>`],
+ '.hero .lead':[`Мо ёрдамчиёни зеҳни сунъиро ҷорӣ мекунем, ки худашон дархостҳоро қабул мекунанд, ҳуҷҷат омода мекунанд, пулро назорат мекунанд ва ҳар саҳар ба соҳибкор дар Telegram ҳисобот мефиристанд.`],
+ '.cta a':[`Аз зеҳни сунъӣ пурсед →`,`5 самт`],
+ '.core':[`Ядрои ЗС`],
+ '.eyebrow':[`Зинда`,`Мо чӣ кор мекунем`,`Даста`,`Санҷед`,`Чӣ тавр кор мекунем`,`Корҳои мо`,`Саволҳо`,`Тамос`],
+ '.sec h2':[`Ядрои зеҳни сунъии тиҷорати шумо <span class="grad">ҳозир кор мекунад</span>`,`Панҷ самт`,`Кормандони <span class="grad">зеҳни сунъиро</span> ба тиҷорати худ киро кунед`,`Аз зеҳни сунъӣ пурсед, <span class="grad">ки барои шумо чӣ кор мекунад</span>`,`Чор қадам`,`Он чи аллакай сохта шуд`,`Саволҳои маъмул`,`Таҳлили ройгони тиҷорати шумо`],
+ '.two > div > p:not(.eyebrow)':[`Вақте ки шумо хобед ё банд ҳастед, кормандони зеҳни сунъӣ дархостҳоро қабул мекунанд, ҳисобнома мефиристанд ва дар бораи қарзҳо хотиррасон мекунанд. Шумо ҳар амали онҳоро мебинед.`,`Намуди тиҷорати худро пахш кунед ё нависед, ки бо чӣ машғулед. Бо овоз ҳам мумкин: 🎤-ро пахш кунед. Ёрдамчӣ фавран мегӯяд, ки чиро ба зеҳни сунъӣ супоридан мумкин.`,`Ин демо аст: ҳоло ёрдамчӣ бо ҷавобҳои тайёр ҷавоб медиҳад. Зеҳни сунъии ҳақиқиро баъдтар пайваст мекунем.`],
+ '.sec-h p:not(.eyebrow)':[`Самтро интихоб кунед — ҳамаашро зинда санҷидан мумкин. Метавонед аз як самт сар кунед, боқиро баъдтар илова кунед.`,`Ба корманд пахш кунед ва бинед, ки ӯ дар як рӯз чӣ кор мекунад.`,`Аз як вазифа сар мекунем ва натиҷаро бо рақамҳои шумо нишон медиҳем.`,`Ростқавлона нишон медиҳем, бе рақамҳои сохта.`],
+ '.card-h b':[`Имрӯз ЗС чӣ кард`,`Ёрдамчии ЗС Дастёр`],
+ '.onl':[`кор мекунад`,`дар тамос`],
+ '.dir summary h3':[`Сайтҳо`,`Ботҳо дар Telegram`,`Ёрдамчиёни зеҳни сунъӣ`,`Автоматикунонӣ`,`Аудити тиҷорат`],
+ '.dir summary p':[`Сайтҳои зебо бо эффектҳои зинда, ки мизоҷ меоранд`,`Шабу рӯз дархост қабул мекунанд ва ба мизоҷон ҷавоб медиҳанд`,`Саволро бо забони оддӣ мефаҳманд, нарху қоидаҳои шуморо медонанд`,`Корҳои ҳаррӯза худ ба худ иҷро мешаванд: ҳисобот, пул, тендерҳо, анбор`,`Меёбем, ки вақт, дархостҳо ва пул дар куҷо гум мешаванд`],
+ '.dir-body h4':[`Шумо чӣ мегиред`,`Шумо чӣ мегиред`,`Шумо чӣ мегиред`,`Шумо чӣ мегиред`,`Шумо чӣ мегиред`],
+ '.dir-body li':[`Сайт аз телефон қулай`,`Нархҳо, суроға ва тугмаи сабт дар экрани аввал`,`Эффектҳои зинда, мисли ҳамин сайт`,`Дархостҳо аз сайт фавран ба Telegram-и шумо меоянд`,
+   `Ҷавоб ба саволҳои маъмул: нарх, суроға, вақти корӣ`,`Сабти мизоҷ ба вақти холӣ`,`Дархости тайёр ба Telegram-и шумо`,`Барои ҳар вазифаи шумо: бот қолиб аст, мо онро барои шумо танзим мекунем`,
+   `Ёрдамчӣ дар сайт, Telegram ё барои кормандони шумо`,`Нархро ҳисоб мекунад, нома ва пешниҳод менависад`,`Шартномаҳоро аз рӯи қолиби шумо омода мекунад`,`Саволҳои мушкилро ба одам месупорад`],
+ '.example':[`<b>Мисол:</b> сайти секцияи варзишӣ: ҷадвали дарсҳо, нархҳо, мураббиён ва сабт ба дарси озмоишӣ бо як тугма.`,
+   `<b>Мисол:</b> «50 халта семент бо расонидан ба Ваҳдат чанд пул аст?» Ёрдамчӣ дар чанд сония нарх ва мӯҳлати расониданро мегӯяд ва рақами телефони мизоҷро сабт мекунад.`,
+   `<b>Мисол:</b> ҳар саҳар бот худаш харидҳои нав аз рӯи мавзӯи шуморо меёбад ва рӯйхати кӯтоҳро ба Telegram мефиристад.`,
+   `<b>Мисол:</b> «Шабона ва рӯзҳои истироҳат дархостҳо беҷавоб мемонанд» — пас аз боти дархостҳо сар мекунем.`],
+ '#askf button':[`Пурсидан`],
+ '.steps b':[`Таҳлили тиҷорат`,`Нақша`,`Оғоз`,`Дастгирӣ`],
+ '.steps span':[`Тақрибан 30 дақиқа сӯҳбат: дархостҳо, вақт ва пул дар куҷо гум мешаванд. Ройгон.`,`Аввал чӣ мекунем, чанд пул меистад ва чанд вақт мегирад.`,`Ёрдамчиро бо нархҳои шумо танзим мекунем ва бо саволҳои шумо месанҷем.`,`Назорат мекунем, ки ҳама кор кунад, ва ҷавобҳоро беҳтар мекунем.`],
+ '.work .tag':[`Автоматикунонӣ`,`Бот + сайт`,`Сайтҳо`],
+ '.work h3':[`Боти тендерӣ`,`Сайт ва боти секцияи варзишӣ`,`Сайтҳои таълимии забонҳо`],
+ '.work p':[`Ҳар саҳар худаш харидҳои нави давлатиро аз рӯи мавзӯи ширкат меёбад ва ба Telegram мефиристад.`,`Сайт бо ҷадвал ва нархҳо ва бот, ки ба дарси озмоишӣ сабт мекунад.`,`Ду сайт барои омӯзиши забонҳои олмонӣ ва туркӣ.`,`Корҳои нав ба зудӣ дар ин ҷо пайдо мешаванд`],
+ '.faq summary':[`Зеҳни сунъӣ ҷавоби беақлона намедиҳад?`,`Чизе насб кардан лозим аст?`,`Бо кадом забон ҷавоб медиҳад?`,`Ин чанд пул меистад?`],
+ '.faq p':[`Ёрдамчӣ танҳо аз рӯи нархҳо ва қоидаҳои шумо ҷавоб медиҳад. Агар ҷавоб набошад, худаш намесозад, балки саволро ба шумо месупорад. Пеш аз оғоз онро бо саволҳои воқеии шумо месанҷем.`,`Не. Ёрдамчӣ дар Telegram ё дар сайт кор мекунад. Ба шумо танҳо телефон лозим аст.`,`Бо забонҳои тоҷикӣ ва русӣ — бо ҳамон забоне, ки мизоҷ навиштааст.`,`Аз вазифа вобаста аст. Нархи дақиқро пас аз таҳлили ройгон мегӯем.`],
+ '#contact .card > div > p:not(.eyebrow)':[`Бигӯед, ки бо чӣ машғулед. Нишон медиҳем, ки чиро ба зеҳни сунъӣ супоридан мумкин.`],
+ '.soonbtns span':[`Telegram — ба зудӣ`,`WhatsApp — ба зудӣ`],
+ '.form label':[`Номи шумо`,`Тиҷорати шумо бо чӣ машғул аст`],
+ '.form button':[`Фиристодан`],
+ '#cok':[`Лоиҳа: форма ҳоло пайваст нашудааст, дархост ба ҷое нарафт.`],
+ 'footer span':[`Дастёр · студияи зеҳни сунъӣ`,`Лоиҳаи сайт, варианти корӣ`],
+ '.pal span':[`Ранг:`],
+ '.pal button':[`<i style="background:#3b82f6"></i>Кабуд`,`<i style="background:#14b8a6"></i>Кабуд + фирӯзаӣ`]
+};
+const QA=s=>[...document.querySelectorAll(s)].filter(e=>!e.closest('.nx')); // новые блоки .nx переводятся отдельно
+const RU={};for(const s in MAP)RU[s]=QA(s).map(e=>e.innerHTML);
+const EV_RU=EV.map(x=>x.slice()),EV_TJ=[["📥","Дархост аз сайт: «сементро расонидан лозим»","Диспетчер · дар 40 сония ба менеҷер супорида шуд"],["🧾","Ҳисобномаи № 214 ба мизоҷ фиристода шуд","Муҳосиб · дар Telegram"],["⚠️","Мизоҷ 3 рӯз ҳисобномаро пардохт накардааст","Муҳосиб · хотиррасонӣ омода аст"],["📊","Ҳисоботи саҳарӣ барои соҳибкор омода шуд","Таҳлилгар · дархостҳо, пул, қарзҳо"],["💬","Шабона, соати 02:14 ба мизоҷ ҷавоб дод","Котиба · барои машварат сабт кард"],["📄","Шартнома аз рӯи қолиб тартиб дода шуд","Ҳуқуқшинос · интизори санҷиш"],["📈","3 мизоҷ пас аз хотиррасонӣ баргаштанд","Фурӯшанда · фармоишҳои нав"]];
+const TASKS_RU=AG.map(a=>TASKS[a[0]]),TASKS_TJ=[
+ ["23:40 — дархости расониданро қабул кард","суроға ва вақти қулайро аниқ кард","дархостро ба менеҷер супорид","ба мизоҷ ҷавоб дод: «Фардо соати 10:00 меоварем»"],
+ ["06:00 — пардохтҳоро бо ҳисоботи бонк муқоиса кард","3 ҳисобнома пардохт шудааст, 2 не","ба қарздорон хотиррасонӣ омода кард","интизор аст, ки шумо «Фиристодан»-ро пахш кунед"],
+ ["дархостҳо ва даромади ҳафтаро ҷамъ кард","бо ҳафтаи гузашта муқоиса кард: дархостҳо 12% зиёд","ёфт, ки кадом молро бештар мепурсанд","08:00 — ҳисоботро ба соҳибкор фиристод"],
+ ["мизоҷро барои фардо, соати 15:30 сабт кард","сабтро ба ҷадвал илова кард","як соат пеш аз қабул ба мизоҷ хотиррасон мекунад","агар сабт иваз шавад — худаш вақти дигар пешниҳод мекунад"],
+ ["мизоҷ нарх пурсид — аз рӯи нархнома ҳисоб кард","пешниҳоди тиҷоратӣ омода кард","агар мизоҷ хомӯш бошад, пас аз 3 рӯз хотиррасон мекунад","мизоҷони ҷиддиро ба шумо месупорад"],
+ ["шартномаро аз рӯи қолиби шумо пур кард","бандҳоеро, ки санҷидан лозим, қайд кард","бо версияи пешина муқоиса кард","сухани охир — аз они одам"]];
+const askq=document.getElementById('askq'),PH_RU=askq.placeholder;
+function setLang(l){
+  L=l;const tj=l==='tj';document.documentElement.lang=tj?'tg':'ru';
+  for(const s in MAP){const v=tj?MAP[s]:RU[s];QA(s).forEach((e,i)=>{if(v[i]!=null)e.innerHTML=v[i]})}
+  document.querySelectorAll('[data-t]').forEach(e=>{const k=e.dataset.t,v=tj?NX_TJ[k]:NX_RU[k];if(v!=null)e.innerHTML=v});
+  buildChips();buildBot();buildDemos();
+  askq.placeholder=tj?'Масалан: ман автосервис дорам':PH_RU;
+  EV.splice(0,EV.length,...(tj?EV_TJ:EV_RU));feed.innerHTML='';for(let i=0;i<4;i++)push();
+  AG.forEach((a,i)=>{TASKS[a[0]]=tj?TASKS_TJ[i]:TASKS_RU[i];a.el.lastChild.textContent=NM(a[0])});
+  const rb=[...rolesEl.querySelectorAll('.role')];rb.forEach((b,i)=>b.lastChild.textContent=NM(AG[i][0]));
+  const k=Math.max(0,rb.findIndex(b=>b.getAttribute('aria-pressed')==='true'));show(AG[k][0]);
+  clog.innerHTML='';addMsg(tj?'Салом! Бигӯед, тиҷорати шумо бо чӣ машғул аст?':'Здравствуйте! Расскажите, чем занимается ваш бизнес?','in');
+  document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+  try{localStorage.setItem('dastyor-lang',l)}catch(e){}
+}
+document.querySelectorAll('#lang button').forEach(b=>b.onclick=()=>{if(b.dataset.l!==L)setLang(b.dataset.l)});
+try{const s=localStorage.getItem('dastyor-lang');if(s==='tj')setLang('tj')}catch(e){}
+</script>
+</body>
+</html>
