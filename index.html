@@ -401,7 +401,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
 @media (max-width:700px){.dtabs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;overflow:visible;padding:0;margin-bottom:14px}
  .dtab{min-width:0;flex-direction:column;gap:4px;white-space:normal;text-align:center;padding:12px 8px;font-size:16px;border-radius:16px;overflow-wrap:anywhere}
  .dtab span{font-size:26px;flex:none}.dtab:last-child{grid-column:1/-1;flex-direction:row;gap:10px}
- .dir-body>:last-child{order:-1}.dir-body{padding-top:18px}}
+ .dir-body>:last-child{order:-1}.dir-body{padding-top:18px}
+ .tgtop{display:flex!important;flex-direction:column;gap:8px;order:-2;text-align:center}.tgtop .btn{justify-content:center;width:100%;font-size:19px;padding:18px}.tgtop p{font-size:17px;color:var(--lead);margin:0}}
+.tgtop{display:none}
 @media (max-width:560px){.hero .lead{display:none}.hero h1{font-size:clamp(30px,8.6vw,40px)}.hero .cta .btn{width:100%;justify-content:center}}
 @media (max-width:560px){.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.nav .btn{display:none}.agent{font-size:12px;padding:5px 9px}.dir summary{grid-template-columns:auto 1fr;padding:18px}.dir .plus{display:none}.dir-body{padding:0 18px 20px}.sec{padding-block:50px}.pal span{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
@@ -484,6 +486,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
             <div class="xprice nx" data-t="p_bot" style="margin-top:18px"><b>от 100 сомони</b>Простой бот для заявок. Сложнее — дороже.</div>
             <p class="trynote nx" data-t="b_try">👉 Попробуйте прямо здесь: понажимайте кнопки бота, как в настоящем Telegram. Нажмите «✍️ Своя задача» и напишите любую.</p>
             <a class="btn main nx" href="https://t.me/dastyor_ai_bot" target="_blank" rel="noopener" data-t="b_soon">Открыть настоящего бота в Telegram →</a></div>
+          <div class="tgtop nx"><a class="btn main" href="https://t.me/dastyor_ai_bot" target="_blank" rel="noopener" data-t="b_soon">Открыть настоящего бота в Telegram →</a><p data-t="b_here">👇 Или попробуйте прямо здесь</p></div>
           <div class="phone nx">
             <div class="tgh"><div class="ava">Д</div><div><b data-t="b_name">Дастёр · ИИ-помощник</b><small data-t="b_onl">бот · онлайн</small></div></div>
             <div class="tgchat" id="tgchat" aria-live="polite"></div>
@@ -1009,7 +1012,8 @@ const NX_TJ={s_th:'Чӣ гуна сайтҳо месозем',s_mh:'Аз одд�
  s_t:'<span>🎯 Лендинг барои реклама</span><span>📇 Сайти муаррифӣ</span><span>🏢 Сайти ширкат</span><span>🛒 Мағозаи интернетӣ</span><span>📅 Сайт бо сабти онлайн</span><span>🌐 Сайти бисёрзабона</span>',
  s_m:'<li>Графикаи 3D ва аниматсия, мисли глобус дар ҳамин сайт</li><li>Пардохти онлайн, сабад ва кабинети шахсӣ</li><li>Ёрдамчии ЗС бевосита дар сайт</li><li>Пайваст бо Telegram, 1С, ҷадвалҳо ва CRM</li><li>SEO ва таҳлил: то сайтро дар Google ва Яндекс ёбанд</li><li>Домен, хостинг ва оғозро ба ӯҳда мегирем</li><li>Дастгирӣ пас аз оғоз: ислоҳот, навсозӣ, нусхаҳои эҳтиётӣ</li>',b_try:'👉 Худатон ҳамин ҷо санҷед: тугмаҳои ботро пахш кунед, мисли Telegram-и ҳақиқӣ. «✍️ Вазифаи худ»-ро пахш кунед ва вазифаи дилхоҳро нависед.',
  b_name:'Дастёр · ёрдамчии ЗС',b_onl:'бот · онлайн',b_soon:'Боти ҳақиқиро дар Telegram кушоед →',
- h_ex:'👇 Мисолро пахш кунед — ё саволи худро нависед',
+ b_here:'👇 Ё худатон ҳамин ҷо санҷед',
+ h_ex:'👇Мисолро пахш кунед — ё саволи худро нависед',
  t_bot:'Ботҳо дар Telegram',t_site:'Сайтҳо',t_ai:'Ёрдамчиёни ЗС',t_auto:'Автоматикунонӣ',t_audit:'Аудит'};
 const NX_RU={};document.querySelectorAll('[data-t]').forEach(e=>NX_RU[e.dataset.t]=e.innerHTML);
 
