@@ -34,6 +34,7 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--fb),system-ui,sans-serif;font-size:20px;line-height:1.55;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 h1,h2,h3,.logo{font-family:var(--fh),sans-serif}
+html,body{overflow-x:clip}
 #stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .glow-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--halo)}
 main,footer{position:relative;z-index:2}
@@ -139,8 +140,8 @@ h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacin
 .chips .track{display:contents}.chips .dup,.chip .cq,.chips-h{display:none}
 /* телефон: демо «Сайт» — выбор в одну строку (листается), сам сайт в рамке телефона, листается внутри */
 @media (max-width:700px){
- #d_site .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-18px;padding-inline:18px}#d_site .chips::-webkit-scrollbar{display:none}
- #d_site .chip{white-space:nowrap;flex:none}
+ #d_site .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ #d_site .chip{white-space:nowrap;justify-content:center;min-width:0}
  #d_site .dots{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:8px}#d_site .dots button{flex:none}
  #d_site .browser{width:min(330px,100%);margin:4px auto 0;height:min(600px,calc(100svh - 120px));display:flex;flex-direction:column;border:7px solid #0b1220;border-radius:34px;box-shadow:0 0 0 1px rgba(var(--net),.5),0 20px 50px -12px rgba(0,0,0,.8)}
  #d_site .browser .bar{border-radius:0;padding-top:16px;position:relative}#d_site .browser .bar::before{content:"";position:absolute;top:5px;left:50%;width:70px;height:6px;border-radius:6px;background:#0b1220;transform:translateX(-50%)}
@@ -413,7 +414,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
  .tgtop{display:flex!important;flex-direction:column;gap:8px;order:-2;text-align:center}.tgtop .btn{justify-content:center;width:100%;font-size:19px;padding:18px}.tgtop p{font-size:17px;color:var(--lead);margin:0}}
 .tgtop{display:none}
 @media (max-width:560px){.hero .lead{display:none}.hero h1{font-size:clamp(30px,8.6vw,40px)}.hero .cta .btn{width:100%;justify-content:center}}
-@media (max-width:560px){.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.nav .btn{display:none}.agent{font-size:12px;padding:5px 9px}.dir summary{grid-template-columns:auto 1fr;padding:18px}.dir .plus{display:none}.dir-body{padding:0 18px 20px}.sec{padding-block:50px}.pal span{display:none}}
+@media (max-width:560px){.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.nav{gap:8px}.logo{font-size:19px!important}.lang button{padding:7px 10px}.nav .btn{font-size:0;padding:9px 12px}.nav .btn::after{content:"Разбор";font-size:15px}html[lang="tg"] .nav .btn::after{content:"Таҳлил"}.navr{gap:8px}.agent{font-size:13px;padding:5px 9px}.globe{overflow:clip}#d_site .dots button{width:38px;height:38px}#d_site .dots{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:30px}.dir summary{grid-template-columns:auto 1fr;padding:18px}.dir .plus{display:none}.dir-body{padding:0 18px 20px}.sec{padding-block:50px}.pal span{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -806,7 +807,7 @@ function buildBot(){const d=BOT[L];tgchat.innerHTML='';tgMsg(d.hi,'bot');kb.inne
   d.k.forEach(([q,a])=>{const b=document.createElement('button');b.type='button';b.textContent=q;b.onclick=async()=>{if(tgBusy)return;tgBusy=true;tgin.hidden=true;tgMsg(q,'me');await tgReply(a);tgBusy=false};kb.appendChild(b)});
   const w=document.createElement('button');w.type='button';w.className='wide';w.textContent=d.own;
   w.onclick=async()=>{if(tgBusy)return;tgBusy=true;tgMsg(d.own,'me');await tgReply(d.ownAsk);tgin.hidden=false;tgq.focus({preventScroll:true});tgBusy=false};kb.appendChild(w)}
-tgin.addEventListener('submit',async e=>{e.preventDefault();const t=tgq.value.trim();if(!t||tgBusy)return;tgBusy=true;tgq.value='';tgin.hidden=true;tgMsg(t,'me');await tgReply(BOT[L].ownAns(t));tgBusy=false});
+tgin.addEventListener('submit',async e=>{e.preventDefault();const t=tgq.value.trim();if(!t||tgBusy)return;tgBusy=true;tgq.value='';tgMsg(t,'me');await tgReply(BOT[L].ownAns(t));tgBusy=false});
 buildBot();
 
 // ===== живые демо в карточках направлений (RU/TJ; таджикский — черновой) =====
@@ -852,7 +853,7 @@ async function drawSite(anim){const my=++sRun,tj=L==='tj',s=SITES[sI],[c,c2,dk]=
  if(lay==='shop')hero=`repeating-linear-gradient(135deg,transparent 0 18px,${c}14 18px 36px),linear-gradient(135deg,#111827,#000)`;
  if(lay==='salon'&&!dk)hero=`radial-gradient(circle at 80% 20%,#ffffffaa,transparent 40%),linear-gradient(135deg,${c}55,${c}bb)`;
  m.innerHTML=`<div class="ms-nav"><b class="ms-logo" style="color:${c}">${s.ic} ${s.lg}</b><span class="ms-menu">${(tj?s.mt:s.mr).map(x=>`<span>${x}</span>`).join('')}</span><span class="ms-btn" style="background:${c};color:${dk?'#111':'#fff'}">${btn}</span></div>
- <div class="ms-hero" style="background:${hero}"><div><span class="ms-badge">⭐ 4.9 · ${tj?'баҳои мизоҷон':'отзывы клиентов'}</span><h4>${tj?s.ht:s.hr}</h4><p>${tj?s.stj:s.sr}</p><span class="ms-cta" style="${dk?`background:${c};color:#111`:`color:${c2}`}">${btn} →</span></div><div class="ms-art"><span>${s.ic}</span></div></div>
+ <div class="ms-hero" style="background:${hero}"><div><span class="ms-badge">⭐ 4.9 · ${tj?'намунаи баҳо':'пример рейтинга'}</span><h4>${tj?s.ht:s.hr}</h4><p>${tj?s.stj:s.sr}</p><span class="ms-cta" style="${dk?`background:${c};color:#111`:`color:${c2}`}">${btn} →</span></div><div class="ms-art"><span>${s.ic}</span></div></div>
  <div class="ms-trust">${LL(STRUST).map(x=>`<span>${x}</span>`).join('')}</div>
  <div class="ms-sec"><div class="ms-st">${tj?s.ct:s.cr}</div><div class="ms-cards">${s.it.map((x,i)=>`<div class="ms-card">${i?'':`<em style="background:${c};color:${dk||lay==='shop'?'#111':'#fff'}">${tj?'Хит':'Хит'}</em>`}<i>${x[0]}</i><span>${tj?x[2]:x[1]}</span><b style="color:${c}">${x[3]}</b>${lay==='shop'?`<u>${tj?'Ба сабад':'В корзину'}</u>`:''}</div>`).join('')}</div></div>
  <div class="ms-foot">${s.f.map(x=>`<span>${x}</span>`).join('')}<span>📞 +992 00 000 00 00</span></div>`;
@@ -912,7 +913,7 @@ function buildPrice(){const d=LL(PR),e=LL(PR2),my=++pRun;pBusy=false;
    pBusy=false};
  dPrice.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const [q,a]=T.qa[+b.dataset.q];ask(q,a,1)});
  document.getElementById('p_in').onsubmit=ev=>{ev.preventDefault();const inp=ev.target.querySelector('input'),q=inp.value.trim();if(!q)return;inp.value='';
-   const i=T.kw.findIndex(r=>r.test(q));ask(q.replace(/</g,'&lt;'),i<0?e.unk:T.qa[i][1],i>=0)}}
+   const i=T.kw.findIndex(r=>r.test(q));ask(q.replace(/</g,'&lt;'),i<0?e.unk:(L==='tj'?'Дар мисол нишон медиҳам':'Покажу на примере')+`: «${T.qa[i][0]}»<br>`+T.qa[i][1],i>=0)}}
 // --- Автоматизация: наступило утро ---
 const MO={ru:{h:'Попробуйте: наступило утро',t:'Так владелец бизнеса начинает день. Нажмите кнопку — и время пойдёт.',go:'⏰ Перемотать на 8:00',sub:'вторник · телефон владельца',
   n1:'📊 <b>Утренний отчёт за вчера</b><br>Заявок: <b>14</b> (на 3 больше, чем позавчера)<br>Выручка: <b>18 400 смн</b><br>Оплачено счетов: <b>9 из 12</b><br>Должники: <b>3 клиента · 4 200 смн</b>',
