@@ -131,18 +131,36 @@ h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacin
 .chat-log{display:flex;flex-direction:column;gap:10px;min-height:260px;max-height:440px;overflow-y:auto;padding-right:4px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips .track{display:contents}.chips .dup,.chip .cq,.chips-h{display:none}
+/* телефон: демо «Сайт» — выбор в одну строку (листается), сам сайт в рамке телефона, листается внутри */
+@media (max-width:700px){
+ #d_site .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-18px;padding-inline:18px}#d_site .chips::-webkit-scrollbar{display:none}
+ #d_site .chip{white-space:nowrap;flex:none}
+ #d_site .dots{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:8px}#d_site .dots button{flex:none}
+ #d_site .browser{width:min(330px,100%);margin:4px auto 0;height:min(600px,calc(100svh - 120px));display:flex;flex-direction:column;border:7px solid #0b1220;border-radius:34px;box-shadow:0 0 0 1px rgba(var(--net),.5),0 20px 50px -12px rgba(0,0,0,.8)}
+ #d_site .browser .bar{border-radius:0;padding-top:16px;position:relative}#d_site .browser .bar::before{content:"";position:absolute;top:5px;left:50%;width:70px;height:6px;border-radius:6px;background:#0b1220;transform:translateX(-50%)}
+ #d_site .browser .bar i{display:none}#d_site .browser .bar span{margin:0;text-align:center}
+ #d_site .mini{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+ .dir-body>div:first-child{position:relative}
+ .dir-body>div:first-child:not(.open){max-height:230px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+ .more{display:flex!important;justify-content:center;width:100%;margin-top:-6px}
+}
+.more{display:none}
 /* телефон: помощник = один экран телефона; шаблоны — бегущая строка вопросов над полем ввода */
+/* везде: приветствие → подсказка → бегущая строка вопросов → поле ввода */
+#helper .card-h{order:0}#helper .chat-log{order:1}
+#helper .chips-h{display:block;order:2;font-size:16px;color:var(--muted);margin-bottom:-4px}
+#helper .chips{order:3;flex-wrap:nowrap;overflow:hidden;gap:0;margin-inline:-24px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+#helper .chips .track{display:flex;width:max-content;animation:marq 45s linear infinite}
+#helper .chips:hover .track,#helper .chips:active .track{animation-play-state:paused}
+#helper .chips .dup{display:inline-block}
+#helper .chip{margin-right:8px;white-space:nowrap;font-size:16px;padding:9px 14px}
+#helper .chip .cl{display:none}#helper .chip .cq{display:inline}
+#helper .ask{order:4}#helper .note{order:5}
 @media (max-width:700px){
  #helper .chat{height:min(680px,calc(100svh - 40px));gap:10px;padding:16px}
- #helper .chat-log{flex:1;min-height:0;max-height:none;order:1}
- #helper .chips-h{display:block;order:2;font-size:15px;color:var(--muted);margin-bottom:-4px}
- #helper .chips{order:3;flex-wrap:nowrap;overflow:hidden;gap:0;margin-inline:-16px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
- #helper .chips .track{display:flex;width:max-content;animation:marq 38s linear infinite}
- #helper .chips:hover .track,#helper .chips:active .track{animation-play-state:paused}
- #helper .chips .dup{display:inline-block}
- #helper .chip{margin-right:8px;white-space:nowrap;font-size:16px;padding:9px 14px}
- #helper .chip .cl{display:none}#helper .chip .cq{display:inline}
- #helper .ask{order:4;gap:8px}#helper .ask .btn{font-size:0;padding:0;width:52px;justify-content:center;flex:none}#helper .ask .btn::after{content:"➤";font-size:22px}#helper .ask input{font-size:17px;padding:13px 12px}#helper .note{order:5;font-size:13px;margin:0}
+ #helper .chat-log{flex:1;min-height:0;max-height:none}
+ #helper .chips{margin-inline:-16px}#helper .chips .track{animation-duration:38s}
+ #helper .ask{gap:8px}#helper .ask .btn{font-size:0;padding:0;width:52px;justify-content:center;flex:none}#helper .ask .btn::after{content:"➤";font-size:22px}#helper .ask input{font-size:17px;padding:13px 12px}#helper .note{order:5;font-size:13px;margin:0}
 }
 @keyframes marq{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){#helper .chips{overflow-x:auto}#helper .chips .track{animation:none}}
@@ -974,6 +992,10 @@ function dirTab(i){DIRS.forEach((d,j)=>{if(d.open!==(j===i))d.open=j===i});
 DTABS.forEach(b=>b.onclick=()=>{dirTab(+b.dataset.i);b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'})});
 DIRS.forEach((d,j)=>d.addEventListener('toggle',()=>{if(d.open)dirTab(j)}));
 dirTab(Math.max(0,DIRS.findIndex(d=>d.open)));
+// телефон: длинный текст карточки свёрнут, кнопка «Подробнее и цена» (на компьютере кнопка скрыта)
+function moreLbl(open){return L==='tj'?(open?'Пинҳон кардан ▴':'Муфассал ва нарх ▾'):(open?'Свернуть ▴':'Подробнее и цена ▾')}
+DIRS.forEach(d=>{const txt=d.querySelector('.dir-body>div:first-child'),b=document.createElement('button');b.type='button';b.className='btn ghost small more';b.textContent=moreLbl(false);
+ b.onclick=()=>{const o=txt.classList.toggle('open');b.textContent=moreLbl(o);if(!o)txt.scrollIntoView({block:'nearest'})};txt.after(b)});
 
 // переводы для новых блоков (класс nx, атрибут data-t)
 const NX_TJ={s_th:'Чӣ гуна сайтҳо месозем',s_mh:'Аз оддӣ то мураккаб',s_ph:'Нархҳо',
@@ -1054,6 +1076,7 @@ function setLang(l){
   for(const s in MAP){const v=tj?MAP[s]:RU[s];QA(s).forEach((e,i)=>{if(v[i]!=null)e.innerHTML=v[i]})}
   document.querySelectorAll('[data-t]').forEach(e=>{const k=e.dataset.t,v=tj?NX_TJ[k]:NX_RU[k];if(v!=null)e.innerHTML=v});
   buildChips();buildBot();buildDemos();
+  document.querySelectorAll('.more').forEach(b=>b.textContent=moreLbl(b.previousElementSibling.classList.contains('open')));
   askq.placeholder=tj?'Масалан: ман автосервис дорам':PH_RU;
   EV.splice(0,EV.length,...(tj?EV_TJ:EV_RU));feed.innerHTML='';for(let i=0;i<4;i++)push();
   AG.forEach((a,i)=>{TASKS[a[0]]=tj?TASKS_TJ[i]:TASKS_RU[i];a.el.lastChild.textContent=NM(a[0])});
