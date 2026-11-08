@@ -363,6 +363,11 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
 /* телефон/планшет: первый экран = «студия» → ИИ-ядро (вау) → заголовок → кнопки */
 @media (max-width:900px){.hero>div:first-child{display:contents}.hero{gap:18px;padding-block:6px 50px;justify-items:center;text-align:center}
  .hero .badge{order:0;margin-bottom:0}.hero .globe{order:1;width:min(440px,94vw)}.hero h1{order:2;margin-bottom:6px}.hero .lead{order:3;margin-bottom:6px}.hero .cta{order:4;justify-content:center}}
+/* телефон: 5 направлений — сетка 2 в ряд (всё видно сразу, без листания вбок), в окне сначала живое демо */
+@media (max-width:700px){.dtabs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;overflow:visible;padding:0;margin-bottom:14px}
+ .dtab{min-width:0;flex-direction:column;gap:4px;white-space:normal;text-align:center;padding:12px 8px;font-size:16px;border-radius:16px;overflow-wrap:anywhere}
+ .dtab span{font-size:26px;flex:none}.dtab:last-child{grid-column:1/-1;flex-direction:row;gap:10px}
+ .dir-body>:last-child{order:-1}.dir-body{padding-top:18px}}
 @media (max-width:560px){.hero .lead{display:none}.hero h1{font-size:clamp(30px,8.6vw,40px)}.hero .cta .btn{width:100%;justify-content:center}}
 @media (max-width:560px){.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.nav .btn{display:none}.agent{font-size:12px;padding:5px 9px}.dir summary{grid-template-columns:auto 1fr;padding:18px}.dir .plus{display:none}.dir-body{padding:0 18px 20px}.sec{padding-block:50px}.pal span{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
@@ -417,14 +422,14 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
       <p>Выберите направление — всё можно попробовать вживую. Можно начать с одного, остальное подключить потом.</p>
     </div>
     <div class="dtabs nx" id="dtabs" role="tablist">
-      <button type="button" class="dtab" data-i="1" role="tab"><span>🤖</span><b data-t="t_bot">Боты в Telegram</b></button>
       <button type="button" class="dtab" data-i="0" role="tab"><span>🌐</span><b data-t="t_site">Сайты</b></button>
+      <button type="button" class="dtab" data-i="1" role="tab"><span>🤖</span><b data-t="t_bot">Боты в Telegram</b></button>
       <button type="button" class="dtab" data-i="2" role="tab"><span>🧠</span><b data-t="t_ai">ИИ-помощники</b></button>
       <button type="button" class="dtab" data-i="3" role="tab"><span>⚙️</span><b data-t="t_auto">Автоматизация</b></button>
       <button type="button" class="dtab" data-i="4" role="tab"><span>🔍</span><b data-t="t_audit">Аудит</b></button>
     </div>
     <div class="dirs">
-      <details class="dir">
+      <details class="dir" open>
         <summary><span class="ic">🌐</span><div><h3>Сайты</h3><p>Красивые сайты с живыми фишками, которые приводят клиентов</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
           <div><h4>Что вы получаете</h4><ul><li>Сайт удобный с телефона</li><li>Цены, адрес и кнопка записи на первом экране</li><li>Живые эффекты, как на этом сайте</li><li>Заявки с сайта сразу приходят вам в Telegram</li></ul>
@@ -438,7 +443,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
           <div class="demo nx" id="d_site"></div>
         </div>
       </details>
-      <details class="dir" open>
+      <details class="dir">
         <summary><span class="ic">🤖</span><div><h3>Боты в Telegram</h3><p>Принимают заявки и отвечают клиентам днём и ночью</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
           <div><h4>Что вы получаете</h4><ul><li>Ответы на частые вопросы: цены, адрес, время работы</li><li>Запись клиента на свободное время</li><li>Готовая заявка вам в Telegram</li><li>Под любую вашу задачу: бот — шаблон, настраиваем его под вас</li></ul>
