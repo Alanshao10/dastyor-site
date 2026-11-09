@@ -354,6 +354,8 @@ main>.nav{order:0}main>.hero{order:1}main>#dirs{order:2}main>#team{order:3}main>
 .steps li::before{content:counter(s);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--btn);color:#fff;font:800 20px var(--fh),sans-serif;margin-bottom:14px;box-shadow:0 0 24px -4px var(--btnglow)}
 .steps b{display:block;font-size:20px;margin-bottom:6px}
 .steps span{color:var(--lead);font-size:18px}
+@media (max-width:560px){.steps{grid-template-columns:1fr 1fr;gap:10px}.steps li{padding:14px 12px;border-radius:16px}
+.steps li::before{width:34px;height:34px;font-size:16px;margin-bottom:8px}.steps b{font-size:17px;margin-bottom:4px}.steps span{font-size:15px;line-height:1.35;display:block}}
 
 /* работы */
 .works{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
