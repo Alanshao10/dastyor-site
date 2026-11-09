@@ -89,7 +89,7 @@ h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacin
 /* лента ИИ-ядра */
 .card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;font-size:17px}
 .card-h b{font-family:var(--fh);font-size:17px}
-.onl{color:var(--live);font-size:15px;display:flex;align-items:center;gap:8px}
+.onl{color:var(--live);font-size:15px;display:flex;align-items:center;gap:8px;white-space:nowrap;flex-shrink:0}
 .onl::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--live);box-shadow:0 0 10px var(--live);animation:pulse 1.4s infinite}
 .feed{list-style:none;display:flex;flex-direction:column;gap:10px;min-height:330px}
 .feed li{display:flex;gap:12px;align-items:flex-start;background:var(--ghost);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:17px;line-height:1.35;animation:fin .6s ease both}
@@ -673,6 +673,9 @@ let rot=0,tilt=.3,tx=0,ty=0,extra=0,extraT=0;
 gw.addEventListener('mousemove',e=>{const r=gw.getBoundingClientRect();tx=((e.clientX-r.left)/r.width-.5)*1.2;ty=((e.clientY-r.top)/r.height-.5)*.8});
 gw.addEventListener('mouseleave',()=>{tx=0;ty=0});
 function proj([x,y,z],R,cx,cy,ca,sa,ct,st){let X=x*ca+z*sa,Z=-x*sa+z*ca;let Y=y*ct-Z*st;Z=y*st+Z*ct;return[cx+X*R,cy+Y*R,Z]}
+let GL=0,VW=innerWidth;
+function gMeasure(){GL=gw.getBoundingClientRect().left;VW=document.documentElement.clientWidth;AG.forEach(a=>a.w=0)}
+gMeasure();addEventListener('resize',gMeasure);setInterval(gMeasure,1500);
 function globe(){
   gx.clearRect(0,0,GW,GH);
   extra+=(tx-extra)*.05;extraT+=(ty-extraT)*.05;rot+=.003;
@@ -685,7 +688,9 @@ function globe(){
     gx.fillStyle=ag[1];gx.beginPath();gx.arc(p[0],p[1],4*D,0,7);gx.fill();
     // подпись отодвигаем от центра наружу, чтобы не наезжала на «ИИ-ядро»
     let ux=p[0]-cx,uy=p[1]-cy;const ul=Math.hypot(ux,uy)||1;ux/=ul;uy/=ul;
-    const lx=p[0]/D+ux*30,ly=p[1]/D+uy*24;
+    let lx=p[0]/D+ux*30;const ly=p[1]/D+uy*24;
+    // на узком экране подпись не должна вылезать за край телефона
+    const hw=(ag.w||(ag.w=ag.el.offsetWidth))/2+6,gl=GL,vw=VW;lx=Math.max(hw-gl,Math.min(vw-gl-hw,lx));
     ag.el.style.transform=`translate(${lx}px,${ly}px) translate(-50%,-50%) scale(${.8+(p[2]+1)*.12})`;
     ag.el.style.opacity=front?1:.25;ag.el.style.zIndex=front?3:1});
 }
