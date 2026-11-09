@@ -18,11 +18,11 @@
 :root{--fh:Unbounded;--fb:Manrope;
   color-scheme:dark;
   --bg:#020a24;--ink:#f0f6ff;--muted:#93a7cf;--lead:#c6d5f3;--line:rgba(120,170,255,.18);--ghost:rgba(120,170,255,.06);
-  --live:#4ade80;--acc:#60a5fa;
-  --grad:linear-gradient(90deg,#60a5fa,#3b82f6 50%,#93c5fd);--btn:linear-gradient(90deg,#2563eb,#3b82f6);--btnglow:rgba(59,130,246,.8);
-  --halo:radial-gradient(circle at 78% 20%,rgba(37,99,235,.22),transparent 45%),radial-gradient(circle at 10% 95%,rgba(56,189,248,.10),transparent 45%);
-  --cardbg:rgba(4,16,48,.62);--pill:rgba(4,16,48,.9);--coreg:rgba(37,99,235,.55);
-  --net:96,165,250;--dot:190,220,255;--mouse:147,197,253;
+  --live:#4ade80;--acc:#7aa7ff;
+  --grad:linear-gradient(90deg,#7aa7ff,#5a84f2 50%,#b3cbff);--btn:linear-gradient(90deg,#2b4fcf,#4069e6);--btnglow:rgba(64,105,230,.8);
+  --halo:radial-gradient(circle at 78% 20%,rgba(43,79,207,.22),transparent 45%),radial-gradient(circle at 10% 95%,rgba(56,189,248,.10),transparent 45%);
+  --cardbg:rgba(4,16,48,.62);--pill:rgba(4,16,48,.9);--coreg:rgba(43,79,207,.55);
+  --net:122,167,255;--dot:196,214,255;--mouse:179,203,255;
 }
 html[lang="tg"]{--fh:Geologica;--fb:Onest}
 body[data-p="teal"]{--bg:#03141f;--muted:#8fb3c4;--lead:#c4dfe9;--line:rgba(94,234,212,.18);--ghost:rgba(94,234,212,.06);--acc:#5eead4;
@@ -43,11 +43,11 @@ main,footer{position:relative;z-index:2}
 /* шапка */
 .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px}
 .logo{font-weight:800;font-size:24px;display:flex;align-items:center;gap:10px}
-.logo i{width:30px;height:30px;border-radius:9px;display:inline-block;background:conic-gradient(var(--acc),#1d4ed8,#93c5fd,var(--acc));animation:spin 7s linear infinite;box-shadow:0 0 22px var(--btnglow)}
+.logo i{width:30px;height:30px;border-radius:9px;display:inline-block;background:conic-gradient(var(--acc),#2b4fcf,#b3cbff,var(--acc));animation:spin 7s linear infinite}
 .menu{display:flex;gap:26px;font-size:17px;color:var(--muted)}
 .menu a:hover{color:var(--ink)}
 .btn{display:inline-flex;align-items:center;gap:10px;border-radius:14px;padding:16px 26px;font:700 18px var(--fb),sans-serif;cursor:pointer;transition:.25s;border:1px solid transparent;color:var(--ink)}
-.btn.main{background:var(--btn);color:#fff;box-shadow:0 12px 40px -10px var(--btnglow)}
+.btn.main{background:var(--btn);color:#fff;box-shadow:0 10px 24px -14px rgba(0,0,0,.7)}
 .btn.main:hover{transform:translateY(-2px)}
 .btn.ghost{background:var(--ghost);border-color:var(--line)}
 .btn.small{padding:11px 18px;font-size:16px}
@@ -56,7 +56,7 @@ main,footer{position:relative;z-index:2}
 @keyframes pulse{50%{opacity:.3}}
 
 /* первый экран */
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding-block:30px 70px;min-height:min(820px,calc(100vh - 90px))}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding-block:30px 70px;min-height:min(820px,calc(100svh - 90px))}
 .badge{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--ghost);border-radius:999px;padding:8px 16px;font-size:16px;color:var(--muted);margin-bottom:26px}
 .badge b{width:9px;height:9px;border-radius:50%;background:var(--live);box-shadow:0 0 12px var(--live);animation:pulse 1.6s infinite}
 h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacing:-.01em;margin-bottom:24px;text-wrap:balance}
@@ -82,7 +82,7 @@ h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacin
 .sec h2{font-size:clamp(28px,3.2vw,44px);line-height:1.15;margin-bottom:16px;text-wrap:balance}
 .sec-h p{color:var(--lead);font-size:21px}
 .card{border:1px solid rgba(var(--net),.3);background:var(--cardbg);backdrop-filter:blur(10px);border-radius:24px;padding:24px}
-.glowcard{box-shadow:0 0 90px -20px var(--btnglow)}
+.glowcard{box-shadow:0 18px 40px -24px rgba(0,0,0,.7)}
 .two{display:grid;grid-template-columns:.9fr 1.1fr;gap:50px;align-items:center}
 .two > *{min-width:0}
 
@@ -100,7 +100,7 @@ h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacin
 /* 5 направлений — раскрываются */
 .dirs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
 .dir{border:1px solid rgba(var(--net),.28);background:var(--cardbg);backdrop-filter:blur(10px);border-radius:22px;transition:border-color .25s,box-shadow .25s}
-.dir[open]{grid-column:1/-1;border-color:rgba(var(--net),.6);box-shadow:0 0 80px -24px var(--btnglow)}
+.dir[open]{grid-column:1/-1;border-color:rgba(var(--net),.6)}
 .dir summary{list-style:none;cursor:pointer;padding:24px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
 .dir summary::-webkit-details-marker{display:none}
 .dir .ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:var(--ghost);border:1px solid var(--line)}
@@ -126,7 +126,7 @@ h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacin
 .roles{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
 .role{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--ghost);color:var(--ink);border-radius:999px;padding:10px 16px;font:700 17px var(--fb),sans-serif;cursor:pointer}
 .role b{width:10px;height:10px;border-radius:50%}
-.role[aria-pressed="true"]{background:var(--pill);border-color:rgba(var(--net),.7);box-shadow:0 0 24px -6px var(--btnglow)}
+.role[aria-pressed="true"]{background:var(--pill);border-color:rgba(var(--net),.7)}
 .term{font-family:ui-monospace,Consolas,monospace;font-size:18px;line-height:1.6;min-height:250px;color:var(--lead)}
 .term .who{font-family:var(--fh),sans-serif;font-size:18px;color:var(--ink);margin-bottom:10px}
 .term .ln{display:block}
@@ -179,7 +179,7 @@ h1{font-size:clamp(34px,5vw,66px);line-height:1.08;font-weight:800;letter-spacin
 .ask button{border:0}
 .note{font-size:15px;color:var(--muted)}
 
-.chip.on{background:var(--pill);border-color:rgba(var(--net),.8);box-shadow:0 0 18px -6px var(--btnglow)}
+.chip.on{background:var(--pill);border-color:rgba(var(--net),.8)}
 .mic{flex:none;width:54px;height:54px;border-radius:50%;border:1px solid var(--line);background:var(--ghost);font-size:22px;cursor:pointer;position:relative}
 .mic.rec{background:var(--btn)}
 .mic.rec::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid rgba(var(--net),.9);animation:ring 1.2s infinite}
@@ -217,7 +217,7 @@ main>.nav{order:0}main>.hero{order:1}main>#dirs{order:2}main>#team{order:3}main>
 .dtab{flex:1 0 auto;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 22px;border-radius:18px;border:1px solid var(--line);background:var(--cardbg);backdrop-filter:blur(10px);color:var(--lead);font-family:inherit;font-weight:700;font-size:19px;line-height:1.2;cursor:pointer;white-space:nowrap;transition:border-color .2s,box-shadow .2s,background .2s,color .2s}
 .dtab span{font-size:26px}
 .dtab:hover{border-color:rgba(var(--net),.55);color:var(--ink)}
-.dtab.on{background:var(--pill);color:var(--ink);border-color:rgba(var(--net),.85);box-shadow:0 0 30px -6px var(--btnglow)}
+.dtab.on{background:var(--pill);color:var(--ink);border-color:rgba(var(--net),.85)}
 .dtab:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .dirs{display:block}.dir summary{display:none}.dir:not([open]){display:none}.dir-body{padding-top:26px}
 
@@ -351,7 +351,7 @@ main>.nav{order:0}main>.hero{order:1}main>#dirs{order:2}main>#team{order:3}main>
 /* как работаем */
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;counter-reset:s;list-style:none}
 .steps li{counter-increment:s;padding:24px;border:1px solid var(--line);background:var(--cardbg);border-radius:20px;backdrop-filter:blur(10px)}
-.steps li::before{content:counter(s);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--btn);color:#fff;font:800 20px var(--fh),sans-serif;margin-bottom:14px;box-shadow:0 0 24px -4px var(--btnglow)}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--btn);color:#fff;font:800 20px var(--fh),sans-serif;margin-bottom:14px}
 .steps b{display:block;font-size:20px;margin-bottom:6px}
 .steps span{color:var(--lead);font-size:18px}
 .safe{margin-top:22px;padding:24px;border:1px solid rgba(var(--net),.35);background:var(--cardbg);border-radius:20px;backdrop-filter:blur(10px)}
@@ -424,11 +424,21 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
 @media (max-width:560px){.hero .lead{display:none}.hero h1{font-size:clamp(30px,8.6vw,40px)}.hero .cta .btn{width:100%;justify-content:center}}
 @media (max-width:560px){.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.nav{gap:8px}.logo{font-size:19px!important}.lang button{padding:7px 10px}.nav .btn{font-size:0;padding:9px 12px}.nav .btn::after{content:"Разбор";font-size:15px}html[lang="tg"] .nav .btn::after{content:"Таҳлил"}.navr{gap:8px}.agent{font-size:13px;padding:5px 9px}.globe{overflow:clip}#d_site .dots button{width:38px;height:38px}#d_site .dots{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:30px}.dir summary{grid-template-columns:auto 1fr;padding:18px}.dir .plus{display:none}.dir-body{padding:0 18px 20px}.sec{padding-block:50px}.pal span{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+
+/* hallmark-правки 09.11: свои значки вместо смайликов, без надписей над заголовками, одна яркая кнопка в первом экране */
+.ico{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block}
+.dtab span{color:var(--acc)}.dtab span .ico{width:26px;height:26px}
+.dir .ic{color:var(--acc)}.dir .ic .ico{width:28px;height:28px}
+.safe-l i{color:var(--acc)}.safe-l i .ico{width:24px;height:24px;margin-top:2px}
+.mic .ico{width:22px;height:22px;margin:auto}
+.eyebrow{display:none}
+.hero .btn.ghost{background:none;border-color:transparent;padding-inline:10px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;color:var(--lead)}
+.hero .btn.ghost:hover{color:var(--ink)}
 </style>
 </head>
 <body data-p="teal">
 <div class="glow-bg"></div>
-<canvas id="stars"></canvas>
+<canvas id="stars" aria-hidden="true"></canvas>
 
 <main>
   <nav class="nav wrap">
@@ -446,7 +456,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
       <div class="cta"><a class="btn main" href="#helper">Спросить ИИ про мой бизнес →</a><a class="btn ghost" href="#dirs">5 направлений</a></div>
     </div>
     <div class="globe" id="globe">
-      <canvas id="gcv"></canvas>
+      <canvas id="gcv" aria-hidden="true"></canvas>
       <div class="core">ИИ-ядро</div>
     </div>
   </section>
@@ -475,15 +485,15 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
       <p>Выберите направление — всё можно попробовать вживую. Можно начать с одного, остальное подключить потом.</p>
     </div>
     <div class="dtabs nx" id="dtabs" role="tablist">
-      <button type="button" class="dtab" data-i="0" role="tab"><span>🌐</span><b data-t="t_site">Сайты</b></button>
-      <button type="button" class="dtab" data-i="1" role="tab"><span>🤖</span><b data-t="t_bot">Боты в Telegram</b></button>
-      <button type="button" class="dtab" data-i="2" role="tab"><span>🧠</span><b data-t="t_ai">ИИ-помощники</b></button>
-      <button type="button" class="dtab" data-i="3" role="tab"><span>⚙️</span><b data-t="t_auto">Автоматизация</b></button>
-      <button type="button" class="dtab" data-i="4" role="tab"><span>🔍</span><b data-t="t_audit">Аудит</b></button>
+      <button type="button" class="dtab" data-i="0" role="tab"><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span><b data-t="t_site">Сайты</b></button>
+      <button type="button" class="dtab" data-i="1" role="tab"><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 4v4M9 13v1M15 13v1M2 13v2M22 13v2"/></svg></span><b data-t="t_bot">Боты в Telegram</b></button>
+      <button type="button" class="dtab" data-i="2" role="tab"><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span><b data-t="t_ai">ИИ-помощники</b></button>
+      <button type="button" class="dtab" data-i="3" role="tab"><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span><b data-t="t_auto">Автоматизация</b></button>
+      <button type="button" class="dtab" data-i="4" role="tab"><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span><b data-t="t_audit">Аудит</b></button>
     </div>
     <div class="dirs">
       <details class="dir" open>
-        <summary><span class="ic">🌐</span><div><h3>Сайты</h3><p>Красивые сайты с живыми фишками, которые приводят клиентов</p></div><span class="plus">+</span></summary>
+        <summary><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span><div><h3>Сайты</h3><p>Красивые сайты с живыми фишками, которые приводят клиентов</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
           <div><h4>Что вы получаете</h4><ul><li>Сайт удобный с телефона</li><li>Цены, адрес и кнопка записи на первом экране</li><li>Живые эффекты, как на этом сайте</li><li>Заявки с сайта сразу приходят вам в Telegram</li></ul>
             <div class="nx">
@@ -497,7 +507,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
         </div>
       </details>
       <details class="dir">
-        <summary><span class="ic">🤖</span><div><h3>Боты в Telegram</h3><p>Принимают заявки и отвечают клиентам днём и ночью</p></div><span class="plus">+</span></summary>
+        <summary><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 4v4M9 13v1M15 13v1M2 13v2M22 13v2"/></svg></span><div><h3>Боты в Telegram</h3><p>Принимают заявки и отвечают клиентам днём и ночью</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
           <div><h4>Что вы получаете</h4><ul><li>Ответы на частые вопросы: цены, адрес, время работы</li><li>Запись клиента на свободное время</li><li>Готовая заявка вам в Telegram</li><li>Под любую вашу задачу: бот — шаблон, настраиваем его под вас</li></ul>
             <div class="xprice nx" data-t="p_bot" style="margin-top:18px"><b>Цена — после бесплатного разбора</b>Сначала бесплатно разберём вашу задачу, потом назовём точную цену.</div>
@@ -513,21 +523,21 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
         </div>
       </details>
       <details class="dir">
-        <summary><span class="ic">🧠</span><div><h3>ИИ-помощники</h3><p>Понимают вопрос своими словами, знают ваши цены и правила</p></div><span class="plus">+</span></summary>
+        <summary><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span><div><h3>ИИ-помощники</h3><p>Понимают вопрос своими словами, знают ваши цены и правила</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
           <div><h4>Что вы получаете</h4><ul><li>Помощник на сайте, в Telegram или для ваших сотрудников</li><li>Считает цену, пишет письма и предложения</li><li>Готовит договоры по вашему шаблону</li><li>Сложные вопросы передаёт человеку</li></ul><div class="xprice nx" data-t="p_ai" style="margin-top:18px"><b>Цена — после бесплатного разбора</b>Сначала бесплатно разберём вашу задачу, потом назовём точную цену.</div></div>
           <div class="demo nx" id="d_price"></div>
         </div>
       </details>
       <details class="dir">
-        <summary><span class="ic">⚙️</span><div><h3>Автоматизация</h3><p>Рутина делается сама: отчёты, деньги, тендеры, склад</p></div><span class="plus">+</span></summary>
+        <summary><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span><div><h3>Автоматизация</h3><p>Рутина делается сама: отчёты, деньги, тендеры, склад</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
           <div><h4>Что вы получаете</h4><ul class="nx" data-t="a_m"><li>Поиск тендеров по вашей теме каждое утро и черновик заявки (уже работает для закупок в России; для Таджикистана проверим на разборе)</li><li>Склад: предупредит, что товар кончается, и закажет у поставщика</li><li>Утренний отчёт владельцу в 8:00: заявки, деньги, долги</li><li>Контроль оплат и вежливые напоминания должникам</li><li>Счета, акты и договоры заполняются сами по шаблону</li><li>Заявки с сайта, Telegram и звонков — в одной таблице</li></ul><div class="xprice nx" data-t="p_auto" style="margin-top:18px"><b>Цена — после бесплатного разбора</b>Сначала бесплатно разберём вашу задачу, потом назовём точную цену.</div></div>
           <div class="demo nx" id="d_morning"></div>
         </div>
       </details>
       <details class="dir">
-        <summary><span class="ic">🔍</span><div><h3>Аудит бизнеса</h3><p>Находим, где теряются время, заявки и деньги</p></div><span class="plus">+</span></summary>
+        <summary><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span><div><h3>Аудит бизнеса</h3><p>Находим, где теряются время, заявки и деньги</p></div><span class="plus">+</span></summary>
         <div class="dir-body">
           <div><div class="nx" data-t="a_l"><h4>Что проверяем</h4><ul><li>🌐 Сайт: удобен ли с телефона, быстро ли открывается</li><li>🔎 Находят ли вас в Google, Яндексе и на картах</li><li>💬 Как быстро отвечаете на заявки, не теряются ли они</li><li>⭐ Отзывы, Instagram и Telegram</li><li>💰 Деньги и документы: счета, долги, отчёты</li><li>🔁 Рутина: что сотрудники делают руками каждый день</li></ul><h4 style="margin-top:16px">Что вы получаете</h4><ul><li>Короткий отчёт простыми словами: где теряете клиентов и время</li><li>Что можно поручить ИИ — и сколько это стоит</li><li>План: с чего начать, чтобы окупилось быстрее</li></ul></div><div class="xprice nx" data-t="p_audit" style="margin-top:18px"><b>Бесплатно</b>Первый разбор вашего бизнеса.</div></div>
           <div class="demo nx" id="d_audit"></div>
@@ -562,7 +572,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
         <div class="chips-h nx" data-t="h_ex">👇 Нажмите пример — или напишите свой вопрос</div>
         <div class="chips" id="chips"></div>
         <div class="chat-log" id="clog"><div class="msg in">Здравствуйте! Расскажите, чем занимается ваш бизнес?</div></div>
-        <form class="ask" id="askf"><input id="askq" placeholder="Например: у меня автосервис" aria-label="Ваш вопрос"><button class="mic" id="micb" type="button" aria-label="Сказать голосом">🎤</button><button class="btn main small" type="submit">Спросить</button></form>
+        <form class="ask" id="askf"><input id="askq" placeholder="Например: у меня автосервис" aria-label="Ваш вопрос"><button class="mic" id="micb" type="button" aria-label="Сказать голосом"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><button class="btn main small" type="submit">Спросить</button></form>
         <p class="note">Это демо: пока помощник отвечает заготовленными ответами. Настоящий ИИ подключим позже.</p>
       </div>
     </div>
@@ -584,10 +594,10 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
     <div class="safe nx">
       <h3 class="safe-h" data-t="sf_h">🛡 Ваши данные под защитой</h3>
       <ul class="safe-l">
-        <li><i>🔒</i><p data-t="sf_1"><b>ИИ только читает.</b> Доступ — ровно к тому, что нужно для задачи.</p></li>
-        <li><i>✋</i><p data-t="sf_2"><b>Важное подтверждает человек.</b> Счета, письма клиентам и оплаты уходят только после вашего «да».</p></li>
-        <li><i>💾</i><p data-t="sf_3"><b>Сначала копия.</b> Любые изменения пробуем на копии, а не на рабочих данных.</p></li>
-        <li><i>🤝</i><p data-t="sf_4"><b>Договор о тайне.</b> Подписываем до того, как увидим ваши данные.</p></li>
+        <li><i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></i><p data-t="sf_1"><b>ИИ только читает.</b> Доступ — ровно к тому, что нужно для задачи.</p></li>
+        <li><i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-3.9 3.1-7 7-7 1.6 0 3 .5 4.2 1.3M15 19l2 2 5-5"/></svg></i><p data-t="sf_2"><b>Важное подтверждает человек.</b> Счета, письма клиентам и оплаты уходят только после вашего «да».</p></li>
+        <li><i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg></i><p data-t="sf_3"><b>Сначала копия.</b> Любые изменения пробуем на копии, а не на рабочих данных.</p></li>
+        <li><i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 14h8M8 18h5"/></svg></i><p data-t="sf_4"><b>Договор о тайне.</b> Подписываем до того, как увидим ваши данные.</p></li>
       </ul>
     </div>
   </section>
