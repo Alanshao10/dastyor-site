@@ -474,6 +474,22 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
 /* цены 09.11: скидка запуска и обслуживание */
 .xprice .promo{display:block;margin-top:10px;padding:8px 12px;border-radius:10px;background:rgba(74,222,128,.10);border:1px solid rgba(74,222,128,.35);color:var(--ink);font-weight:700;font-size:17px}
 .xprice .svc{display:block;margin-top:8px;font-size:16px;color:var(--muted)}
+
+/* блок «Цены» 09.11 */
+.psec{padding-block:70px}
+.psec-h{max-width:780px;margin-bottom:22px}
+.psec h2{font-size:clamp(28px,3.2vw,44px);line-height:1.15;margin-bottom:16px}
+.psec-h p{color:var(--lead);font-size:21px}
+.promo-big{display:inline-block;margin-bottom:24px;padding:12px 18px;border-radius:12px;background:rgba(74,222,128,.10);border:1px solid rgba(74,222,128,.35);font-weight:700;font-size:19px}
+.pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.pcard{border:1px solid rgba(var(--net),.3);background:var(--cardbg);border-radius:24px;padding:24px}
+.ph{display:flex;align-items:center;gap:12px;margin-bottom:10px}.ph b{font:800 22px var(--fh),sans-serif}
+.pi{color:var(--acc)}.pi .ico{width:28px;height:28px}
+.pcard ul{list-style:none}
+.pcard li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:13px 0;border-top:1px solid var(--line);font-size:18px;color:var(--lead)}
+.pcard li b{color:var(--ink);white-space:nowrap;font-weight:800;font-size:19px}
+.pnote{color:var(--muted);font-size:17px;margin:22px 0}
+@media (max-width:900px){.pgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-p="teal">
@@ -483,7 +499,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
 <main>
   <nav class="nav wrap">
     <a class="logo" href="#top"><i></i>Дастгир</a>
-    <div class="menu"><a href="#dirs">Направления</a><a href="#team" style="display:none">ИИ-сотрудники</a><a href="#helper">Помощник</a><a href="#how">Как работаем</a><a href="#works">Работы</a><a href="#contact">Контакты</a></div>
+    <div class="menu"><a href="#dirs">Направления</a><a href="#team" style="display:none">ИИ-сотрудники</a><a href="#helper">Помощник</a><a href="#how">Как работаем</a><a href="#prices">Цены</a><a href="#works">Работы</a><a href="#contact">Контакты</a></div>
     <div class="navr"><div class="lang" id="lang"><button type="button" data-l="ru" class="on">RU</button><button type="button" data-l="tj">TJ</button></div><a class="btn main small" href="#contact">Бесплатный разбор</a></div>
   </nav>
 
@@ -640,6 +656,20 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
         <li><i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 14h8M8 18h5"/></svg></i><p data-t="sf_4"><b>Договор о тайне.</b> Подписываем до того, как увидим ваши данные.</p></li>
       </ul>
     </div>
+  </section>
+
+
+  <!-- 6б. цены (решение БОССА 09.11: нижние цены рынка + скидка запуска) -->
+  <section class="wrap psec" id="prices">
+    <div class="psec-h"><h2 data-t="pr_h">Цены</h2><p data-t="pr_p">Честные цены «от». Точную цену назовём после бесплатного разбора вашей задачи.</p></div>
+    <div class="promo-big" data-t="pr_promo">Запуск студии: первым 30 клиентам −30% за честный отзыв</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="ph"><span class="pi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span><b data-t="pr_c1">Сайты</b></div><ul><li><span data-t="pr_1">Визитка или лендинг</span><b data-t="pr_1v">от 1 500</b></li><li><span data-t="pr_2">Сайт компании</span><b data-t="pr_2v">от 4 000</b></li><li><span data-t="pr_3">Интернет-магазин</span><b data-t="pr_3v">от 4 500</b></li></ul></div>
+      <div class="pcard"><div class="ph"><span class="pi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 4v4M9 13v1M15 13v1M2 13v2M22 13v2"/></svg></span><b data-t="pr_c2">Боты и ИИ</b></div><ul><li><span data-t="pr_4">Бот для заявок в Telegram</span><b data-t="pr_4v">от 2 000</b></li><li><span data-t="pr_5">Помощник с ИИ</span><b data-t="pr_5v">от 3 500</b></li></ul></div>
+      <div class="pcard"><div class="ph"><span class="pi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span><b data-t="pr_c3">Автоматизация</b></div><ul><li><span data-t="pr_6">Утренний отчёт, тендеры, склад</span><b data-t="pr_6v">после разбора</b></li><li><span data-t="pr_7">Аудит бизнеса</span><b data-t="pr_7v">бесплатно</b></li></ul></div>
+    </div>
+    <p class="pnote" data-t="pr_svc">Цены в сомони. После запуска обслуживаем: правки, обновления, поддержка — договоримся.</p>
+    <a class="btn main" href="https://t.me/dastyor_ai_bot?start=price" target="_blank" rel="noopener" data-t="pr_btn">Узнать точную цену</a>
   </section>
 
   <!-- 7. работы -->
@@ -1110,7 +1140,8 @@ DIRS.forEach(d=>{const txt=d.querySelector('.dir-body>div:first-child'),b=docume
  b.onclick=()=>{const o=txt.classList.toggle('open');b.textContent=moreLbl(o);if(!o)txt.scrollIntoView({block:'nearest'})};txt.after(b)});
 
 // переводы для новых блоков (класс nx, атрибут data-t)
-const NX_TJ={s_th:'Чӣ гуна сайтҳо месозем',s_mh:'Аз оддӣ то мураккаб',s_ph:'Нархҳо',
+const NX_TJ={pr_h:'Нархҳо',pr_p:'Нархҳои ростқавлонаи «аз». Нархи дақиқро пас аз таҳлили ройгони вазифаи шумо мегӯем.',pr_promo:'Оғози студия: ба 30 мизоҷи аввал 30% тахфиф барои шарҳи ростқавлона',pr_c1:'Сайтҳо',pr_1:'Сайти муаррифӣ ё лендинг',pr_1v:'аз 1 500',pr_2:'Сайти ширкат',pr_2v:'аз 4 000',pr_3:'Мағозаи интернетӣ',pr_3v:'аз 4 500',pr_c2:'Ботҳо ва ЗС',pr_4:'Боти дархостҳо дар Telegram',pr_4v:'аз 2 000',pr_5:'Ёрдамчии зеҳни сунъӣ',pr_5v:'аз 3 500',pr_c3:'Автоматикунонӣ',pr_6:'Ҳисоботи саҳарӣ, тендерҳо, анбор',pr_6v:'пас аз таҳлил',pr_7:'Аудити тиҷорат',pr_7v:'ройгон',pr_svc:'Нархҳо бо сомонӣ. Пас аз оғоз хизматрасонӣ мекунем: тағйирот, навсозӣ, дастгирӣ — мувофиқа мекунем.',pr_btn:'Нархи дақиқро фаҳмед',
+ s_th:'Чӣ гуна сайтҳо месозем',s_mh:'Аз оддӣ то мураккаб',s_ph:'Нархҳо',
  p_bot:'<b>аз 2 000 сомонӣ</b>Бот барои дархостҳо ва ҷавоб ба мизоҷон. Нархи дақиқро пас аз таҳлили ройгон мегӯем.<span class="promo">Оғози студия: ба 30 мизоҷи аввал 30% тахфиф барои шарҳи ростқавлона</span><span class="svc">Пас аз оғоз хизматрасонӣ мекунем: тағйирот, навсозӣ, дастгирӣ.</span>',
  p_ai:'<b>аз 3 500 сомонӣ</b>Ёрдамчии зеҳни сунъӣ бо нарху қоидаҳои шумо. Нархи дақиқро пас аз таҳлили ройгон мегӯем.<span class="promo">Оғози студия: ба 30 мизоҷи аввал 30% тахфиф барои шарҳи ростқавлона</span><span class="svc">Пас аз оғоз хизматрасонӣ мекунем: тағйирот, навсозӣ, дастгирӣ.</span>',
  p_auto:'<b>Нарх — пас аз таҳлили ройгон</b>Аввал вазифаи шуморо ройгон таҳлил мекунем, баъд нархи дақиқро мегӯем.',
@@ -1137,7 +1168,7 @@ const NX_RU={};document.querySelectorAll('[data-t]').forEach(e=>NX_RU[e.dataset.
 var AGT_TJ=["Диспетчер","Муҳосиб","Таҳлилгар","Котиба","Фурӯшанда","Ҳуқуқшинос"];
 function NM(n){return L==='tj'?AGT_TJ[AG.findIndex(a=>a[0]===n)]:n}
 const MAP={
- '.menu a':[`Самтҳо`,`Кормандони ЗС`,`Ёрдамчӣ`,`Чӣ тавр кор мекунем`,`Корҳо`,`Тамос`],
+ '.menu a':[`Самтҳо`,`Кормандони ЗС`,`Ёрдамчӣ`,`Чӣ тавр кор мекунем`,`Нархҳо`,`Корҳо`,`Тамос`],
  '.nav .btn':[`Таҳлили ройгон`],
  '.badge':[`<b></b>Студияи зеҳни сунъӣ дар Душанбе · автоматикунонии тиҷорат`],
  'h1':[`Зеҳни сунъӣ <span class="grad">барои тиҷорати шумо кор мекунад</span>`],
