@@ -354,6 +354,12 @@ main>.nav{order:0}main>.hero{order:1}main>#dirs{order:2}main>#team{order:3}main>
 .steps li::before{content:counter(s);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--btn);color:#fff;font:800 20px var(--fh),sans-serif;margin-bottom:14px;box-shadow:0 0 24px -4px var(--btnglow)}
 .steps b{display:block;font-size:20px;margin-bottom:6px}
 .steps span{color:var(--lead);font-size:18px}
+.safe{margin-top:22px;padding:24px;border:1px solid rgba(var(--net),.35);background:var(--cardbg);border-radius:20px;backdrop-filter:blur(10px)}
+.safe-h{font-family:var(--fh);font-size:22px;margin:0 0 14px}
+.safe-l{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px 22px;margin:0;padding:0}
+.safe-l li{display:flex;gap:12px;align-items:flex-start}.safe-l i{font-style:normal;font-size:24px;line-height:1.2}
+.safe-l p{margin:0;color:var(--lead);font-size:17px;line-height:1.4}.safe-l b{color:var(--ink,#fff)}
+@media (max-width:560px){.safe{padding:16px 14px}.safe-h{font-size:19px}.safe-l p{font-size:15px}.safe-l i{font-size:20px}}
 @media (max-width:560px){.steps{grid-template-columns:1fr 1fr;gap:10px}.steps li{padding:14px 12px;border-radius:16px}
 .steps li::before{width:34px;height:34px;font-size:16px;margin-bottom:8px}.steps b{font-size:17px;margin-bottom:4px}.steps span{font-size:15px;line-height:1.35;display:block}}
 
@@ -571,10 +577,19 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
     </div>
     <ol class="steps">
       <li><b>Разбор бизнеса</b><span>Около 30 минут разговора: где теряются заявки, время и деньги. Бесплатно.</span></li>
-      <li><b>План</b><span>Что делаем первым, сколько стоит и сколько займёт.</span></li>
+      <li><b>План</b><span>Что делаем первым, сколько стоит и сколько займёт. Записываем 1–2 цифры «до», чтобы потом честно сравнить.</span></li>
       <li><b>Запуск</b><span>Настраиваем помощника на ваших ценах и проверяем на ваших вопросах.</span></li>
-      <li><b>Поддержка</b><span>Следим, чтобы всё работало, и улучшаем ответы.</span></li>
+      <li><b>Поддержка</b><span>Раз в неделю — короткий отчёт в Telegram. Через месяц сравниваем цифры «до» и «после».</span></li>
     </ol>
+    <div class="safe nx">
+      <h3 class="safe-h" data-t="sf_h">🛡 Ваши данные под защитой</h3>
+      <ul class="safe-l">
+        <li><i>🔒</i><p data-t="sf_1"><b>ИИ только читает.</b> Доступ — ровно к тому, что нужно для задачи.</p></li>
+        <li><i>✋</i><p data-t="sf_2"><b>Важное подтверждает человек.</b> Счета, письма клиентам и оплаты уходят только после вашего «да».</p></li>
+        <li><i>💾</i><p data-t="sf_3"><b>Сначала копия.</b> Любые изменения пробуем на копии, а не на рабочих данных.</p></li>
+        <li><i>🤝</i><p data-t="sf_4"><b>Договор о тайне.</b> Подписываем до того, как увидим ваши данные.</p></li>
+      </ul>
+    </div>
   </section>
 
   <!-- 7. работы -->
@@ -1023,6 +1038,11 @@ const NX_TJ={s_th:'Чӣ гуна сайтҳо месозем',s_mh:'Аз одд�
  b_name:'Дастгир · ёрдамчии ЗС',b_onl:'бот · онлайн',b_soon:'Боти ҳақиқиро дар Telegram кушоед →',
  b_here:'👇 Ё худатон ҳамин ҷо санҷед',
  h_ex:'👇Мисолро пахш кунед — ё саволи худро нависед',
+ sf_h:'🛡 Маълумоти шумо дар амон аст',
+ sf_1:'<b>ЗС танҳо мехонад.</b> Дастрасӣ — танҳо ба он чизе, ки барои кор лозим аст.',
+ sf_2:'<b>Корҳои муҳимро инсон тасдиқ мекунад.</b> Ҳисобнома, нома ба мизоҷон ва пардохтҳо танҳо пас аз «ҳа»-и шумо фиристода мешаванд.',
+ sf_3:'<b>Аввал нусха.</b> Ҳама тағйиротро аввал дар нусха месанҷем, на дар маълумоти корӣ.',
+ sf_4:'<b>Шартномаи махфият.</b> Пеш аз дидани маълумоти шумо имзо мекунем.',
  t_bot:'Ботҳо дар Telegram',t_site:'Сайтҳо',t_ai:'Ёрдамчиёни ЗС',t_auto:'Автоматикунонӣ',t_audit:'Аудит'};
 const NX_RU={};document.querySelectorAll('[data-t]').forEach(e=>NX_RU[e.dataset.t]=e.innerHTML);
 
@@ -1057,7 +1077,7 @@ const MAP={
    `<b>Мисол:</b> «Шабона ва рӯзҳои истироҳат дархостҳо беҷавоб мемонанд» — пас корро аз боти дархостҳо сар мекунем.`],
  '#askf button[type=submit]':[`Пурсидан`],
  '.steps b':[`Таҳлили тиҷорат`,`Нақша`,`Оғоз`,`Дастгирӣ`],
- '.steps span':[`Тақрибан 30 дақиқа сӯҳбат: дархостҳо, вақт ва пул дар куҷо гум мешаванд. Ройгон.`,`Аввал чӣ мекунем, нархаш чанд мешавад ва чанд вақт мегирад.`,`Ёрдамчиро бо нархҳои шумо танзим мекунем ва бо саволҳои шумо месанҷем.`,`Назорат мекунем, ки ҳама чиз дуруст кор кунад, ва ҷавобҳоро беҳтар месозем.`],
+ '.steps span':[`Тақрибан 30 дақиқа сӯҳбат: дархостҳо, вақт ва пул дар куҷо гум мешаванд. Ройгон.`,`Аввал чӣ мекунем, нархаш чанд мешавад ва чанд вақт мегирад. 1–2 рақами «то»-ро менависем, то баъд ростқавлона муқоиса кунем.`,`Ёрдамчиро бо нархҳои шумо танзим мекунем ва бо саволҳои шумо месанҷем.`,`Ҳар ҳафта — ҳисоботи кӯтоҳ дар Telegram. Пас аз як моҳ рақамҳои «то» ва «баъд»-ро муқоиса мекунем.`],
  '.work .tag':[`Автоматикунонӣ`,`Бот + сайт`,`Сайтҳо`],
  '.work h3':[`Боти тендерӣ`,`Сайт ва боти клуби варзишӣ`,`Сайтҳои таълимии забонҳо`],
  '.work p':[`Ҳар саҳар худаш харидҳои нави давлатиро аз рӯи соҳаи ширкат меёбад ва ба Telegram мефиристад.`,`Сайт бо ҷадвали машқҳо ва нархҳо, инчунин боте, ки ба дарси озмоишӣ сабт мекунад.`,`Ду сайт барои омӯзиши забонҳои олмонӣ ва туркӣ.`,`Корҳои нав ба зудӣ дар ин ҷо пайдо мешаванд`],
